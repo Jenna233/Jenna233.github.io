@@ -5,18 +5,18 @@
   
   <title>什么是OIDC | Jenna233</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="OIDC 介绍各种应用都需要做用户验证。最简单的方式是在本地维护一个数据库，存放用户账户和证书等数据。这种方式对于业务来说可能会不太友好： 注册和账户创建过程本来就很无聊。对于很多电商网站来说，它们会允许非登陆用户添加购物车，然后让用户下单时再注册。乏味的注册流程可能会导致很多用户放弃购买。对于那些提供多个应用的企业来说，让各个应用维护各自的用户数据库，不管从管理还是安全层面来说，都是一个很大的负">
+  <meta name="description" content="OIDC 介绍OIDC是Open ID Connect的缩写。各种应用都需要做用户验证。最简单的方式是在本地维护一个数据库，存放用户账户和证书等数据。这种方式对于业务来说可能会不太友好： 注册和账户创建过程本来就很无聊。对于很多电商网站来说，它们会允许非登陆用户添加购物车，然后让用户下单时再注册。乏味的注册流程可能会导致很多用户放弃购买。对于那些提供多个应用的企业来说，让各个应用维护各自的用户数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="什么是OIDC">
 <meta property="og:url" content="https://jenna233.github.io/2020/10/05/%E4%BB%80%E4%B9%88%E6%98%AFOIDC/index.html">
 <meta property="og:site_name" content="Jenna233">
-<meta property="og:description" content="OIDC 介绍各种应用都需要做用户验证。最简单的方式是在本地维护一个数据库，存放用户账户和证书等数据。这种方式对于业务来说可能会不太友好： 注册和账户创建过程本来就很无聊。对于很多电商网站来说，它们会允许非登陆用户添加购物车，然后让用户下单时再注册。乏味的注册流程可能会导致很多用户放弃购买。对于那些提供多个应用的企业来说，让各个应用维护各自的用户数据库，不管从管理还是安全层面来说，都是一个很大的负">
+<meta property="og:description" content="OIDC 介绍OIDC是Open ID Connect的缩写。各种应用都需要做用户验证。最简单的方式是在本地维护一个数据库，存放用户账户和证书等数据。这种方式对于业务来说可能会不太友好： 注册和账户创建过程本来就很无聊。对于很多电商网站来说，它们会允许非登陆用户添加购物车，然后让用户下单时再注册。乏味的注册流程可能会导致很多用户放弃购买。对于那些提供多个应用的企业来说，让各个应用维护各自的用户数据">
 <meta property="og:locale">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-0f1716a32d129fd9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-a52fee52b09376fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-b5ba35e55b804e0a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="article:published_time" content="2020-10-05T09:11:10.000Z">
-<meta property="article:modified_time" content="2020-10-05T11:51:23.382Z">
+<meta property="article:modified_time" content="2020-10-05T12:38:47.530Z">
 <meta property="article:author" content="Jenna233">
 <meta property="article:tag" content="安全">
 <meta name="twitter:card" content="summary">
@@ -116,10 +116,11 @@
                     </div>
                 </h1>
 
-                <h1 id="OIDC-介绍"><a href="#OIDC-介绍" class="headerlink" title="OIDC 介绍"></a>OIDC 介绍</h1><p>各种应用都需要做用户验证。最简单的方式是在本地维护一个数据库，存放用户账户和证书等数据。这种方式对于业务来说可能会不太友好：</p>
+                <h1 id="OIDC-介绍"><a href="#OIDC-介绍" class="headerlink" title="OIDC 介绍"></a>OIDC 介绍</h1><p>OIDC是Open ID Connect的缩写。<br>各种应用都需要做用户验证。最简单的方式是在本地维护一个数据库，存放用户账户和证书等数据。这种方式对于业务来说可能会不太友好：</p>
 <p>注册和账户创建过程本来就很无聊。对于很多电商网站来说，它们会允许非登陆用户添加购物车，然后让用户下单时再注册。乏味的注册流程可能会导致很多用户放弃购买。<br>对于那些提供多个应用的企业来说，让各个应用维护各自的用户数据库，不管从管理还是安全层面来说，都是一个很大的负担。<br>对于这个问题，更好的方案是将用户认证和授权这些事情交给专门的identity provider（idp）服务来处理。</p>
 <p>google、facebook、twitter这些大厂，就为它们的注册用户提供了这类idp服务。一个网站可以通过使用这类idp服务来极大简化用户的注册和登录流程。</p>
-<h1 id="Open-ID特性"><a href="#Open-ID特性" class="headerlink" title="Open ID特性"></a>Open ID特性</h1><p>OpenID Connect是位于OAuth2.0协议之上的身份层。 它使客户端能够基于授权服务器的验证来验证最终用户的身份。OAuth2.0提供了授权，即基于权限验证是否有权访问某些内容的过程。 OpenID Connect提供身份验证，即验证身份的过程。  这可以通过表单身份验证来完成，其中sql服务器存储必要的信息以对用户进行身份验证。</p>
+<h1 id="Open-ID-Connect-特性"><a href="#Open-ID-Connect-特性" class="headerlink" title="Open ID Connect 特性"></a>Open ID Connect 特性</h1><p>在了解Open ID Connect之前，可以先了解下Open ID: <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/OpenID">Open ID 介绍</a>。 需要注意的是Open ID 和Open ID connect是不一样的, Open id connect更加先进。</p>
+<p>OpenID Connect是位于OAuth2.0协议之上的身份层。 它使客户端能够基于授权服务器的验证来验证最终用户的身份。OAuth2.0提供了授权，即基于权限验证是否有权访问某些内容的过程。 OpenID Connect提供身份验证，即验证身份的过程。  这可以通过表单身份验证来完成，其中sql服务器存储必要的信息以对用户进行身份验证。</p>
 <p>OpenID Connect在2014年发行。虽然它不是第一个idp标准，但从可用性、简单性方面来说，它可能是最好的。OpenID Connect从SAML和OpenID 1.0/2.0中做了大量借鉴。</p>
 <p>oAuth2.0使用access token来授权三方应用访问受保护的信息。OpenID Connect遵循oAuth2.0协议流程，并在这个基础上提供了id token来解决三方应用的用户身份认证问题。OpenID Connect将用户身份认证信息以id token的方式给到三方应用。id token基于JWT(json web token）进行封装，具有自包含性、紧凑性和防篡改性等特点。三方应用在验证完id token的正确性后，可以进一步通过oAuth2授权流程获得的access token读取更多的用户信息。</p>
 <p>OpenID Connect大获成功的秘诀：</p>
@@ -137,14 +138,14 @@
 <li>user info api，返回用户信息的接口，当RP使用id token来访问时，返回授权用户的信息。</li>
 </ul>
 <h1 id="Open-ID-认证流程"><a href="#Open-ID-认证流程" class="headerlink" title="Open ID 认证流程"></a>Open ID 认证流程</h1><p>原文链接： <a target="_blank" rel="noopener" href="https://medium.com/@samichkhachkhi/introduction-to-openid-connect-9e7330083d3c">Introduction to OpenId Connect</a></p>
-<p>身份提供者(identity provider)向最终用户提供一个ID token，该token 被编码为JWT（Json Web token），看起来像这样：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-0f1716a32d129fd9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>身份提供者(OpenID Provider)向最终用户提供一个ID token，该token 被编码为JWT（Json Web token），看起来像这样：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-0f1716a32d129fd9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p><strong>声明(Claims)</strong><br>Token 包含位于payload中的声明，这些只是id token上的属性，其中包含有关实体的值：</p>
 <ul>
-<li>Subject 身份提供商提供的唯一ID</li>
-<li>Issuing Authority 发行令牌的身份提供商OP（<a target="_blank" rel="noopener" href="https://idp.com)/">https://idp.com）</a></li>
-<li>Audience  可以使用此令牌的依赖方RP</li>
-<li>Issue Date 发行令牌的日期和时间</li>
-<li>Expiration Date 令牌到期的日期和时间</li>
+<li>Subject=身份提供商提供的唯一ID</li>
+<li>Issuing Authority=发行令牌的身份提供商OP（<a target="_blank" rel="noopener" href="https://idp.com)/">https://idp.com）</a></li>
+<li>Audience =可以使用此令牌的依赖方RP</li>
+<li>Issue Date=发行令牌的日期和时间</li>
+<li>Expiration Date=令牌到期的日期和时间</li>
 </ul>
 <p>Token 还可以包含其他请求的声明，例如电子邮件或地址。 ID Token 使用json网络签名进行数字签名，以实现完整性和不可否认性。 header，payload 和signature被组合到一个JWT中。</p>
 <p><strong>Scopes</strong><br>ID Token 包含用于检索信息的声明(claims)，但也可以使用scopes。 这些是包含声明的特定信息集。 OpenID Connect中预定义了四个标准范围，一个是openid，这是强制性的，另外四个是可选的。</p>
@@ -155,11 +156,19 @@
 <li>address（可选）</li>
 <li>phone（可选）</li>
 </ul>
-<h1 id="认证流程"><a href="#认证流程" class="headerlink" title="认证流程"></a>认证流程</h1><p><strong>认证代码流(Authorization code flow)</strong><br>成功验证客户端后，authentication code flow 将返回authentication code。 这可以通过表单身份验证（用户名和密码）完成。 客户端收到authentication code 后，客户端可以使用authentication code直接从身份提供者访问access_token或id_token。 ID或访问令牌永远不会公开给客户端。 对于常规Web应用程序/原生移动应用程序/台式机原生应用程序，此流程非常理想。</p>
+<h1 id="认证流程"><a href="#认证流程" class="headerlink" title="认证流程"></a>认证流程</h1><h4 id="如何获取ID-token"><a href="#如何获取ID-token" class="headerlink" title="如何获取ID token"></a>如何获取ID token</h4><p>这个过程涉及到idp，也就是google、facebook等公司，通过验证用户的session或者证书并做认证。而用户的session或者证书的可信载体则是浏览器。</p>
+<p>浏览器弹出框对于web应用来说是将用户重定向到idp的一种比较好的方式。Android或者IOS app需要唤起本系统的浏览器来做这件事。嵌入式的web view不是一个可信的方式，因为没法阻止这个web view所在的app来窃取用户的密码等信息。用户认证应该永远使用独立于app的可信方式，比如系统的浏览器。</p>
+<p>注意，OpenID Connect并不会特别说明用户该如何被认证，这个逻辑有idp自己决定。<br>id tokens通过oAuth2.0协议获得。<br>获取id token的流程分为如下几类：</p>
+<ul>
+<li>authorization code flow。这是最常用的流程，主要用在web应用以及原生app场景。id token主要依靠后端而不是前端比如javascript和OP进行交互来获取。</li>
+<li>implicit flow。对于基于浏览器（javascript）的应用，它们往往没有后端，id token是直接从OP的重定向里面得到的（依靠前段代码）。</li>
+<li>hybrid flow。上面两种方式的综合，前后端独立获取id token，这种方式很少使用。</li>
+</ul>
+<p><strong>认证代码流(Authorization code flow)</strong><br>成功验证客户端后，authentication code flow 将返回authentication code。 这可以通过表单身份验证（用户名和密码）完成。 后端收到authentication code 后，后端可以使用authentication code直接从身份提供者访问access_token或id_token。 ID或访问令牌永远不会公开给客户端。 对于常规Web应用程序/原生移动应用程序/台式机原生应用程序，此流程非常理想。</p>
 <p><img src="https://upload-images.jianshu.io/upload_images/15531792-a52fee52b09376fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p><strong>隐式流(Implicit code flow)</strong><br>客户端经过身份验证后，隐式流向浏览器公开ID和访问令牌。 你可能已经知道，这是最不安全的身份验证方法。 XSS和网络钓鱼是将访问令牌暴露给入侵者的主要危险之一。 在https上运行网站可以缓解其中的一些危险。 隐式流主要用于在浏览器中运行的应用程序（Javascript应用程序）。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-b5ba35e55b804e0a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p><strong>混合流(hybrid flow)</strong><br>混合流是代码流和隐式流的组合。 身份验证后返回id token，该令牌用于访问各种资源。 如果您需要在前端和后端使用单独的令牌，这将特别有用。一个token用来访问资源（API）， 另外一个token用来获取刷新令牌(refresh token)。</p>
-<p>详细信息可以查看官网：<a href="%5Bhttps://openid.net/connect/%5D(https://openid.net/connect/)">Open Id 介绍</a></p>
+<p>详细信息可以查看官网：<a href="%5Bhttps://openid.net/connect/%5D(https://openid.net/connect/)">Open Id  connect介绍</a><br>其他文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/linianhui/p/openid-connect-core.html">OIDC 介绍</a></p>
 
             <!-- / the end of articles -->
         </div>
