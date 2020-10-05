@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Electron 进程之间的IPC通信思考 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="转自：主进程与渲染进程 Electron桌面程序中包含一个main主进程和N个renderer渲染进程 一、主进程和渲染进程 1、主进程Main 回顾以往的web开发，我们的代码，无论是HTML、CSS还是Javascript，都是运行在浏览器的沙盒中的，我们无法越过浏览器的权限访问系统本身的资源，代码的能力被限制在了浏览器中。浏览器之所以这么做，是为了安全的考虑。设想一下，我们在使用浏览器的时候">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Electron 进程之间的IPC通信思考">
+<meta property="og:url" content="https://jenna233.github.io/2020/10/02/Electron-%E8%BF%9B%E7%A8%8B%E4%B9%8B%E9%97%B4%E7%9A%84IPC%E9%80%9A%E4%BF%A1%E6%80%9D%E8%80%83/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="转自：主进程与渲染进程 Electron桌面程序中包含一个main主进程和N个renderer渲染进程 一、主进程和渲染进程 1、主进程Main 回顾以往的web开发，我们的代码，无论是HTML、CSS还是Javascript，都是运行在浏览器的沙盒中的，我们无法越过浏览器的权限访问系统本身的资源，代码的能力被限制在了浏览器中。浏览器之所以这么做，是为了安全的考虑。设想一下，我们在使用浏览器的时候">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-10-02T15:40:15.000Z">
+<meta property="article:modified_time" content="2020-10-02T16:07:42.058Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Electron">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Electron 进程之间的IPC通信思考</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2020/10/2 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Electron/" rel="tag">Electron</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>转自：<a target="_blank" rel="noopener" href="https://juejin.im/post/6844903799530717192">主进程与渲染进程</a></p>
+<p>Electron桌面程序中包含一个main主进程和N个renderer渲染进程</p>
+<p>一、主进程和渲染进程</p>
+<p>1、主进程Main</p>
+<p>回顾以往的web开发，我们的代码，无论是HTML、CSS还是Javascript，都是运行在浏览器的沙盒中的，我们无法越过浏览器的权限访问系统本身的资源，代码的能力被限制在了浏览器中。浏览器之所以这么做，是为了安全的考虑。设想一下，我们在使用浏览器的时候，会打开各式各样不同来源的网站，如果JavaScript代码有能力访问并操作本地操作系统的资源，那将是多么可怕的事情。你在某天不小心打开了一个恶意的网站，可能你存储在硬盘上的文件就被偷走了（都用不着去修电脑）。</p>
+<p>但我们要开发的是桌面应用程序，如果无法访问到本地的资源肯定是不行的。Electron将nodejs巧妙的融合了进来，让nodejs作为整个程序的管家。管家拥有较高的权限，可以访问和操作本地资源，使用原本在浏览器中不提供的高级API。同时管家也管理着渲染进程窗口的创建和销毁。所以，我们将这个管家称之为主进程。在使用Electron开发的程序中，会使用main.js作为程序的主入口，该文件内代码执行的内容，就是主进程中执行的内容。</p>
+<p>2、渲染进程Renderer</p>
+<p>Electron集成了Chromium来展示窗口界面，窗口中所看到的内容使用的都是HTML渲染出来的。 Chromium本身是多进程渲染页面的架构（在默认情况下，Chromium的默认策略是对每一个tab新开一个进程，以确保每个页面是独立且互不影响的。避免一个页面的崩溃导致全部页面无法使用），所以Electron在展示窗口时，也会使用到Chromium的多进程架构。而这种多进程渲染架构在Electron中，就被称之为渲染进程（render process）。</p>
+<p>在Electron中，每创建一个新的窗口，都是一个独立的进程。</p>
+<p>3、主进程于渲染进程的关系</p>
+<p>主进程通过构造BrowserWindow实例来创建页面。每个BrowserWindow实例都在自己的渲染进程里运行页面。当一个BrowserWindow实例被销毁后，相应的渲染进程也会被终止。</p>
+<p>主进程管理所有页面和与之对应的渲染进程。每个渲染进程都是相互隔离的，并且只知道运行在该进程里的页面。</p>
+<p>在页面里调用本地GUI是不允许的，因为在Web页面里管理本地GUI资源是非常危险而且容易造成资源泄露。如果你想在网页里进行GUI操作，该页面的渲染进程必须与主进程进行通讯，请求主进程进行相关的 GUI 操作。</p>
+<p>二、进程之间通信</p>
+<p>主进程和渲染进程之间的通信方法：</p>
+<ol>
+<li>通过IPCRender和IPCMain， 主进程和渲染进程之间通过IPC 进行通信</li>
+</ol>
+<p>2.通过remote模块在renderer进程里调用main主进程的模块：官方文档</p>
+<p>三、渲染进程之间的通信</p>
+<p>一般的项目中只需要渲染进程和主进程之间进行通信，工作中遇到渲染进程之间需要通信的问题。尝试了以下方法，假设渲染进程A和B需要通信：</p>
+<p>1.从渲染进程A中引用渲染进程B中的代码，显然这是不行的，编译虽然没报错，但是运行起来抛出奇怪的异常。</p>
+<p>2.渲染进程A和B之间共享一些变量，需要注意同步的问题，项目中由于一些原因不适合采用这种方法。</p>
+<p>3.从渲染进程A中直接发IPC消息到渲染进程B，问题是渲染进程A如何获得渲染进程B的窗口或者进程消息？项目中渲染进程的窗口都是通过main创建的，方便管理，因为后面会使用到很多的渲染窗口。获取方法：</p>
+<p> a. 通过全局变量存储B的信息</p>
+<p> b.创建A或者B的时候主进程发送消息给A</p>
+<p> c…其他方法</p>
+<p>然后IPC发送消息。这里介绍的不错：Electron 渲染进程之间通信</p>
+<p>4.将main主进程作为中转站，A发送消息到main，然后main再把消息转发给B。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2020/10/03/ConstraintLayout-%E8%AE%BE%E7%BD%AElayoutParams%E5%9C%A8scrollview%E4%B8%AD%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8%EF%BC%8C-recyclerView%E5%9C%A8scrollview%E4%B8%ADbind%E6%89%80%E6%9C%89items/" class="styled-border">
+                    ←
+                    ConstraintLayout 设置layoutParams在scrollview中不起作用， recyclerView在scrollview中bind所有items
+                    
+                </a>
+            
+            
+                <a href="/2020/10/02/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%AE%9E%E9%AA%8C%E5%8D%9A%E5%AE%A2/" class="styled-border">
+                    
+                    第一篇实验博客
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

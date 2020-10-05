@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>OAuth 授权介绍 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="如今网络应用，手机app越来越多，每个app都需要一个账号，对于个人来说就变得繁琐，需要记住都账号密码很多。 为了解决这些问题以及安全问题，各种登录方式陆续诞生，下面简单都介绍他们的背景以及应用： OAuth 登录  OAuth是open authentication的缩写，OAuth并不是API或服务：它是一种开放的授权标准，任何人都可以实现。OAuth是用来为第三方应用提供“secure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OAuth 授权介绍">
+<meta property="og:url" content="https://jenna233.github.io/2020/10/03/OAuth-%E6%8E%88%E6%9D%83%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="如今网络应用，手机app越来越多，每个app都需要一个账号，对于个人来说就变得繁琐，需要记住都账号密码很多。 为了解决这些问题以及安全问题，各种登录方式陆续诞生，下面简单都介绍他们的背景以及应用： OAuth 登录  OAuth是open authentication的缩写，OAuth并不是API或服务：它是一种开放的授权标准，任何人都可以实现。OAuth是用来为第三方应用提供“secure">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-2367aaa9a392779e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-5f2a9230169f6471.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-e684b6c4fc1751b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-4c0723620e2bc215.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-d09a659c2bfbc960.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-84f29c25b6035cf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-acbde50119a1afa5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-ff367efec38b72a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-5dda2863672ed77a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-10-02T16:14:05.000Z">
+<meta property="article:modified_time" content="2020-10-05T09:07:45.777Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-2367aaa9a392779e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">OAuth 授权介绍</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2020/10/3 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>  如今网络应用，手机app越来越多，每个app都需要一个账号，对于个人来说就变得繁琐，需要记住都账号密码很多。 为了解决这些问题以及安全问题，各种登录方式陆续诞生，下面简单都介绍他们的背景以及应用：</p>
+<h1 id="OAuth-登录"><a href="#OAuth-登录" class="headerlink" title="OAuth 登录"></a>OAuth 登录</h1><p>  OAuth是open authentication的缩写，OAuth并不是API或服务：它是一种开放的授权标准，任何人都可以实现。OAuth是用来为第三方应用提供“secure delegated access”的一个标准。OAuth通过https和访问令牌对设备，api和服务器进行认证，而不需要用户名密码。OAuth有1.0和2.0两个版本，他们之间完全不同，不能一起使用， 两个版本之间也不兼容。目前OAuth 2.0使用比较广泛，这里主要介绍2.0版本。</p>
+<h3 id="为什么要用Oauth"><a href="#为什么要用Oauth" class="headerlink" title="为什么要用Oauth"></a>为什么要用Oauth</h3><p>  OAuth是相对直接身份验证模式而创建的。直接身份验证模式通过HTTP进行验证，提示用户输入用户名和密码。基本身份验证仍然是服务器端应用程序API身份验证的原始形式：然而用户发送的是API key ID和 secret 进行验证而不是发送用户名和密码。在使用OAuth之前，网站会提示在网页中输入用户名和密码，并且会以你的身份登录你的数据（例如您的Gmail帐户）。这通常称为密码反模式。</p>
+<p>  为了创建更好的web系统，单点登录（SSO）经常被使用。SSO登录涉及到联合身份的创建。在这种情况下，最终应用程序与身份提供者（authorize endpoint）进行对话，并且身份提供者生成一个加密签名的令牌（token），并将其交给应用程序以验证用户身份。如果签名能够被验证，应用程序就会信任身份提供者，验证流程如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-2367aaa9a392779e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="OAuth-API"><a href="#OAuth-API" class="headerlink" title="OAuth API"></a>OAuth API</h3><p>  我们构建API的方式也发生了很多变化。 在2005年，人们研究用WS- *来构建Web服务。 现在，大多数开发人员已转向REST和无状态API。 简而言之，REST是HTTP命令通过网络推送JSON数据包。</p>
+<p>  开发人员构建了大量的API。 现在可能会在会议室听到“ API economy”这个常见词。 公司需要保护REST API， 同时允许许多设备访问它们。 过去，只要需要输入用户名/密码，应用程序将直接以你的身份登录。 这引起了委托授权问题。<br>“如何允许应用访问我的数据而不必输入密码？”<br>  以下 是一个应用程序，询问它是否可以代表你访问数据。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-5f2a9230169f6471.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>这是OAuth。</p>
+<p>  OAuth是REST / API的委托授权框架。 它使应用程序无需提供用户密码即可获得对用户数据的有限访问权限（scopes）。 它使身份验证与授权脱钩，并支持解决不同设备功能的多个用例。 它支持服务器到服务器应用程序，基于浏览器的应用程序，移动/本地应用程序以及控制台/电视。<br>  你可以认为这是（对于应用程序）酒店房卡。 如果你有酒店房卡，则可以进入你的房间。 如何获得酒店钥匙卡？ 你必须在前台通过身份验证才能获取它。 认证并获得房卡后，您可以访问整个房间的资源。</p>
+<p>简单来说，OAuth的就是：</p>
+<ol>
+<li>应用程式要求使用者授权</li>
+<li>用户授权应用并提供证明</li>
+<li>应用程序向服务器提供了获得令牌（token）的授权证明</li>
+<li>令牌(token)仅限于访问用户为特定应用授权的内容</li>
+</ol>
+<h3 id="OAuth-组件"><a href="#OAuth-组件" class="headerlink" title="OAuth 组件"></a>OAuth 组件</h3><ul>
+<li>Scopes and Consent</li>
+<li>Actors</li>
+<li>Clients</li>
+<li>Tokens</li>
+<li>Authorization Server</li>
+<li>Flows</li>
+</ul>
+<h4 id="OAuth-Scopes"><a href="#OAuth-Scopes" class="headerlink" title="OAuth Scopes"></a>OAuth Scopes</h4><p>  Scopes是我们在应用程序请求权限时在授权屏幕上看到的内容。 它们是客户在请求令牌时要求的权限束(bundles of permissions)。 这些由应用程序开发人员在编写应用程序时进行编码。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-e684b6c4fc1751b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>  Scopes使授权策略决策与执行脱钩。 这是OAuth的第一个关键方面。 权限位于前面和中间。 它们没有隐藏在你必须进行反向工程的应用层的后面。 它们通常列在API文档中：这是此应用程序要求的范围。<br>  我们必须获用户的同意。 这称为首次使用信任。 网络上的用户体验发生了重大变化。 OAuth之前的大多数人都只是用用户名和密码对话框。  这是网络上的一个新概念，如今已成为流行趋势。 现在，你必须授权并征得同意。<br>  同意(consent)可能会因申请而异。 它可能是时间敏感的范围（天，周，月），但是并非所有平台都允许你选择持续时间。 当你同意时要注意该应用程序可以代表你执行一些操作-例如 LinkedIn向网络中的每个人发送垃圾邮件。<br>  OAuth是基于Internet的解决方案，因为它针对每个应用程序。 您通常可以登录到信息中心，以查看你有权访问的应用程序并撤消同意。</p>
+<h5 id="OAuth-Actors"><a href="#OAuth-Actors" class="headerlink" title="OAuth Actors"></a>OAuth Actors</h5><p>OAuth流程中的actors如下：</p>
+<ul>
+<li>资源所有者(Resource Owner)：拥有资源服务器中的数据。 例如，我是我的Facebook个人资料的资源所有者。</li>
+<li>资源服务器(Resource Server)：用于存储应用程序要访问的数据的API</li>
+<li>客户端(Client)：想要访问你的数据的应用程序</li>
+<li>授权服务器(Authorization Server)：OAuth的主要引擎</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-4c0723620e2bc215.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>  资源所有者有不同的角色：它可以是最终用户，但也可以是公司。<br>  客户端可以是公开或者保密的。 在OAuth中，两者之间有很大的区别。 机密客户端可以用来来存储机密。 它们不在台式机上运行或不在应用商店中分发。 人们无法对其进行反向工程并获得密钥。 它们在受保护的区域内运行，终端用户无法访问它们。<br>  公共客户端是浏览器，移动应用程序和IoT设备。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-d09a659c2bfbc960.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>  客户端注册也是OAuth的关键组成部分， 就像OAuth的DMV。你需要为应用获取license， 这是您的应用徽标在授权对话框中显示的方式。</p>
+<h4 id="OAuth-Tokens"><a href="#OAuth-Tokens" class="headerlink" title="OAuth Tokens"></a>OAuth Tokens</h4><p>  访问令牌(access token)是客户端用来访问资源服务器（API）的令牌。 它们生命走起是短暂的，通常是几分钟或者几小时，而不是几天或者一个月。 我们通过公共客户端就可以获取访问令牌。 它们旨在优化互联网规模问题。 由于这些令牌的寿命很短且可以扩展，因此无法撤消，只需要等待它们超时即可。</p>
+<p>   另一个令牌是刷新令牌(refresh token), 他们寿命很长，通常是几天，几个月或者几年， 可以用他们来获取新令牌。 为了获得刷新令牌，应用程序通常需要通过具有身份验证的机密客户端。<br>   刷新令牌可以被撤消。 在控制台中撤消应用程序的访问权限时，就是杀死其刷新令牌。 这使你能够强制客户端旋转秘钥， 使用刷新令牌来获取新的访问令牌，而访问令牌正在通过网络访问所有API资源。 每次刷新访问令牌时，都会得到一个新的加密签名的令牌。 密钥旋转内置于系统中。<br>  OAuth规范没有定义令牌是什么。 它可以是你想要的任何格式。 但是通常这些令牌为JSON Web Token（标准）。 简而言之，JWT是令牌认证的安全且值得信赖的标准。 JWT允许使用签名对信息（称为声明）进行数字签名，并可以在以后使用秘密签名密钥进行验证。<br>  令牌是从从授权服务器上获取的，两个主要端点是授权端点（authorize endpoint）和令牌端点（token endpoint.）。 根据不同的使用情况将它们分开， 授权端点是获得用户同意和授权的地方，他们将返回表明用户已同意的认证授权（authorization grant）， 然后将授权传递到令牌端点，令牌端点处理授权，并说“好，这是你的刷新令牌和访问令牌”。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-84f29c25b6035cf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>  可以使用访问令牌来访问API。 过期后，必须使用刷新令牌返回令牌端点，以获取新的访问令牌。<br>  对于开发人员来说，OAuth的最大痛苦之一就是必须管理刷新令牌。你将状态管理推给每个客户端开发人员，你可以获得密钥轮换的好处，但给开发人员带来了很多痛苦。这就是开发人员喜欢API密钥的原因。他们可以只复制/粘贴它们， API密钥对开发人员来说非常方便，但对安全性却很不利。<br>  还有收费问题，让开发人员执行OAuth流程可以提高安全性，但是会遇到更多麻烦。工具箱和平台有机会简化工作并帮助令牌管理。幸运的是，OAuth现在已经很成熟了，你最喜欢的语言或框架很可能具有可用来简化事情的工具。<br>  我们已经讨论了客户端类型，令牌类型和授权服务器的端点，以及如何将其传递给资源服务器。提到了两种不同的流程：获得授权和获得令牌。这些不必发生在同一频道上。前通道（front channel）是浏览器中经过的通道，浏览器将用户重定向到授权服务器，用户表示同意，这是在用户的浏览器上发生的。一旦用户获得了授权授权并将其交给应用程序，客户端应用程序就不再需要使用浏览器来完成OAuth流以获取令牌。<br>  令牌应由客户端应用程序使用，以便它可以代表你访问资源。 我们称其为后通道(back channel)。 后通道是直接从客户端应用程序到资源服务器的HTTP调用，以交换令牌的认证授权。 这些通道用于不同的流程，具体取决于你拥有的设备功能。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-acbde50119a1afa5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>  例如，您通过用户代理授权的前端渠道流可能如下所示：</p>
+<ol>
+<li>资源所有者开始流程以委派对受保护资源的访问</li>
+<li>客户端通过浏览器重定向到授权服务器上的授权端点发送具有所需作用域的授权请求</li>
+<li>Authorization Server返回一个同意对话框，说“您是否允许该应用程序访问这些作用域？” 当然，您需要对应用程序进行身份验证，因此，如果您未对资源服务器进行身份验证，它将要求您登录。 如果您已经有一个缓存的会话Cookie，则只会看到“同意”对话框。 查看同意对话框，并同意。</li>
+<li>授权授予通过浏览器重定向传递回应用程序。 这一切都发生在前通道上。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-ff367efec38b72a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ol>
+<p>该流中也有一个变化，称为隐式流。<br>Request:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET https:&#x2F;&#x2F;accounts.google.com&#x2F;o&#x2F;oauth2&#x2F;auth?scope&#x3D;gmail.insert gmail.send</span><br><span class="line">&amp;redirect_uri&#x3D;https:&#x2F;&#x2F;app.example.com&#x2F;oauth2&#x2F;callback</span><br><span class="line">&amp;response_type&#x3D;code&amp;client_id&#x3D;812741506391</span><br><span class="line">&amp;state&#x3D;af0ifjsldkj</span><br></pre></td></tr></table></figure>
+<p>  这是一个带有大量查询参数的GET请求（出于示例目的，未经URL编码）。 scope来自Gmail的API。 redirect_uri是授权授权应返回到的客户端应用程序的URL。 这应该与客户端注册过程中的值（在DMV上）匹配。  response_type会改变OAuth流。clieny ID是注册获取的。 state是一个安全标志，类似于XRSF。</p>
+<p>Response</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HTTP&#x2F;1.1 302 Found</span><br><span class="line">Location: https:&#x2F;&#x2F;app.example.com&#x2F;oauth2&#x2F;callback?</span><br><span class="line">code&#x3D;MsCeLvIaQm6bTrgtp7&amp;state&#x3D;af0ifjsldkj</span><br></pre></td></tr></table></figure>
+<p>返回的code是authorization grant，state是为了确保它不是伪造的，并且来自同一请求。完成前通道后，后通道流就会开始，将交换授权码来获取访问令牌。</p>
+<p>客户端应用程序使用机密的客户端credentials和 client ID将访问令牌请求发送到授权服务器上的令牌端点（token endpoint）。 此过程发送授权代码以获取访问令牌和（可选）刷新令牌。 客户端使用访问令牌访问受保护的资源。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-5dda2863672ed77a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>以下是HTTP<br>Request<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F;oauth2&#x2F;v3&#x2F;token HTTP&#x2F;1.1</span><br><span class="line">Host: www.googleapis.com</span><br><span class="line">Content-Type: application&#x2F;x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">code&#x3D;MsCeLvIaQm6bTrgtp7&amp;client_id&#x3D;812741506391&amp;client_secret&#x3D;&#123;client_secret&#125;&amp;redirect_uri&#x3D;https:&#x2F;&#x2F;app.example.com&#x2F;oauth2&#x2F;callback&amp;grant_type&#x3D;authorization_code</span><br></pre></td></tr></table></figure><br>  grant_type是OAuth的可扩展部分,这是授权代码。 它很灵活，使他们可以采用不同的方式来描述这些grant。 这是OAuth流的最常见类型。</p>
+<p>Reponse</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;access_token&quot;: &quot;2YotnFZFEjr1zCsicMWpAA&quot;,</span><br><span class="line">  &quot;token_type&quot;: &quot;Bearer&quot;,</span><br><span class="line">  &quot;expires_in&quot;: 3600,</span><br><span class="line">  &quot;refresh_token&quot;: &quot;tGzv3JOkF0XG5Qx2TlKWIA&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  Reponse为JSON。两种方式使用令牌： 1.在客户端中设置一个计时器。2.捕获错误并尝试获取新令牌。<br>获得访问令牌后，可以在Authentication Header中使用访问令牌（使用token_type作为前缀）来发出受保护的资源请求。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -H &quot;Authorization: Bearer 2YotnFZFEjr1zCsicMWpAA&quot; \</span><br><span class="line">  https:&#x2F;&#x2F;www.googleapis.com&#x2F;gmail&#x2F;v1&#x2F;users&#x2F;1444587525&#x2F;messages</span><br></pre></td></tr></table></figure>
+<p>前通道，后通道，不同的端点和不同的客户端。 我们必须针对不同的场景将它们混合使用和匹配。 这样会提高Oauth的复杂度</p>
+<h4 id="OAuth-flow"><a href="#OAuth-flow" class="headerlink" title="OAuth flow"></a>OAuth flow</h4><ol>
+<li><p>第一种flow就是所谓的隐式flow。之所以称为隐式flow（Implicit Flow.），是因为所有通信都是通过浏览器进行的。没有后端服务器为访问令牌兑换授权。 SPA是该流程用例的一个很好的例子。此flow也称为2 Legged OAuth。<br>隐式flow仅仅针对浏览器的公共客户端进行了优化。访问令牌直接从授权请求中返回（仅前通道），它通常不支持刷新令牌。假定资源所有者和公共客户端在同一设备上。由于一切都发生在浏览器上，因此它最容易受到安全威胁的攻击。</p>
+</li>
+<li><p>黄金标准是使用前通道和后通道的授权码流(Authorization Code Flow)，也称为3 Legged。这就是我们在本文中讨论最多的内容。客户端应用程序使用前通道流来获取授权码授予。客户端应用程序使用后向通道将授权代码授权交换为访问令牌（以及可选的刷新令牌）。假定资源所有者和客户端应用程序位于单独的设备上。这是最安全的流程，因为您可以对客户端进行身份验证以兑换授权，并且令牌永远不会通过用户代理传递。不仅有隐式和授权码流，您还可以使用OAuth进行其他处理。同样，OAuth更像是一个框架。</p>
+</li>
+</ol>
+<ol start="3">
+<li><p>对于服务器到服务器的方案，您可能要使用客户端凭据流(Client Credential Flow)。在这种情况下，客户端应用程序是一个机密的客户端，它以自己身份访问而不是代表用户。这更多是服务帐户类型的情况。您只需要客户的凭据即可完成整个流程。这是只需要back channel的flow， 通过client 凭据就能获取访问令牌。它支持共享密钥或断言作为使用对称或非对称密钥签名的客户端凭据。<br>对称密钥算法是加密算法，只要有密码，就可以解密任何内容。在保护PDF或.zip文件时通常会发现这种情况。<br>公钥密码学或非对称密码学是使用密钥对的密码系统：公钥和私钥。任何人都可以读取公共密钥，并用公钥加密，所有者可以使用私有密钥解密。这样既保证了数据安全也无需共享秘钥。</p>
+</li>
+<li><p>还有一种称为资源所有者密码流（Resource Owner Password Flow）的旧模式。这与使用用户名和密码的直接身份验证非常相似，因此不建议使用。这是本机用户名/密码应用程序（例如桌面应用程序）的旧式授权类型。在此流程中，您向客户端应用程序发送用户名和密码，并从授权服务器返回访问令牌。它通常不支持刷新令牌，并且假定资源所有者和公共客户端在同一设备上。当API 只支持OAuth，但又有老派客户需要处理时可以使用。</p>
+</li>
+<li><p>OAuth的最新流是断言流（Assertion Flow），它类似于客户端凭据流（Client Credential Flow）。添加它是为了打开联盟的想法。此流程允许授权服务器信任来自第三方（例如SAML IdP）的授权。授权服务器信任身份提供者。该断言用于从令牌端点获取访问令牌。这对于投资于SAML或SAML相关技术并允许其与OAuth集成的公司来说非常有用。由于SAML断言是短暂的，因此此流程中没有刷新令牌，并且每次断言到期时都必须继续检索访问令牌。</p>
+</li>
+<li><p>设备流（ Device Flow）不是OAuth规范中的内容。没有网络浏览器，只有电视之类的控制器。用户代码从授权请求中返回，必须通过使用浏览器访问设备上的URL进行授权才能兑现。客户端应用程序使用反向通道流来轮询访问令牌和可选的刷新令牌的授权批准。也受CLI客户端欢迎。</p>
+</li>
+</ol>
+<p>我们使用了不同的参与者和令牌类型，涵盖了六种不同的流程。由于客户的能力，我们需要如何获得客户的同意，进行同意的方式，所以它们是必需的，这给OAuth增加了很多复杂性。<br>当人们问您是否支持OAuth时，您必须明确他们的要求。他们是在问您是否支持所有六个流程，还是仅支持主要流程？所有不同的流程之间都有很多可用的粒度。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2020/10/03/%E4%BB%80%E4%B9%88%E6%98%AFSSO/" class="styled-border">
+                    ←
+                    什么是SSO
+                    
+                </a>
+            
+            
+                <a href="/2020/10/03/Android-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96keyboard%E7%9A%84%E9%AB%98%E5%BA%A6/" class="styled-border">
+                    
+                    Android 如何获取keyboard的高度
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
