@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Webpack 入门 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、什么是Webpack？作为其核心，webpack是一个静态模块捆绑器。在特定项目中，webpack将所有文件和资产视为模块。在后台，它依赖于依赖图。依赖图描述了模块之间如何使用文件之间的引用（require和import语句）相互关联。这样，webpack会静态遍历所有模块以构建图，并使用它生成单个捆绑包（或多个捆绑包）-一个JavaScript文件，其中包含所有模块以正确顺序组合而成的代码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webpack 入门">
+<meta property="og:url" content="https://jenna233.github.io/2020/10/10/Webpack-%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="一、什么是Webpack？作为其核心，webpack是一个静态模块捆绑器。在特定项目中，webpack将所有文件和资产视为模块。在后台，它依赖于依赖图。依赖图描述了模块之间如何使用文件之间的引用（require和import语句）相互关联。这样，webpack会静态遍历所有模块以构建图，并使用它生成单个捆绑包（或多个捆绑包）-一个JavaScript文件，其中包含所有模块以正确顺序组合而成的代码。">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-93ec23a605361da6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-245f034b6b11f722.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-45ba6c47bc63aac3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-32e1222411f4d888.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-7536d3f8fff57122.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-d30bcf2b722e23b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-10-10T06:10:38.000Z">
+<meta property="article:modified_time" content="2020-10-10T06:14:06.087Z">
+<meta property="article:author" content="Jenna233">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-93ec23a605361da6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Webpack 入门</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2020/10/10 
+                    
+                    </div>
+                </h1>
+
+                <h1 id="一、什么是Webpack？"><a href="#一、什么是Webpack？" class="headerlink" title="一、什么是Webpack？"></a>一、什么是Webpack？</h1><p>作为其核心，webpack是一个静态模块捆绑器。在特定项目中，webpack将所有文件和资产视为模块。在后台，它依赖于依赖图。依赖图描述了模块之间如何使用文件之间的引用（require和import语句）相互关联。这样，webpack会静态遍历所有模块以构建图，并使用它生成单个捆绑包（或多个捆绑包）-一个JavaScript文件，其中包含所有模块以正确顺序组合而成的代码。“静态地”表示，当webpack构建其依赖关系图时，它不执行源代码，而是将模块及其依赖关系缝合在一起。然后可以将其包含在HTML文件中。</p>
+<h1 id="二、概念介绍"><a href="#二、概念介绍" class="headerlink" title="二、概念介绍"></a>二、概念介绍</h1><h3 id="Entry-point-入口"><a href="#Entry-point-入口" class="headerlink" title="Entry point(入口)"></a>Entry point(入口)</h3><p>Webpack的<strong>entry point</strong>是收集前端项目的所有依赖项的起点。 实际上，这是一个简单的JavaScript文件。</p>
+<p>这些依赖关系形成依赖关系图。</p>
+<p>Webpack的默认<strong>entry point</strong>（从版本4开始）是src / index.js，它是可配置的。 webpack可以有多个<strong>entry point</strong>。</p>
+<h3 id="Output-输出"><a href="#Output-输出" class="headerlink" title="Output(输出)"></a>Output(输出)</h3><p><strong>output</strong>是在构建过程中收集生成的JavaScript和静态文件的位置。<br>Webpack的默认<strong>output</strong>文件夹（自版本4起）为dist /，也可以配置。<br>生成的JavaScript文件是所谓的bundle的一部分。</p>
+<h3 id="Loaders-加载程序"><a href="#Loaders-加载程序" class="headerlink" title="Loaders(加载程序)"></a>Loaders(加载程序)</h3><p><strong>loader</strong>是第三方扩展程序，可帮助webpack处理各种文件扩展名。 例如，有用于CSS，图像或txt文件的<strong>loader</strong>。<br><strong>loaders</strong>的目标是在module中转换文件（JavaScript以外的文件）。 文件成为module后，webpack可以将其用作项目中的依赖项。</p>
+<h3 id="Plugins-插件"><a href="#Plugins-插件" class="headerlink" title="Plugins(插件)"></a>Plugins(插件)</h3><p><strong>Plugins</strong>是第三方扩展，可以更改webpack的工作方式。 例如，有一些用于提取HTML，CSS或设置环境变量的<strong>Plugin</strong>。</p>
+<h3 id="Mode-模式"><a href="#Mode-模式" class="headerlink" title="Mode(模式)"></a>Mode(模式)</h3><p>webpack有两种操作模式：开发和生产。 它们之间的主要区别是生产模式自动将最小化和其他优化应用于JavaScript代码。</p>
+<h3 id="Code-splitting-代码拆分"><a href="#Code-splitting-代码拆分" class="headerlink" title="Code splitting(代码拆分)"></a>Code splitting(代码拆分)</h3><p>代码拆分或延迟加载是一种避免较大bundle产生的优化技术。<br>通过代码拆分，开发人员可以决定仅加载响应某些用户交互（例如单击或路由更改（或其他条件））的整个JavaScript代码块。<br>被拆分的一段代码变成了一个代码块(chunk)。</p>
+<h1 id="三、动手实践"><a href="#三、动手实践" class="headerlink" title="三、动手实践"></a>三、动手实践</h1><p>要开始使用webpack，请创建一个新文件夹并在命令行中进入那个文件夹，初始化NPM项目：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir webpack-tutorial &amp;&amp; cd $_</span><br><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+
+<p>接着安装webpack, webpack-cli, 和 webpack-dev-server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i webpack webpack-cli webpack-dev-server --save-dev</span><br></pre></td></tr></table></figure>
+<p>如果要用NPM脚本运行webpack，打开package.json并配置一个“ dev”脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;webpack --mode development&quot;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<p>上述脚本，我们指定webpack在开发模式下工作，便于本地调试。</p>
+<h3 id="运行webpack的步骤"><a href="#运行webpack的步骤" class="headerlink" title="运行webpack的步骤"></a>运行webpack的步骤</h3><p>让webpack在开发模式下运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+<p>可能会有以下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR in Entry module not found: Error: Can&#39;t resolve &#39;.&#x2F;src&#39;</span><br></pre></td></tr></table></figure>
+<p>webpack在这里寻找默认 <strong>entry point</strong> src / index.js 创建src文件夹，并在src内创建一个简单的JavaScript文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir src</span><br><span class="line">echo &#39;console.log(&quot;Hello webpack!&quot;)&#39; &gt; src&#x2F;index.js</span><br></pre></td></tr></table></figure>
+<p>现在再次运行npm run dev，应该不会再看到错误。 运行输出结果在一个叫dist/的新文件夹，其中包含一个名为main.js的JavaScript文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dist</span><br><span class="line">└── main.js</span><br></pre></td></tr></table></figure>
+<p>这是我们生成的第一个Webpack bundle，也称为output。</p>
+<h3 id="配置webpack"><a href="#配置webpack" class="headerlink" title="配置webpack"></a>配置webpack</h3><p>对于简单的任务，webpack无需配置就可以工作，但是很快就会遇到一些限制。 通过文件配置webpack，需在项目文件夹中创建webpack.config.js：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch webpack.config.js</span><br></pre></td></tr></table></figure>
+<p>Webpack用JavaScript编写，并在无头JavaScript环境（例如Node.js）上运行。 在这个文件中，至少需要定义module.exports，这是Node.js的Common JS导出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  &#x2F;&#x2F;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在webpack.config.js中，我们可以更改webpack的行为：</p>
+<ul>
+<li>entry point</li>
+<li>output</li>
+<li>loaders</li>
+<li>plugins</li>
+<li>code splitting</li>
+</ul>
+<p>例如，要改变entry point的路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const path &#x3D; require(&quot;path&quot;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  entry: &#123; index: path.resolve(__dirname, &quot;source&quot;, &quot;index.js&quot;) &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>现在，webpack将在source / index.js中查找要加载的第一个文件。 更改包的输出路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const path &#x3D; require(&quot;path&quot;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, &quot;build&quot;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>现在webpack会将生成的bundle输出到build文件夹而不是dist中。 （为简单起见，我们还是用默认输出路径）。</p>
+<h3 id="webpack-与-HTML"><a href="#webpack-与-HTML" class="headerlink" title="webpack 与 HTML"></a>webpack 与 HTML</h3><p>没有HTML页面的Web应用程序几乎没有用。 要在webpack中使用HTML，我们需要安装一个插件html-webpack-plugin：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i html-webpack-plugin --save-dev</span><br></pre></td></tr></table></figure>
+<p>插件装好后，我们可以在配置中使用他：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin &#x3D; require(&quot;html-webpack-plugin&quot;);</span><br><span class="line">const path &#x3D; require(&quot;path&quot;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: path.resolve(__dirname, &quot;src&quot;, &quot;index.html&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这里是让webpack 从src / index.html加载HTML。</p>
+<p>html-webpack-plugin的最终目标有两个：</p>
+<ul>
+<li><p>它加载我们的HTML文件</p>
+</li>
+<li><p>它将bundle注入到包含这些bundle文件的html文件中</p>
+<p>现在，我们在src / index.html中创建一个简单的HTML页面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Webpack tutorial&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然后，这个应用程序就会被webpack的开发服务器运行。</p>
+</li>
+</ul>
+<h3 id="webpack的开发服务器"><a href="#webpack的开发服务器" class="headerlink" title="webpack的开发服务器"></a>webpack的开发服务器</h3><p>在前面我们已经安装了webpack-dev-server。如果没有安装，先安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i webpack-dev-server --save-dev</span><br></pre></td></tr></table></figure>
+<p>webpack-dev-server是用于开发的软件包。 配置完成后，我们可以启动本地服务器来提供文件。<br>要配置webpack-dev-server，打开package.json并添加一个“start”脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">   &quot;dev&quot;: &quot;webpack --mode development&quot;,</span><br><span class="line">   &quot;start&quot;: &quot;webpack-dev-server --mode development --open&quot;,</span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure>
+<p>有了这个配置，我们就可以启动服务器了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<p>您的默认浏览器应打开。 在浏览器的console中，您还应该看到一个script标签，其中插入了我们的main.js bundle：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-93ec23a605361da6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="webpack-与-loaders"><a href="#webpack-与-loaders" class="headerlink" title="webpack 与 loaders"></a>webpack 与 loaders</h3><p>loaders是第三方扩展程序，可帮助webpack处理各种文件扩展名。 例如，有用于CSS，图像或txt文件的loader。<br>在配置方面，webpack loader的配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: &#x2F;\.filename$&#x2F;,</span><br><span class="line">        use: [&quot;loader-b&quot;, &quot;loader-a&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;&#x2F;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>相关配置以module开头。 在module内，我们在rules内配置一个或者多个loader。</p>
+<p>对于每个我们要视为Module的文件，我们使用test 和use 进行配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    test: &#x2F;\.filename$&#x2F;,</span><br><span class="line">    use: [&quot;loader-b&quot;, &quot;loader-a&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>test 告诉webpack： 请把这个文件当成一个module，use 则说明那些Loader 将被运用到这个文件</p>
+<h3 id="webpack-与CSS"><a href="#webpack-与CSS" class="headerlink" title="webpack 与CSS"></a>webpack 与CSS</h3><p>要在webpack中处理CSS，我们需要安装至少两个loader。loaders 帮助webpack知道如何处理CSS<br>测试webpack中的CSS， 先定义一个简单的css文件src/style.css：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">h1 &#123;</span><br><span class="line">    color: orange;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后定义一个html文件src/index.html：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Webpack tutorial&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;Hello webpack!&lt;&#x2F;h1&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+<p>最后在在src/index.js中加载这个CSS:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &quot;.&#x2F;style.css&quot;;</span><br><span class="line">console.log(&quot;Hello webpack!&quot;);</span><br></pre></td></tr></table></figure>
+<p>在测试之前，我们先安装处理css的loader：</p>
+<ul>
+<li>css-loader, 处理运用import来加载css文件</li>
+<li>style-loader，处理在DOM中加载css<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i css-loader style-loader --save-dev</span><br></pre></td></tr></table></figure>
+然后在webpack.config.js中配置这些loader：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin &#x3D; require(&quot;html-webpack-plugin&quot;);</span><br><span class="line">const path &#x3D; require(&quot;path&quot;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: &#x2F;\.css$&#x2F;,</span><br><span class="line">        use: [&quot;style-loader&quot;, &quot;css-loader&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: path.resolve(__dirname, &quot;src&quot;, &quot;index.html&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+相关的配置在module里面<br>现在跑<strong>npm start</strong>就可以在浏览器里面看到那些css在html的head里面加载了：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-245f034b6b11f722.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>如果css被minified， 可以通过MiniCssExtractPlugin展开css</li>
+</ul>
+<h3 id="Webpack中loaders的顺序很重要"><a href="#Webpack中loaders的顺序很重要" class="headerlink" title="Webpack中loaders的顺序很重要"></a>Webpack中loaders的顺序很重要</h3><p>在webpack中，加载程序在配置中出现的顺序非常重要。 以下配置无效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: &#x2F;\.css$&#x2F;,</span><br><span class="line">        use: [&quot;css-loader&quot;, &quot;style-loader&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;&#x2F;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>此处，“ style-loader”出现在“ css-loader”之前。 但是style-loader用于在页面中注入样式，而不是用于加载实际的CSS文件。</p>
+<p>相反，以下配置有效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: &#x2F;\.css$&#x2F;,</span><br><span class="line">        use: [&quot;style-loader&quot;, &quot;css-loader&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;&#x2F;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>webpack加载程序从右到左加载（或从上到下考虑）。</p>
+<h3 id="Webpack与SASS"><a href="#Webpack与SASS" class="headerlink" title="Webpack与SASS"></a>Webpack与SASS</h3><p>要在Webpack中使用SASS，我们至少需要安装适当的loader。<br>此处的loader对于帮助webpack了解如何处理.scss文件是必需的。<br>要在webpack中测试SASS，请在src / style.scss中创建一个简单的样式表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@import url(&quot;https:&#x2F;&#x2F;fonts.googleapis.com&#x2F;css?family&#x3D;Karla:weight@400;700&amp;display&#x3D;swap&quot;);</span><br><span class="line"></span><br><span class="line">$font: &quot;Karla&quot;, sans-serif;</span><br><span class="line">$primary-color: #3e6f9e;</span><br><span class="line"></span><br><span class="line">body &#123;</span><br><span class="line">  font-family: $font;</span><br><span class="line">  color: $primary-color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外，在src / index.html中的HTML模板中添加更多HTML元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Webpack tutorial&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;Hello webpack!&lt;&#x2F;h1&gt;</span><br><span class="line">&lt;p&gt;Hello sass!&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+<p>最后，将SASS文件加载到src / index.js中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &quot;.&#x2F;style.scss&quot;;</span><br><span class="line">console.log(&quot;Hello webpack!&quot;);</span><br></pre></td></tr></table></figure>
+<p>在测试页面之前，我们需要安装loader（以及Node.js的sass软件包）:<br>sass-loader 处理import加载 SASS 文件<br>css-loader 处理加载CSS文件作为模块<br>style-loader 用于在DOM中加载样式表<br>安装 loaders:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i css-loader style-loader sass-loader sass --save-dev</span><br></pre></td></tr></table></figure>
+<p>然后在webpack.config.js中配置他们：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin &#x3D; require(&quot;html-webpack-plugin&quot;);</span><br><span class="line">const path &#x3D; require(&quot;path&quot;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: &#x2F;\.scss$&#x2F;,</span><br><span class="line">        use: [&quot;style-loader&quot;, &quot;css-loader&quot;, &quot;sass-loader&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: path.resolve(__dirname, &quot;src&quot;, &quot;index.html&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>相关的配置仍然是以module开头：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin &#x3D; require(&quot;html-webpack-plugin&quot;);</span><br><span class="line">const path &#x3D; require(&quot;path&quot;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: &#x2F;\.scss$&#x2F;,</span><br><span class="line">        use: [&quot;style-loader&quot;, &quot;css-loader&quot;, &quot;sass-loader&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;&#x2F;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>注意loader的顺序（从右往左）， 第一个是sass-loader,第二个是css-loader,最后是style-loader.<br>现在运行npm-start,可以在html的head里面看到记载的样式：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-45ba6c47bc63aac3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>一旦安装了SASS和CSS loader，就可以使用MiniCssExtractPlugin展开CSS文件。</p>
+<h3 id="Webpack与JavaScript"><a href="#Webpack与JavaScript" class="headerlink" title="Webpack与JavaScript"></a>Webpack与JavaScript</h3><p>webpack本身并不知道如何转换JavaScript代码。 该任务已外包给带有babel的第三方loader，特别是babel-loader. babel是一个JavaScript编译器和“转译器”。 给定现代JavaScript语法作为输入，babel可以将其转换为可以在（几乎）任何浏览器中运行的兼容代码。</p>
+<p>在继续之前，我们需要安装一堆软件包：</p>
+<ul>
+<li>babel core，实际引擎</li>
+<li>babel preset env，用于将现代Javascript编译为ES5</li>
+<li>babel loader </li>
+</ul>
+<p>安装依赖项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i @babel&#x2F;core babel-loader @babel&#x2F;preset-env --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>然后通过创建一个新文件babel.config.json配置babel。 在这里，我们将babel配置 use preset-env：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [</span><br><span class="line">    &quot;@babel&#x2F;preset-env&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，配置webpack使用loader来转换JavaScript文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin &#x3D; require(&quot;html-webpack-plugin&quot;);</span><br><span class="line">const path &#x3D; require(&quot;path&quot;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: &#x2F;\.scss$&#x2F;,</span><br><span class="line">        use: [&quot;style-loader&quot;, &quot;css-loader&quot;, &quot;sass-loader&quot;]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: &#x2F;\.js$&#x2F;,</span><br><span class="line">        exclude: &#x2F;node_modules&#x2F;,</span><br><span class="line">        use: [&quot;babel-loader&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: path.resolve(__dirname, &quot;src&quot;, &quot;index.html&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>要测试转换，请在src / index.js中编写一些现代语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import &quot;.&#x2F;style.scss&quot;;</span><br><span class="line">console.log(&quot;Hello webpack!&quot;);</span><br><span class="line"></span><br><span class="line">const fancyFunc &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return [1, 2];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const [a, b] &#x3D; fancyFunc();</span><br></pre></td></tr></table></figure>
+<p>现在运行npm run dev来查看dist中转换后的代码。 打开<strong>dist / main.js</strong>并搜索“ fancyFunc”：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\n\nvar fancyFunc &#x3D; function fancyFunc() &#123;\n  return [1, 2];\n&#125;;\n\nvar _fancyFunc &#x3D; fancyFunc(),\n    _fancyFunc2 &#x3D; _slicedToArray(_fancyFunc, 2),\n    a &#x3D; _fancyFunc2[0],\n    b &#x3D; _fancyFunc2[1];\n\n&#x2F;&#x2F;# sourceURL&#x3D;webpack:&#x2F;&#x2F;&#x2F;.&#x2F;src&#x2F;index.js?&quot;</span><br></pre></td></tr></table></figure>
+
+<p>没有babel，代码将不会被转译：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\n\nconsole.log(\&quot;Hello webpack!\&quot;);\n\nconst fancyFunc &#x3D; () &#x3D;&gt; &#123;\n  return [1, 2];\n&#125;;\n\nconst [a, b] &#x3D; fancyFunc();\n\n\n&#x2F;&#x2F;# sourceURL&#x3D;webpack:&#x2F;&#x2F;&#x2F;.&#x2F;src&#x2F;index.js?&quot;); </span><br></pre></td></tr></table></figure>
+
+<p>注意：即使没有babel，webpack也可以正常工作。 仅在运输ES5时才需要进行代码转换过程。</p>
+<h3 id="Webpack-中JavaScript模块"><a href="#Webpack-中JavaScript模块" class="headerlink" title="Webpack 中JavaScript模块"></a>Webpack 中JavaScript模块</h3><p>webpack将一些文件视为一个模块。 但是，我们不要忘记它的主要目的：加载ES模块。<br>直到2015年，JavaScript仍没有标准的代码重用机制。 已经进行了很多尝试来标准化这方面，这导致多年来混乱的碎片化。<br>您可能听说过AMD模块，UMD或Common JS。 没有明确的获胜者。 最后，在ECMAScript 2015中，ES模块以该语言发布。 现在，我们有了一个“官方”模块系统。<br>webpack中使用ES模块和模块化代码还是很方便的。<br>要试用webpack中的ES模块，使用以下代码在src / common / usersAPI.js的新文件中创建一个模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const ENDPOINT &#x3D; &quot;https:&#x2F;&#x2F;jsonplaceholder.typicode.com&#x2F;users&#x2F;&quot;;</span><br><span class="line"></span><br><span class="line">export function getUsers() &#123;</span><br><span class="line">  return fetch(ENDPOINT)</span><br><span class="line">    .then(response &#x3D;&gt; &#123;</span><br><span class="line">      if (!response.ok) throw Error(response.statusText);</span><br><span class="line">      return response.json();</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(json &#x3D;&gt; json);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，在src / index.js中，可以加载模块并使用以下功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import &#123; getUsers &#125; from &quot;.&#x2F;common&#x2F;usersAPI&quot;;</span><br><span class="line">import &quot;.&#x2F;style.scss&quot;;</span><br><span class="line">console.log(&quot;Hello webpack!&quot;);</span><br><span class="line"></span><br><span class="line">getUsers().then(json &#x3D;&gt; console.log(json));</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://www.valentinog.com/blog/es-modules/">ES 模块介绍</a></p>
+<h3 id="Production-模式"><a href="#Production-模式" class="headerlink" title="Production 模式"></a>Production 模式</h3><p>如上所述，webpack具有两种操作模式：开发和生产。 到目前为止，我们仅在开发模式下工作。<br>在开发模式下，webpack接受我们编写的几乎所有原始JavaScript代码，并将其加载到浏览器中。<br>没有minify过。 这样可以更快地重新加载开发中的应用程序。</p>
+<p>相反，在生产模式下，webpack进行了许多优化：</p>
+<ul>
+<li>使用TerserWebpackPlugin进行minify以减小bundle包的大小</li>
+<li>使用ModuleConcatenationPlugin提升范围</li>
+</ul>
+<p>将<strong>process.env.NODE_ENV</strong>设置为“production”, 此环境变量对于在development或production模式中执行操作很有用。<br>要在生产模式下配置webpack，打开package.json并添加一个“ build”脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;webpack --mode development&quot;,</span><br><span class="line">    &quot;start&quot;: &quot;webpack-dev-server --mode development --open&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;webpack --mode production&quot;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<p>现在，在执行 <strong>“npm run build”</strong> 时, webpack将产生一个缩小的包。</p>
+<h3 id="使用webpack进行代码拆分"><a href="#使用webpack进行代码拆分" class="headerlink" title="使用webpack进行代码拆分"></a>使用webpack进行代码拆分</h3><p>代码拆分是指针对以下方面的优化技术：</p>
+<ul>
+<li>避免产生很大的bundle 文件</li>
+<li>避免依赖项重复</li>
+</ul>
+<p>webpack社区决定应用程序的初始bundle包的最大大小的限制为：<strong>200KB</strong>。 要了解为什么让bundle包的size小很重要，Google *”The Cost of JavaScript”*。</p>
+<p>激活webpack中的代码拆分的主要方法有以下三种：</p>
+<ul>
+<li>定义多个entry point</li>
+<li>使用 <strong>optimization.splitChunks</strong></li>
+<li>动态import</li>
+</ul>
+<p>第一个基于多个entry point的技术适用于较小的项目，但从长远来看却无法扩展。 在这里，我们将仅关注<strong>optimization.splitChunks</strong>和动态import。</p>
+<h3 id="使用Optimization-splitChunks进行代码拆分"><a href="#使用Optimization-splitChunks进行代码拆分" class="headerlink" title="使用Optimization.splitChunks进行代码拆分"></a>使用Optimization.splitChunks进行代码拆分</h3><p>假设一个使用Moment.js的JavaScript应用程序，Moment.js是当前流行的一个关于日期和时间的JS库。</p>
+<p>将这个library安装在项目文件夹中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i moment</span><br></pre></td></tr></table></figure>
+<p>现在清除<strong>src / index.js</strong>的内容，并在那里导入库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import moment from &quot;moment&quot;;</span><br></pre></td></tr></table></figure>
+<p>运行<strong>npm run build</strong>，查看输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">main.js    350 KiB       0  [emitted]  [big]  main</span><br></pre></td></tr></table></figure>
+<p>整个库都bundle在我们应用程序的main entry point 中， 这样不好。 通过optimization.splitChunks，我们可以从main bundle中移出moment.js。</p>
+<p>要配置代码拆分，打开webpack.config.js并将<strong>optimization</strong>添加到配置中，配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin &#x3D; require(&quot;html-webpack-plugin&quot;);</span><br><span class="line">const path &#x3D; require(&quot;path&quot;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">  &#x2F;&#x2F; omitted for brevity</span><br><span class="line">  &#125;,</span><br><span class="line">  optimization: &#123;</span><br><span class="line">    splitChunks: &#123; chunks: &quot;all&quot; &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;&#x2F; omitted for brevity</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>运行** npm run build**，查看输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">        main.js   5.05 KiB       0  [emitted]         main</span><br><span class="line">vendors~main.js    346 KiB       1  [emitted]  [big]  vendors~main</span><br></pre></td></tr></table></figure>
+<p>现在，我们有了一个带有moment.js的vendors〜main.js，而main entry point 的大小更合理。</p>
+<p><strong>注意</strong>：即使进行代码拆分，moment.js仍然是一个巨大的库。 还有更好的选择，如luxon或date-fns。</p>
+<h3 id="使用动态import进行代码拆分"><a href="#使用动态import进行代码拆分" class="headerlink" title="使用动态import进行代码拆分"></a>使用动态import进行代码拆分</h3><p>一种更强大的代码拆分技术使用动态import有条件地加载代码。 在ECMAScript 2020中提供此功能之前，webpack就提供了动态导入。<br>这种方法在Vue和React之类的现代前端库中得到了广泛使用（React有其自己的方式，但是概念是相同的）。</p>
+<p>代码拆分可能用在：</p>
+<ul>
+<li>在module级别</li>
+<li>在route级别</li>
+</ul>
+<p>例如，可以有条件地加载一些JavaScript模块，以响应用户的交互（例如单击或鼠标移动）。 或者，您可以在响应路由更改时加载代码的相关部分。</p>
+<p>要开始动态导入，清除<strong>src / index.html</strong>的内容，然后将以下html的内容放入其中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Dynamic imports&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;button id&#x3D;&quot;btn&quot;&gt;Load!&lt;&#x2F;button&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+<p>在<strong>src/common/usersAPI.js</strong>加入以下fetch模块代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const ENDPOINT &#x3D; &quot;https:&#x2F;&#x2F;jsonplaceholder.typicode.com&#x2F;users&#x2F;&quot;;</span><br><span class="line"></span><br><span class="line">export function getUsers() &#123;</span><br><span class="line">  return fetch(ENDPOINT)</span><br><span class="line">    .then(response &#x3D;&gt; &#123;</span><br><span class="line">      if (!response.ok) throw Error(response.statusText);</span><br><span class="line">      return response.json();</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(json &#x3D;&gt; json);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在<strong>src/index.html</strong>中加入以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const btn &#x3D; document.getElementById(&quot;btn&quot;);</span><br><span class="line"></span><br><span class="line">btn.addEventListener(&quot;click&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>如果运行npm run start，然后单击界面中的按钮，则没有任何反应。<br>现在想象一下，我们想在某人单击按钮后加载用户列表。 “幼稚”的方法可以使用静态导入从<strong>src / common / usersAPI.js</strong>中加载函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import &#123; getUsers &#125; from &quot;.&#x2F;common&#x2F;usersAPI&quot;;</span><br><span class="line"></span><br><span class="line">const btn &#x3D; document.getElementById(&quot;btn&quot;);</span><br><span class="line"></span><br><span class="line">btn.addEventListener(&quot;click&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">  getUsers().then(json &#x3D;&gt; console.log(json));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>问题在于ES模块是静态的，这意味着我们无法在运行时更改导入。<br>通过动态导入，我们可以选择何时加载代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const getUserModule &#x3D; () &#x3D;&gt; import(&quot;.&#x2F;common&#x2F;usersAPI&quot;);</span><br><span class="line"></span><br><span class="line">const btn &#x3D; document.getElementById(&quot;btn&quot;);</span><br><span class="line"></span><br><span class="line">btn.addEventListener(&quot;click&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">  getUserModule().then((&#123; getUsers &#125;) &#x3D;&gt; &#123;</span><br><span class="line">    getUsers().then(json &#x3D;&gt; console.log(json));</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在这里，我们创建一个函数来动态加载模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const getUserModule &#x3D; () &#x3D;&gt; import(&quot;.&#x2F;common&#x2F;usersAPI&quot;);</span><br></pre></td></tr></table></figure>
+<p>然后在event listener中，我们将<strong>then（）</strong>链接到动态导入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">btn.addEventListener(&quot;click&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">  getUserModule().then(&#x2F;**&#x2F;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这样就可以通过对象解构来提取<strong>getUsers</strong>函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">btn.addEventListener(&quot;click&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">  getUserModule().then((&#123; getUsers &#125;) &#x3D;&gt; &#123;</span><br><span class="line">    &#x2F;&#x2F;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>最后，我们照常使用函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;</span><br><span class="line"></span><br><span class="line">btn.addEventListener(&quot;click&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">  getUserModule().then((&#123; getUsers &#125;) &#x3D;&gt; &#123;</span><br><span class="line">    getUsers().then(json &#x3D;&gt; console.log(json));</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>现在，当第一次使用npm run start加载页面时，会看到控制台中已加载的main bundle：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-32e1222411f4d888.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>现在，仅在单击按钮时才加载<strong>“ ./common/usersAPI”</strong>：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-7536d3f8fff57122.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>懒加载的chunk是<strong>0.js</strong><br>通过在导入路径前面加上**/ * webpackChunkName：“ name_here” * /**，我们还可以控制这个chunk的名称：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const getUserModule &#x3D; () &#x3D;&gt;</span><br><span class="line">  import(&#x2F;* webpackChunkName: &quot;usersAPI&quot; *&#x2F; &quot;.&#x2F;common&#x2F;usersAPI&quot;);</span><br><span class="line"></span><br><span class="line">const btn &#x3D; document.getElementById(&quot;btn&quot;);</span><br><span class="line"></span><br><span class="line">btn.addEventListener(&quot;click&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">  getUserModule().then((&#123; getUsers &#125;) &#x3D;&gt; &#123;</span><br><span class="line">    getUsers().then(json &#x3D;&gt; console.log(json));</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>0.js 现在将具有如下名称， usersAPI.js：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-d30bcf2b722e23b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="动态import-与prefetch和preload"><a href="#动态import-与prefetch和preload" class="headerlink" title="动态import 与prefetch和preload"></a>动态import 与prefetch和preload</h3><p>webpack 4.6.0+增加了对prefetch和preload的支持。</p>
+<p>在声明您的导入时使用这些内联指令可以使webpack输出“ Resource Hint”，它告诉浏览器：</p>
+<ul>
+<li>prefetch：将来可能需要一些导航资源</li>
+<li>preload：当前导航期间可能需要资源</li>
+</ul>
+<p>一个简单的prefetch示例: 有一个<strong>HomePage</strong>组件，该组件呈现一个LoginButton组件，然后按需在单击后加载<strong>LoginModal</strong>组件。<br><strong>LoginButton.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;...</span><br><span class="line">import(&#x2F;* webpackPrefetch: true *&#x2F; &#39;LoginModal&#39;);</span><br></pre></td></tr></table></figure>
+<p>这将使**&lt;link rel =“ prefetch” href =“ login-modal-chunk.js”&gt;<strong>附加在页面顶部，指示浏览器在空闲时间预取</strong>login-modal-chunk.js** 文件。<br><em>一旦父块被加载，webpack将添加prefetch提示。</em></p>
+<p>与prefetch相比，Preload指令有很多区别：</p>
+<ul>
+<li>preload的块开始并行于父块加载。 父块完成加载后，prefetch 才开始。</li>
+<li>preload的块具有中等优先级，可以立即下载。 浏览器空闲时，才会下载prefetch的块。</li>
+<li>父块应立即请求preload的块。 prefetch的块可以在将来的任何时候使用。</li>
+<li>浏览器支持不同。</li>
+</ul>
+<p>一个简单的预加载示例： 有一个组件，该组件始终依赖于应放在单独块中的大库。<br>让我们想象一个需要巨大ChartingLibrary的组件ChartComponent。 他将显示一个LoadingIndicator，并即时按需导入ChartingLibrary：<br><strong>ChartComponent.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;...</span><br><span class="line">import(&#x2F;* webpackPreload: true *&#x2F; &#39;ChartingLibrary&#39;);</span><br></pre></td></tr></table></figure>
+<p>当请求使用ChartComponent的页面时，也会通过&lt;link rel =“ preload”&gt;请求charting-library-chunk。 假设页面块较小并且完成得比较快，该页面将显示一个LoadingIndicator，直到已经请求的制图库块完成为止。 这将增加一点加载时间，因为它只需要一个往返而不是两个。 特别是在高延迟环境中。</p>
+<p>错误地使用webpackPreload实际上会影响性能，因此使用时务必小心。</p>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>我们使用webpack bundle了模块化应用程序，从而产生了可部署的/ dist目录。 将/ dist的内容部署到服务器后，客户端（通常是浏览器）将访问该服务器以抢占该站点及其资产。 最后一步可能很耗时，这就是为什么浏览器使用缓存技术的原因。 这使站点能够以更少的不必要的网络流量更快地加载。 但是，当需要下载新代码时，它也会引起问题。</p>
+<p>下面重点介绍确保除非打包文件的内容已更改，否则确保由webpack编译生成的文件可以保持缓存的配置。</p>
+<h5 id="输出文件名"><a href="#输出文件名" class="headerlink" title="输出文件名"></a>输出文件名</h5><p>我们可以使用output.filename替换设置来定义输出文件的名称。 webpack提供了一种使用方括号括起来的字符串来替代文件名的模板方法。 [contenthash]替换将基于resource的内容添加唯一的哈希。 当resource的内容更改时，[contenthash]也将更改。</p>
+<p>让我们使用示例从输出管理插件开始设置项目，因此我们不必手动维护index.html文件：<br><strong>project</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">webpack-demo</span><br><span class="line">|- package.json</span><br><span class="line">|- webpack.config.js</span><br><span class="line">|- &#x2F;dist</span><br><span class="line">|- &#x2F;src</span><br><span class="line">  |- index.js</span><br><span class="line">|- &#x2F;node_modules</span><br></pre></td></tr></table></figure>
+<p><strong>webpack.config.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">const path &#x3D; require(&#39;path&#39;);</span><br><span class="line">const &#123; CleanWebpackPlugin &#125; &#x3D; require(&#39;clean-webpack-plugin&#39;);</span><br><span class="line">const HtmlWebpackPlugin &#x3D; require(&#39;html-webpack-plugin&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  entry: &#39;.&#x2F;src&#x2F;index.js&#39;,</span><br><span class="line">  plugins: [</span><br><span class="line">    &#x2F;&#x2F; new CleanWebpackPlugin([&#39;dist&#x2F;*&#39;]) for &lt; v2 versions of CleanWebpackPlugin</span><br><span class="line">    new CleanWebpackPlugin(),</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">     title: &#39;Output Management&#39;,</span><br><span class="line">     title: &#39;Caching&#39;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">  output: &#123;</span><br><span class="line">   filename: &#39;bundle.js&#39;,</span><br><span class="line">   filename: &#39;[name].[contenthash].js&#39;,</span><br><span class="line">    path: path.resolve(__dirname, &#39;dist&#39;),</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>使用此配置运行我们的构建脚本npm run build，将产生以下输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">                       Asset       Size  Chunks                    Chunk Names</span><br><span class="line">main.7e2c49a622975ebd9b7e.js     544 kB       0  [emitted]  [big]  main</span><br><span class="line">                  index.html  197 bytes          [emitted]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>如图所见，bundle包的名称现在反映了其内容（通过hash）。 如果我们在不进行任何更改的情况下运行另一个构建，我们希望该文件名保持不变。 但是，如果我们再次运行它，我们可能会发现情况并非如此：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">                       Asset       Size  Chunks                    Chunk Names</span><br><span class="line">main.205199ab45963f6a62ec.js     544 kB       0  [emitted]  [big]  main</span><br><span class="line">                  index.html  197 bytes          [emitted]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>这是因为webpack在条目块中包含某些样板，特别是runtime和manifest。<br>输出可能会有所不同，具体取决于您当前的Webpack版本。 较新的版本可能没有与某些较旧的版本相同的哈希问题，但是为了安全起见，仍然建议执行以下步骤。</p>
+<h5 id="提取样板"><a href="#提取样板" class="headerlink" title="提取样板"></a>提取样板</h5><p>正如我们在代码拆分中所了解的那样，SplitChunksPlugin可用于将模块拆分为单独的包。 webpack提供了优化功能，可以使用optimization.runtimeChunk选项将运行时代码拆分为单独的块。 将其设置为single可以为所有块创建单个运行时bundle包：<br><strong>webpack.config.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const path &#x3D; require(&#39;path&#39;);</span><br><span class="line">const &#123; CleanWebpackPlugin &#125; &#x3D; require(&#39;clean-webpack-plugin&#39;);</span><br><span class="line">const HtmlWebpackPlugin &#x3D; require(&#39;html-webpack-plugin&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  entry: &#39;.&#x2F;src&#x2F;index.js&#39;,</span><br><span class="line">  plugins: [</span><br><span class="line">    &#x2F;&#x2F; new CleanWebpackPlugin([&#39;dist&#x2F;*&#39;]) for &lt; v2 versions of CleanWebpackPlugin</span><br><span class="line">    new CleanWebpackPlugin(),</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">      title: &#39;Caching&#39;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: &#39;[name].[contenthash].js&#39;,</span><br><span class="line">    path: path.resolve(__dirname, &#39;dist&#39;),</span><br><span class="line">  &#125;,</span><br><span class="line"> optimization: &#123;</span><br><span class="line">   runtimeChunk: &#39;single&#39;,</span><br><span class="line"> &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>让我们运行另一个构建，以查看提取的运行时bundle包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Hash: 82c9c385607b2150fab2</span><br><span class="line">Version: webpack 4.12.0</span><br><span class="line">Time: 3027ms</span><br><span class="line">                          Asset       Size  Chunks             Chunk Names</span><br><span class="line">runtime.cc17ae2a94ec771e9221.js   1.42 KiB       0  [emitted]  runtime</span><br><span class="line">   main.e81de2cf758ada72f306.js   69.5 KiB       1  [emitted]  main</span><br><span class="line">                     index.html  275 bytes          [emitted]</span><br><span class="line">[1] (webpack)&#x2F;buildin&#x2F;module.js 497 bytes &#123;1&#125; [built]</span><br><span class="line">[2] (webpack)&#x2F;buildin&#x2F;global.js 489 bytes &#123;1&#125; [built]</span><br><span class="line">[3] .&#x2F;src&#x2F;index.js 309 bytes &#123;1&#125; [built]</span><br><span class="line">    + 1 hidden module</span><br></pre></td></tr></table></figure>
+<p>将第三方库（例如lodash或react）提取到单独的供应商块中也是一个好习惯，因为与我们的本地源代码相比，第三方供应商块的更改可能性较小。 此步骤将允许客户端向服务器请求更少的请求以保持最新。 这可以通过使用SplitChunksPlugin的如下示例中演示的SplitChunksPlugin的cacheGroups选项来完成。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  &#x2F;&#x2F;...</span><br><span class="line">  optimization: &#123;</span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">      cacheGroups: &#123;</span><br><span class="line">        commons: &#123;</span><br><span class="line">          test: &#x2F;[\\&#x2F;]node_modules[\\&#x2F;]&#x2F;,</span><br><span class="line">          name: &#39;vendors&#39;,</span><br><span class="line">          chunks: &#39;all&#39;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">这可能会导致包含所有外部程序包的较大块。 建议仅包括您的核心框架和实用程序，并动态加载其余依赖项。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>让我们使用带有下一个参数的cacheGroups添加optimization.splitChunks并构建：<br><strong>webpack.config.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">const path &#x3D; require(&#39;path&#39;);</span><br><span class="line">const &#123; CleanWebpackPlugin &#125; &#x3D; require(&#39;clean-webpack-plugin&#39;);</span><br><span class="line">const HtmlWebpackPlugin &#x3D; require(&#39;html-webpack-plugin&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  entry: &#39;.&#x2F;src&#x2F;index.js&#39;,</span><br><span class="line">  plugins: [</span><br><span class="line">    &#x2F;&#x2F; new CleanWebpackPlugin([&#39;dist&#x2F;*&#39;]) for &lt; v2 versions of CleanWebpackPlugin</span><br><span class="line">    new CleanWebpackPlugin(),</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">      title: &#39;Caching&#39;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: &#39;[name].[contenthash].js&#39;,</span><br><span class="line">    path: path.resolve(__dirname, &#39;dist&#39;),</span><br><span class="line">  &#125;,</span><br><span class="line">  optimization: &#123;</span><br><span class="line">    runtimeChunk: &#39;single&#39;,</span><br><span class="line">   splitChunks: &#123;</span><br><span class="line">     cacheGroups: &#123;</span><br><span class="line">       vendor: &#123;</span><br><span class="line">         test: &#x2F;[\\&#x2F;]node_modules[\\&#x2F;]&#x2F;,</span><br><span class="line">         name: &#39;vendors&#39;,</span><br><span class="line">         chunks: &#39;all&#39;,</span><br><span class="line">       &#125;,</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>运行另一个build，查看我们的新供应商bundle包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">                          Asset       Size  Chunks             Chunk Names</span><br><span class="line">runtime.cc17ae2a94ec771e9221.js   1.42 KiB       0  [emitted]  runtime</span><br><span class="line">vendors.a42c3ca0d742766d7a28.js   69.4 KiB       1  [emitted]  vendors</span><br><span class="line">   main.abf44fedb7d11d4312d7.js  240 bytes       2  [emitted]  main</span><br><span class="line">                     index.html  353 bytes          [emitted]</span><br><span class="line">...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>现在我们可以看到我们的 main bundle包不包含来自node_modules目录的供应商代码，并且大小减小到240个字节！</p>
+<h5 id="模块标识符"><a href="#模块标识符" class="headerlink" title="模块标识符"></a>模块标识符</h5><p>让我们向项目添加另一个模块print.js：<br><strong>project</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">webpack-demo</span><br><span class="line">|- package.json</span><br><span class="line">|- webpack.config.js</span><br><span class="line">|- &#x2F;dist</span><br><span class="line">|- &#x2F;src</span><br><span class="line">  |- index.js</span><br><span class="line"> |- print.js</span><br><span class="line">|- &#x2F;node_modules</span><br></pre></td></tr></table></figure>
+<p><strong>print.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export default function print(text) &#123;</span><br><span class="line">  console.log(text);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>src/index.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> import _ from &#39;lodash&#39;;</span><br><span class="line">import Print from &#39;.&#x2F;print&#39;;</span><br><span class="line"></span><br><span class="line"> function component() &#123;</span><br><span class="line">   const element &#x3D; document.createElement(&#39;div&#39;);</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F; Lodash, now imported by this script</span><br><span class="line">   element.innerHTML &#x3D; _.join([&#39;Hello&#39;, &#39;webpack&#39;], &#39; &#39;);</span><br><span class="line">  element.onclick &#x3D; Print.bind(null, &#39;Hello webpack!&#39;);</span><br><span class="line"></span><br><span class="line">   return element;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> document.body.appendChild(component());</span><br></pre></td></tr></table></figure>
+<p>运行build，我们希望仅更改main bundle的哈希，但是…</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">                           Asset       Size  Chunks                    Chunk Names</span><br><span class="line">  runtime.1400d5af64fc1b7b3a45.js    5.85 kB      0  [emitted]         runtime</span><br><span class="line">  vendor.a7561fb0e9a071baadb9.js     541 kB       1  [emitted]  [big]  vendor</span><br><span class="line">    main.b746e3eb72875af2caa9.js    1.22 kB       2  [emitted]         main</span><br><span class="line">                      index.html  352 bytes          [emitted]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>…我们可以看到这三个都有改变。 这是因为默认情况下，每个module.id都会根据解析顺序递增。 意思是当resolve顺序改变时，ID也将改变。 因此，回顾一下：</p>
+<ul>
+<li>main bunle包由于其新内容而发生了变化。</li>
+<li>vendor bundle 软件已更改，因为其module.id已更改。</li>
+<li>而且，runtme bundle发生了变化，因为它现在包含了对新模块的引用。</li>
+</ul>
+<p>第一个和最后一个改变是预料的，我们要修复vendor的hash。 让我们将<strong>optimization.moduleIds</strong>的值改成<strong>“ hashed”</strong>：<br><strong>webpack.config.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">const path &#x3D; require(&#39;path&#39;);</span><br><span class="line"> const &#123; CleanWebpackPlugin &#125; &#x3D; require(&#39;clean-webpack-plugin&#39;);</span><br><span class="line"> const HtmlWebpackPlugin &#x3D; require(&#39;html-webpack-plugin&#39;);</span><br><span class="line"></span><br><span class="line"> module.exports &#x3D; &#123;</span><br><span class="line">   entry: &#39;.&#x2F;src&#x2F;index.js&#39;,</span><br><span class="line">   plugins: [</span><br><span class="line">     &#x2F;&#x2F; new CleanWebpackPlugin([&#39;dist&#x2F;*&#39;]) for &lt; v2 versions of CleanWebpackPlugin</span><br><span class="line">     new CleanWebpackPlugin(),</span><br><span class="line">     new HtmlWebpackPlugin(&#123;</span><br><span class="line">       title: &#39;Caching&#39;,</span><br><span class="line">     &#125;),</span><br><span class="line">   ],</span><br><span class="line">   output: &#123;</span><br><span class="line">     filename: &#39;[name].[contenthash].js&#39;,</span><br><span class="line">     path: path.resolve(__dirname, &#39;dist&#39;),</span><br><span class="line">   &#125;,</span><br><span class="line">   optimization: &#123;</span><br><span class="line">     moduleIds: &#39;hashed&#39;,</span><br><span class="line">     runtimeChunk: &#39;single&#39;,</span><br><span class="line">     splitChunks: &#123;</span><br><span class="line">       cacheGroups: &#123;</span><br><span class="line">         vendor: &#123;</span><br><span class="line">           test: &#x2F;[\\&#x2F;]node_modules[\\&#x2F;]&#x2F;,</span><br><span class="line">           name: &#39;vendors&#39;,</span><br><span class="line">           chunks: &#39;all&#39;,</span><br><span class="line">         &#125;,</span><br><span class="line">       &#125;,</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;,</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+<p>现在，尽管有任何新的本地依赖关系，我们的供应商哈希值仍应在各个版本之间保持一致：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">                          Asset       Size  Chunks             Chunk Names</span><br><span class="line">   main.216e852f60c8829c2289.js  340 bytes       0  [emitted]  main</span><br><span class="line">vendors.55e79e5927a639d21a1b.js   69.5 KiB       1  [emitted]  vendors</span><br><span class="line">runtime.725a1a51ede5ae0cfde0.js   1.42 KiB       2  [emitted]  runtime</span><br><span class="line">                     index.html  353 bytes          [emitted]</span><br><span class="line">Entrypoint main &#x3D; runtime.725a1a51ede5ae0cfde0.js vendors.55e79e5927a639d21a1b.js main.216e852f60c8829c2289.js</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>让我们修改<strong>src / index.js</strong>来临时删除额外的依赖项：<br><strong>src/index.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> import _ from &#39;lodash&#39;;</span><br><span class="line">-  import Print from &#39;.&#x2F;print&#39;;</span><br><span class="line">+ &#x2F;&#x2F; import Print from &#39;.&#x2F;print&#39;;</span><br><span class="line"></span><br><span class="line"> function component() &#123;</span><br><span class="line">   const element &#x3D; document.createElement(&#39;div&#39;);</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F; Lodash, now imported by this script</span><br><span class="line">   element.innerHTML &#x3D; _.join([&#39;Hello&#39;, &#39;webpack&#39;], &#39; &#39;);</span><br><span class="line"> -  element.onclick &#x3D; Print.bind(null, &#39;Hello webpack!&#39;);</span><br><span class="line"> +  &#x2F;&#x2F; element.onclick &#x3D; Print.bind(null, &#39;Hello webpack!&#39;);</span><br><span class="line"></span><br><span class="line">   return element;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> document.body.appendChild(component());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>再build一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">                          Asset       Size  Chunks             Chunk Names</span><br><span class="line">   main.ad717f2466ce655fff5c.js  274 bytes       0  [emitted]  main</span><br><span class="line">vendors.55e79e5927a639d21a1b.js   69.5 KiB       1  [emitted]  vendors</span><br><span class="line">runtime.725a1a51ede5ae0cfde0.js   1.42 KiB       2  [emitted]  runtime</span><br><span class="line">                     index.html  353 bytes          [emitted]</span><br><span class="line">Entrypoint main &#x3D; runtime.725a1a51ede5ae0cfde0.js vendors.55e79e5927a639d21a1b.js main.ad717f2466ce655fff5c.js</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>我们可以看到，两个版本在vendor bundle包的文件名中都产生了55e79e5927a639d21a1b。</p>
+<p>缓存可能很复杂，但是对应用程序或站点用户的好处使其值得付出努力</p>
+<h3 id="总结-资源"><a href="#总结-资源" class="headerlink" title="总结-资源"></a>总结-资源</h3><p>在这篇文章中，我们介绍了webpack的基础知识：代码拆分，配置，加载程序，插件，prefetch preload， 缓存。 当然还有更多。</p>
+<p><strong>参考文献</strong><br><a target="_blank" rel="noopener" href="https://www.sitepoint.com/webpack-beginner-guide/">初学者入门</a><br><a target="_blank" rel="noopener" href="https://www.valentinog.com/blog/webpack/">webpack 介绍</a></p>
+<p><strong>其他重要资</strong><br><a target="_blank" rel="noopener" href="https://webpack.js.org/concepts/">webpack文档</a><br><a target="_blank" rel="noopener" href="https://survivejs.com/webpack/">Survive JS-Webpack</a></p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2020/10/05/%E4%BB%80%E4%B9%88%E6%98%AFOIDC/" class="styled-border">
+                    
+                    什么是OIDC
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
