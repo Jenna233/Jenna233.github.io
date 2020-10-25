@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java 接口方法 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="转自 Java 技术栈 微信公众号 最近面试一些 Java 程序员，不乏工作 4、5 年经验的，当我问他一些 Java 8 的新特性时，大多却答不上来。 比如下面这道题： 栈长：接口里面可以写方法吗？ 小A：当然可以啊，默认就是抽象方法。 栈长：那接口里面可以写实现方法吗？ 小A：不可以，所有方法必须是抽象的。 栈长：你确定吗？ 小A：确定…… 小A看起来对我的问题有点怀疑人生，心里肯定估摸着，我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 接口方法">
+<meta property="og:url" content="https://jenna233.github.io/2020/10/25/Java-%E6%8E%A5%E5%8F%A3%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="转自 Java 技术栈 微信公众号 最近面试一些 Java 程序员，不乏工作 4、5 年经验的，当我问他一些 Java 8 的新特性时，大多却答不上来。 比如下面这道题： 栈长：接口里面可以写方法吗？ 小A：当然可以啊，默认就是抽象方法。 栈长：那接口里面可以写实现方法吗？ 小A：不可以，所有方法必须是抽象的。 栈长：你确定吗？ 小A：确定…… 小A看起来对我的问题有点怀疑人生，心里肯定估摸着，我">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-0c588a56f71b64fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-053e6cbdd838baa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-1aa6f0c754aefa60.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-10-25T12:46:03.000Z">
+<meta property="article:modified_time" content="2020-10-25T12:46:50.564Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-0c588a56f71b64fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Java 接口方法</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2020/10/25 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>转自 <strong>Java 技术栈</strong> 微信公众号</p>
+<p>最近面试一些 Java 程序员，不乏工作 4、5 年经验的，当我问他一些 Java 8 的新特性时，大多却答不上来。</p>
+<p>比如下面这道题：</p>
+<p>栈长：接口里面可以写方法吗？</p>
+<p>小A：当然可以啊，默认就是抽象方法。</p>
+<p>栈长：那接口里面可以写实现方法吗？</p>
+<p>小A：不可以，所有方法必须是抽象的。</p>
+<p>栈长：你确定吗？</p>
+<p>小A：确定……</p>
+<p>小A看起来对我的问题有点怀疑人生，心里肯定估摸着，我不会在给他埋了什么坑吧。然后他还是仔细再想了一下，最后还是斩钉截铁的告诉我：接口里面只能写抽象方法，不能写实现方法。</p>
+<p>栈长：接口里面是可以写实现方法的，Java 8 开始就可以了，你用过 Java 8 吗?</p>
+<p>小A：好吧，看来是我学艺不精，Java 8 有了解一点，比如那个 Lambda 表达式，但实际项目中也没怎么用。</p>
+<p>通过和小A的交流，我也看到了许多开发者的问题，虽然开发版本用的是 Java 8，但实际用的还是 Java 8 之前的最基础的语法，对 Java 8 新增的特性一无所知。</p>
+<p>Java 8 至 2014 年发布至今，已经过了 6 个年头了，最新的 Java 14 都发布了，OK，这个不在本篇讨论范围之内， Java  8+ 系列教程请关注公众号Java技术栈回复 “java” 进行阅读，本篇就是想顺着问小A的这个问题展开。</p>
+<p>什么是默认方法和静态方法？</p>
+<p>上面也说了，Java 8 开始是可以有方法实现的，可以在接口中添加默认方法和静态方法。</p>
+<p>默认方法用 default 修饰，只能用在接口中，静态方法用 static 修饰，这个我们不陌生了。并且接口中的默认方法、静态方法可以同时有多个。</p>
+<p>在接口中写实现方法一点也不稀奇，像这样的用法，从 Java 8 到 Java 14 已是遍地开花，到处都可以看到接口默认方法和静态方法的身影。</p>
+<p>比如我们来看下在 JDK API 中 java.util.Map 关于接口默认方法和静态方法的应用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public interface Map&lt;K,V&gt; &#123;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line"></span><br><span class="line">    * 接口默认方法</span><br><span class="line"></span><br><span class="line">    *&#x2F;</span><br><span class="line"></span><br><span class="line">    default boolean remove(Object key, Object value) &#123;</span><br><span class="line"></span><br><span class="line">        Object curValue &#x3D; get(key);</span><br><span class="line"></span><br><span class="line">        if (!Objects.equals(curValue, value) ||</span><br><span class="line"></span><br><span class="line">            (curValue &#x3D;&#x3D; null &amp;&amp; !containsKey(key))) &#123;</span><br><span class="line"></span><br><span class="line">            return false;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        remove(key);</span><br><span class="line"></span><br><span class="line">        return true;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line"></span><br><span class="line">    * 接口静态方法</span><br><span class="line"></span><br><span class="line">    *&#x2F;</span><br><span class="line"></span><br><span class="line">    public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; Comparator&lt;Map.Entry&lt;K,V&gt;&gt; comparingByKey() &#123;</span><br><span class="line"></span><br><span class="line">        return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line"></span><br><span class="line">            (c1, c2) -&gt; c1.getKey().compareTo(c2.getKey());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+
+<p>为什么要有接口默认方法？</p>
+<p>举一个很现实的例子：</p>
+<p>我们的接口老早就写好了，后面因为各种业务问题，避免不了要修改接口。</p>
+<p>在 Java 8 之前，比如要在一个接口中添加一个抽象方法，那所有的接口实现类都要去实现这个方法，不然就会编译错误，而某些实现类根本就不需要实现这个方法也被迫要写一个空实现，改动会非常大。</p>
+<p>所以，接口默认方法就是为了解决这个问题，只要在一个接口添加了一个默认方法，所有的实现类就自动继承，不需要改动任何实现类，也不会影响业务，爽歪歪。</p>
+<p>另外，接口默认方法可以被接口实现类重写。</p>
+<p>为什么要有接口静态方法？</p>
+<p>接口静态方法和默认方法类似，只是接口静态方法不可以被接口实现类重写。</p>
+<p>接口静态方法只可以直接通过静态方法所在的 接口名.静态方法名 来调用。</p>
+<p>接口默认方法多继承冲突问题</p>
+<p>因为接口默认方法可以被继承并重写，如果继承的多个接口都存在相同的默认方法，那就存在冲突问题。</p>
+<p>下面我会列举 3 个冲突示例场景。</p>
+<p>冲突一</p>
+<p>来看下面这段程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">interface People &#123;</span><br><span class="line"></span><br><span class="line"> default void eat()&#123;</span><br><span class="line"></span><br><span class="line">  System.out.println(&quot;人吃饭&quot;);</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">interface Man &#123;</span><br><span class="line"></span><br><span class="line"> default void eat()&#123;</span><br><span class="line"></span><br><span class="line">  System.out.println(&quot;男人吃饭&quot;);</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">interface Boy extends Man, People &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Boy 同时继承了 People 和 Man，此时在 IDEA 编辑器中就会报错：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-0c588a56f71b64fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6402.png"></p>
+<p>这就是接口多继承带来的冲突问题，Boy 不知道该继承谁的，这显然也是个问题，IDEA 也会提示，需要重写这个方法才能解决问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">interface Boy extends Man, People &#123;</span><br><span class="line"></span><br><span class="line"> @Override</span><br><span class="line"></span><br><span class="line"> default void eat() &#123;</span><br><span class="line"></span><br><span class="line">  System.out.println(&quot;男孩吃饭&quot;);</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在方法里面还能直接调用指定父接口的默认方法，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">interface Boy extends Man, People &#123;</span><br><span class="line"></span><br><span class="line"> @Override</span><br><span class="line"></span><br><span class="line"> default void eat() &#123;</span><br><span class="line"></span><br><span class="line">  People.super.eat();</span><br><span class="line"></span><br><span class="line">  Man.super.eat();</span><br><span class="line"></span><br><span class="line">  System.out.println(&quot;男孩吃饭&quot;);</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>再加个实现类测试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">static class Student implements Boy &#123;</span><br><span class="line"></span><br><span class="line"> public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">  Student student &#x3D; new Student();</span><br><span class="line"></span><br><span class="line">  student.eat();</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>人吃饭</p>
+<p>男人吃饭</p>
+<p>男孩吃饭</p>
+<p>嗯，很强大！</p>
+<p>冲突二</p>
+<p>我们再换一种写法，把 Man 继承 People，然后 Man 重写 People 中的默认方法。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-053e6cbdd838baa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6401.png"></p>
+<p>此时，编辑器不报错了，而 People 的默认方法置灰了，提示没有被用到。</p>
+<p>再运行一下上面的示例，输出：</p>
+<p>男人吃饭</p>
+<p>因为 Man 继承 People，Man 又重定了默认方法。很显然，这个时候，Boy 知道该继承谁的默认方法了。</p>
+<p>冲突三</p>
+<p>在 Man 接口中新增一个方法：say，然后在 Boy 接口中新增一个默认方法：say。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-1aa6f0c754aefa60.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="640.png"></p>
+<p>这时候，Man 中的抽象方法居然被忽略了，IDEA 都提示说没用到，这显然是默认方法优先于抽象方法。</p>
+<p>总结</p>
+<p>本文介绍了 Java 8 的默认方法和静态方法，以及默认方法的冲突问题解决方案。所以，大家出去面试时，再也不要说接口不能写实现方法了，那就太 OUT 了。。</p>
+<p>文中只举了 3 个默认方法的冲突场景，不确定还没有更多冲突问题。默认方法虽然解决了接口变动带来的问题，但如果设计不当，或者过度设计，其带来的方法冲突问题也是需要引起注意的。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2020/10/25/Google-Firebase-%E4%BB%8B%E7%BB%8D/" class="styled-border">
+                    ←
+                    Google Firebase 介绍
+                    
+                </a>
+            
+            
+                <a href="/2020/10/10/Webpack-%E5%85%A5%E9%97%A8/" class="styled-border">
+                    
+                    Webpack 入门
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
