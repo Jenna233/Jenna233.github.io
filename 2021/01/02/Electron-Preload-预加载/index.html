@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Electron Preload 预加载 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转自]从零开始搭建Electron+Vue+Webpack项目框架（五）预加载和Electron自动更新 什么是预加载来看看electron 官网的介绍: https:&#x2F;&#x2F;www.electronjs.org&#x2F;docs&#x2F;api&#x2F;browser-window：preload String (optional) - Specifies a script that will be loaded bef">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Electron Preload 预加载">
+<meta property="og:url" content="https://jenna233.github.io/2021/01/02/Electron-Preload-%E9%A2%84%E5%8A%A0%E8%BD%BD/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转自]从零开始搭建Electron+Vue+Webpack项目框架（五）预加载和Electron自动更新 什么是预加载来看看electron 官网的介绍: https:&#x2F;&#x2F;www.electronjs.org&#x2F;docs&#x2F;api&#x2F;browser-window：preload String (optional) - Specifies a script that will be loaded bef">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-01-01T16:56:48.000Z">
+<meta property="article:modified_time" content="2021-01-01T16:57:40.195Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Electron">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Electron Preload 预加载</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/1/2 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Electron/" rel="tag">Electron</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转自]<a target="_blank" rel="noopener" href="http://www.meicx.com/?p=7486">从零开始搭建Electron+Vue+Webpack项目框架（五）预加载和Electron自动更新</a></p>
+<h1 id="什么是预加载"><a href="#什么是预加载" class="headerlink" title="什么是预加载"></a>什么是预加载</h1><p>来看看electron 官网的介绍: <a target="_blank" rel="noopener" href="https://www.electronjs.org/docs/api/browser-window%EF%BC%9A">https://www.electronjs.org/docs/api/browser-window：</a><br>preload String (optional) - Specifies a script that will be loaded before other scripts run in the page. This script will always have access to node APIs no matter whether node integration is turned on or off. The value should be the absolute file path to the script. When node integration is turned off, the preload script can reintroduce Node global symbols back to the global scope.<br>翻译过来如下：<br>preload字符串（可选）-指定在页面中其他脚本运行之前被加载的脚本。 无论打开还是关闭 integratioin，此脚本始终可以访问node API。 该值应该是脚本的绝对文件路径。 关闭node integration后，预加载脚本将从全局局限重新引入node的全局引用标志。</p>
+<ol>
+<li><strong>preload</strong>是BrowserWindow类的参数webPreferences的一个可选设置项，我们解读一下官网的先容：在页面运行其他脚本之前预先加载的指定的脚本：首先是个js文件没错了，再看加载时机，在页面运行其他脚本之前预先加载，这个页面不是通俗的某个h5页面，而是指某个渲染进程（需要预加载js的渲染进程，由于渲染进程可能有多个，每个就是一个窗口），我们new一个BrowserWindow，打开了一个窗口，就是启动了一个渲染进程，若是我们不给这个窗口指定页面，那它就是空缺的，若是指定了页面，那么窗口就会加载这个页面：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const win &#x3D; new BrowserWindow(&#123;</span><br><span class="line">    width: 800,</span><br><span class="line">    height: 600</span><br><span class="line">&#125;);</span><br><span class="line">win.loadURL(&#39;https:&#x2F;&#x2F;www.baidu.com&#39;);</span><br></pre></td></tr></table></figure></li>
+<li>如上面代码，我们建立了一个窗口，然后加载百度首页，而preload脚本的加载时机就是窗口建立后，百度首页加载之前。若是有人问，若是不挪用loadURL方式，不加载页面，preload剧本会加载吗？谜底是会，但有什么用呢？你起个壳子不给人家看页面是什么鬼？不管这些，主要的是我们明白这个加载时机就好了；<br>无论页面是否集成Node，此脚本都可以调用所有Node API：首先要说明的一点是，Electron5.x以上版本，默认无法在渲染进程中调用Node API，如需使用，需要预先设置：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const win &#x3D; new BrowserWindow(&#123;</span><br><span class="line">    width: 800,</span><br><span class="line">    height: 600,</span><br><span class="line">    webPreferences: &#123;</span><br><span class="line">        nodeIntegration: true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+<li>然后还要清楚一点，preload脚本是运行在渲染进程中的。再有一点就是，preload脚本中可以调用window工具（渲染进程其实就是起了个浏览器壳子），preload脚本运行在渲染进程，提前于页面和其他所有js的加载，又能调用Node API；<br>脚本文件路径为绝对路径，当node integration关闭时，预加载的脚本将从全局范围重新引入node的全局引用标志：联系前面两点明白就好了。</li>
+</ol>
+<p>那么，到底什么是预加载？<br>某一个渲染进程，在页面加载之前加载一个本地脚本，这个脚本能调用所有Node API、能调用window工具。用法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const win &#x3D; new BrowserWindow(&#123;</span><br><span class="line">        width: 800,</span><br><span class="line">        height: 600,</span><br><span class="line">        webPreferences: &#123;</span><br><span class="line">            preload: path.join(__dirname, &#39;preload.js&#39;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="怎么用preload"><a href="#怎么用preload" class="headerlink" title="怎么用preload"></a>怎么用preload</h1><p>明白应该差不多了，但什么场景能用到这玩意儿呢？按正常的逻辑来想，主进程启动后启动渲染历程，渲染进程加载页面就完事儿了，哪会用到这个preolad呢？</p>
+<p>想一下，若是我们有以下场景：</p>
+<p>a、若是我们启动了一个窗口（渲染进程），加载了一个线上的页面，本地没有页面文件，但要做一些错误处置，好比网络错误，页面加载失败，然后在页面空缺但时刻插入一些元素；</p>
+<p>b、若是我们的一套代码部署在web端和客户端，需要用一个变量判断是在web端还是客户端；<br>………..<br>上面两个场景若是用preload来解决的话，思路是利用prelaod中能调用window工具的特点，好比b，代码中可以用window.isClient来判断是否在客户端，默以为false，然后在preload中把window.isClient设置为true，而对于部署在web端的代码来说，这个值就是false。</p>
+<p>上面所说的场景b的preload 例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 引入electron工具</span><br><span class="line">const &#123;</span><br><span class="line">    remote,</span><br><span class="line">    ipcRenderer</span><br><span class="line">&#125; &#x3D; require(&#39;electron&#39;);</span><br><span class="line">&#x2F;&#x2F; 引入node模块</span><br><span class="line">const fs &#x3D; require(&#39;fs&#39;);</span><br><span class="line">const path &#x3D; require(&#39;path&#39;);</span><br><span class="line">&#x2F;&#x2F; 引入window工具</span><br><span class="line">window.isClient &#x3D; true;</span><br><span class="line">window.sayHello &#x3D; function() &#123;</span><br><span class="line">    console.log(&#39;hello&#39;);</span><br><span class="line">&#125;;</span><br><span class="line">&#x2F;&#x2F; 操作dom</span><br><span class="line">const div &#x3D; document.createElement(&#39;div&#39;);</span><br><span class="line">div.innerText &#x3D; &#39;I am a div&#39;;</span><br><span class="line">document.body.appendChild(div);</span><br><span class="line">&#x2F;&#x2F; ...</span><br></pre></td></tr></table></figure>
+
+<p>如果preoad逻辑复杂，可以用webpack打包一下，单独拎出来打包就行了，webpack单文件打包注意target要”electron-renderer”：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line">Tip:  preload 打包设置</span><br><span class="line"> *&#x2F;</span><br><span class="line">const path&#x3D;require(&#39;path&#39;);</span><br><span class="line">const &#123; dependencies &#125; &#x3D; require(&#39;..&#x2F;package.json&#39;);</span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">    mode:process.env.NODE_ENV,</span><br><span class="line">    entry: &#123;</span><br><span class="line">        preload:[&#39;.&#x2F;src&#x2F;preload&#x2F;index.js&#39;]</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.join(__dirname, &#39;..&#x2F;app&#x2F;&#39;),</span><br><span class="line">        libraryTarget: &#39;commonjs2&#39;,</span><br><span class="line">        filename: &#39;.&#x2F;[name].js&#39;</span><br><span class="line">    &#125;,</span><br><span class="line">    optimization: &#123;</span><br><span class="line">        runtimeChunk: false,</span><br><span class="line">        minimize: true</span><br><span class="line">    &#125;,</span><br><span class="line">    node: &#123;</span><br><span class="line">        fs: &#39;empty&#39;,</span><br><span class="line">        __dirname:false</span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            &#123;</span><br><span class="line">                test: &#x2F;\.js$&#x2F;,</span><br><span class="line">                loader: &#39;babel-loader&#39;,</span><br><span class="line">                exclude: &#x2F;node_modules&#x2F;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    externals: [</span><br><span class="line">        ...Object.keys(dependencies || &#123;&#125;)</span><br><span class="line">    ],</span><br><span class="line">    resolve: &#123;</span><br><span class="line">        extensions: [&#39;.js&#39;],</span><br><span class="line">        alias: &#123;</span><br><span class="line">            &#39;@&#39;: path.resolve(__dirname, &quot;..&#x2F;src&quot;),</span><br><span class="line">            &#39;@public&#39;: path.resolve(__dirname, &quot;..&#x2F;public&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins:[],</span><br><span class="line">    target:&quot;electron-renderer&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>#自动更新<br>我们都知道，electron其实是封了个chrome内核，抛开壳子不说，里面运行的就是我们的h5页面，而就算我们跑了个空项目，没有任何内容，打包后的安装包也得30M左右，我们希望自己的程序自动更新，那么更新机制是怎样的呢？</p>
+<p>若是我们只改动了页面某一处的脚本，却要用户更新整个安装包，那显然太不合理了，一是体验不好，二是浪费流量……</p>
+<p>基于这种度量，加上electron主进程和渲染进程的划分，那我们可以思考如下更新机制：<br>主进程有改动时，用户需要更新整个客户端（可以做动态更新，官方好像是说支持）；渲染进程有改动时，我们只需要把h5包下载到本地然后加载就行了，这需要我们打包时能把h5包区分出来，在更新后能打开对应版本的h5包。<br>这里我们称主进程的更新为大版本更新，渲染进程的更新为小版本更新。</p>
+<p>1、打包设置修改</p>
+<p>由于牵扯到小版本的更新，那我们打包的时刻就得把这个“小版本”给打出来。这里只讲一下怎么把小版本的压缩包给打出来。</p>
+<p>修改build.js，使用webpack打包主进程、打包preload、打包渲染进程，获得可执行文件目录app，然后引入electrin-builder对app目录进行打包，build一个安装包，然后把渲染进程的文件压缩并生成版本号。将渲染进程打包和压缩小版本文件拆分出来，因为分模块封装的好处，各个进程的打包逻辑拆出来，能随意组合还能复用。</p>
+<p>详细代码就不贴出来了，太占篇幅，也没什么用，可以到<a target="_blank" rel="noopener" href="https://github.com/luohao8023/electron-vue-template">https://github.com/luohao8023/electron-vue-template</a>看完整代码。</p>
+<p>2、增加启动页，启动页显示欢迎语等，在这里检查更新</p>
+<p>这里我们暂且叫它检查更新页，这个检查更新页是渲染进程，用户打开程序时首先显示检查更新窗口，然而这个窗口也不一定显示检查更新字样，偷偷的检查就行了，有新版本就提醒更新，没有新版本就显示欢迎语。</p>
+<p>这儿的逻辑是单独拆分出来的，不是自动更新的时刻把自动更新逻辑自己也给更新了，容易乱套。</p>
+<p>修改主进程代码，程序启动时首先启动自动更新窗口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre style&#x3D;&quot;box-sizing: border-box; margin: 0px; padding: 0px; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; overflow-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;app.on(&#39;ready&#39;, () &#x3D;&gt; &#123; &#x2F;&#x2F;注册快捷键打开控制台事宜</span><br><span class="line">    shortcut.register(&#39;Command+Control+Alt+F5&#39;);</span><br><span class="line">    mainWindow &#x3D; updateWin.create();</span><br><span class="line">&#125;);&lt;&#x2F;pre&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后注册监听事件，由于自动更新窗口逻辑完成之后需要唤醒主窗口，需要主进程来协调：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre style&#x3D;&quot;box-sizing: border-box; margin: 0px; padding: 0px; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; overflow-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;&#x2F;&#x2F;启动主窗体</span><br><span class="line">ipcMain.on(&#39;create-main&#39;,(event,arg) &#x3D;&gt; &#123; &#x2F;&#x2F; h5页面指向指定版本</span><br><span class="line">    &#x2F;&#x2F; global.wwwroot.path &#x3D; arg.newVersionPath ? arg.newVersionPath : __dirname;</span><br><span class="line">    &#x2F;&#x2F; if (arg.version) setVal(&#39;version&#39;,&#39;smallVersion&#39;, arg.version);</span><br><span class="line"> indexWin.create();</span><br><span class="line">    mainWindow.destroy();</span><br><span class="line">&#125;);&lt;&#x2F;pre&gt;</span><br></pre></td></tr></table></figure>
+
+<p>自动更新窗口只需专注于更新逻辑就行了，逻辑竣事后呼起主窗口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre style&#x3D;&quot;box-sizing: border-box; margin: 0px; padding: 0px; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; overflow-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;        &#x2F;&#x2F; 更新逻辑看下面伪代码</span><br><span class="line">        const v1 &#x3D; getOnlineVersion();</span><br><span class="line">        const v2 &#x3D; getLocalVersion();</span><br><span class="line">        const needUpdate &#x3D; checkVersion(v1, v2); if (needUpdate) &#123;</span><br><span class="line">            downloadVersion();</span><br><span class="line">        &#125; this.runMain();&lt;&#x2F;pre&gt;</span><br></pre></td></tr></table></figure>
+<p>在呼起主窗口的同时给主窗口通报参数，并通知主窗口有没有更新版本，以及主窗口需要加载哪个小版本的包，而主窗口在loadURL时也要做下改动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre style&#x3D;&quot;box-sizing: border-box; margin: 0px; padding: 0px; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; overflow-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;    let wwwroot &#x3D; global.wwwroot.path ? global.wwwroot.path : __dirname;</span><br><span class="line">    let filePath &#x3D; url.pathToFileURL(path.join(wwwroot, &#39;index.html&#39;)).href;&lt;&#x2F;pre&gt;</span><br></pre></td></tr></table></figure>
+<p>而wwwrot就是当前小版本包的根路径，由主历程来维护，自动更新小版本后会修改这个值，以告诉主进程加载哪个版本。</p>
+<p>好了，烦琐了一大堆，很多多少地方没贴代码，感受贴了代码的话，篇幅就不受控制了，照样去github看完整项目吧，自动更新这一块是伪代码，只实现了渲染历程的切换（即自动更新窗口呼起主窗口），详细的更新逻辑实现起来的话还要拿线上版本去对照，这个照样留给人人在现实项目中去调试吧。</p>
+<p>好啦，有什么问题可以留言交流，也可以直接去看代码<a target="_blank" rel="noopener" href="https://github.com/luohao8023/electron-vue-template">https://github.com/luohao8023/electron-vue-template</a>。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2021/01/02/EventBus-%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%8E%9F%E7%90%86/" class="styled-border">
+                    ←
+                    EventBus 使用及原理
+                    
+                </a>
+            
+            
+                <a href="/2020/12/20/Android%E4%B8%AD%E7%9A%84%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" class="styled-border">
+                    
+                    Android中的动态链接
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

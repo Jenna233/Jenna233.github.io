@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android中的动态链接 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="转自链接1链接2 静态链接与动态链接大多数高级语言都支持分别编译，程序员可以显式地把程序划分为独立的模块或文件，然后每个独立部分分别编译。在编译之后，由链接器把这些独立的片段（称为编译单元）“粘接到一起”。（想想这样做有什么好处？）在C&#x2F;C++中，这些独立的编译单元包括obj文件（一般的源程序编译而成）、lib文件（静态链接的函数库）、dll文件（动态链接的函数库）等。静态链接方式：在程序执行之前">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中的动态链接">
+<meta property="og:url" content="https://jenna233.github.io/2020/12/20/Android%E4%B8%AD%E7%9A%84%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="转自链接1链接2 静态链接与动态链接大多数高级语言都支持分别编译，程序员可以显式地把程序划分为独立的模块或文件，然后每个独立部分分别编译。在编译之后，由链接器把这些独立的片段（称为编译单元）“粘接到一起”。（想想这样做有什么好处？）在C&#x2F;C++中，这些独立的编译单元包括obj文件（一般的源程序编译而成）、lib文件（静态链接的函数库）、dll文件（动态链接的函数库）等。静态链接方式：在程序执行之前">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-0c69a79d0047b253.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-38f9ca731c7a688b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-12-20T08:09:44.000Z">
+<meta property="article:modified_time" content="2020-12-20T08:10:18.925Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-0c69a79d0047b253.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Android中的动态链接</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2020/12/20 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>转自<br><a target="_blank" rel="noopener" href="https://jackwish.net/2016/android-dynamic-linker.html">链接1</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tracylee/archive/2012/10/15/2723816.html">链接2</a></p>
+<h1 id="静态链接与动态链接"><a href="#静态链接与动态链接" class="headerlink" title="静态链接与动态链接"></a>静态链接与动态链接</h1><p>大多数高级语言都支持分别编译，程序员可以显式地把程序划分为独立的模块或文件，然后每个独立部分分别编译。在编译之后，由链接器把这些独立的片段（称为编译单元）“粘接到一起”。（想想这样做有什么好处？）<br>在C/C++中，这些独立的编译单元包括obj文件（一般的源程序编译而成）、lib文件（静态链接的函数库）、dll文件（动态链接的函数库）等。<br>静态链接方式：在程序执行之前完成所有的组装工作，生成一个可执行的目标文件（EXE文件）。<br>动态链接方式：在程序已经为了执行被装入内存之后完成链接工作，并且在内存中一般只保留该编译单元的一份拷贝。</p>
+<h4 id="静态链接库与动态链接库"><a href="#静态链接库与动态链接库" class="headerlink" title="静态链接库与动态链接库"></a>静态链接库与动态链接库</h4><p>先来阐述一下DLL(Dynamic Linkable Library)的概念，你可以简单的把DLL看成一种仓库，它提供给你一些可以直接拿来用的变量、函数或类。</p>
+<p>静态链接库与动态链接库都是共享代码的方式，如果采用静态链接库，则无论你愿不愿意，lib中的指令都被直接包含在最终生成的EXE文件中了。但是若使用DLL，该DLL不必被包含在最终的EXE文件中，EXE文件执行时可以“动态”地引用和卸载这个与EXE独立的DLL文件。</p>
+<p>采用动态链接库的优点：（1）更加节省内存；（2）DLL文件与EXE文件独立，只要输出接口不变，更换DLL文件不会对EXE文件造成任何影响，因而极大地提高了可维护性和可扩展性。</p>
+<h4 id="认识动态链接库"><a href="#认识动态链接库" class="headerlink" title="认识动态链接库"></a>认识动态链接库</h4><p>动态链接是相对于静态链接而言的。所谓静态链接是指把要调用的函数或者过程链接到可执行文件中，成为可执行文件的一部分。换句话说，函数和过程的代码就在程序的exe文件中，该文件包含了运行时所需的全部代码。当多个程序都调用相同函数时，内存中就会存在这个函数的多个拷贝，这样就浪费了宝贵的内存资源。而动态链接所调用的函数代码并没有被拷贝到应用程序的可执行文件中去，而是仅仅在其中加入了所调用函数的描述信息（往往是一些重定位信息）。仅当应用程序被装入内存开始运行时，在Windows的管理下，才在应用程序与相应的DLL之间建立链接关系。当要执行所调用DLL中的函数时，根据链接产生的重定位信息，Windows才转去执行DLL中相应的函数代码。一般情况下，如果一个应用程序使用了动态链接库，Win32系统保证内存中只有DLL的一份复制品</p>
+<h4 id="动态链接库的两种链接方法："><a href="#动态链接库的两种链接方法：" class="headerlink" title="动态链接库的两种链接方法："></a>动态链接库的两种链接方法：</h4><p>(1) 装载时动态链接(Load-time Dynamic Linking)：这种用法的前提是在编译之前已经明确知道要调用DLL中的哪几个函数，编译时在目标文件中只保留必要的链接信息，而不含DLL函数的代码；当程序执行时，调用函数的时候利用链接信息加载DLL函数代码并在内存中将其链接入调用程序的执行空间中(全部函数加载进内存），其主要目的是便于代码共享。（动态加载程序，处在加载阶段，主要为了共享代码，共享代码内存）</p>
+<p>(2) 运行时动态链接(Run-time Dynamic Linking)：这种方式是指在编译之前并不知道将会调用哪些DLL函数，完全是在运行过程中根据需要决定应调用哪个函数，将其加载到内存中（只加载调用的函数进内存），并标识内存地址，其他程序也可以使用该程序，并用LoadLibrary和GetProcAddress动态获得DLL函数的入口地址。（dll在内存中只存在一份，处在运行阶段）</p>
+<p>上述的区别主要在于阶段不同，编译器是否知道进程要调用的dll函数。动态加载在编译时知道所调用的函数，而在运行态时则必须不知道。</p>
+<h1 id="Android中的动态链接"><a href="#Android中的动态链接" class="headerlink" title="Android中的动态链接"></a>Android中的动态链接</h1><p>在Android中，当<code>System.loadLibrary()</code>用Java<code>dlopen()</code>执行或以本机代码执行时，将调用动态链接器。对于Java代码，Dalvik / Android运行时<code>dlopen()</code>最终会调用动态链接器。</p>
+<p>从<a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/bionic/+/android-5.1.0_r1/linker/linker.cpp">Lollipop MR1</a>（我们的讨论基于<a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/bionic/+/android-6.0.1_r1/linker/linker.cpp">Marshmallow</a>）开始，Android动态链接分为两个阶段：库加载和库重定位。如图3所示，左半部分正在加载，而右半部分正在链接。</p>
+<p>在库加载过程中，动态链接程序将重建<em>库依赖关系</em>，并将其所有库加载到内存中。库重定位过程链接了依赖性。我们首先讨论Android动态链接器的重要数据结构。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-0c69a79d0047b253.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Android动态链接器的工作流程"></p>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><h4 id="持久数据结构"><a href="#持久数据结构" class="headerlink" title="持久数据结构"></a>持久数据结构</h4><p>Android的动态链接器在应用程序/程序的生命周期中具有两个持久的数据结构*-LSPath<em>（库搜索路径）和</em>ALList*（已加载的库列表）。</p>
+<p><strong><em>LSPath</em></strong> 是存储库的目录。动态链接器遍历这些路径以寻找库。这些路径对于库的定位至关重要，并按优先级排序。</p>
+<p><strong><em>ALList</em></strong> 是以 <em>soinfo</em> 为元素的列表，其用于保持装载的库（例如数据ELF和存储器布局）的元数据。动态链接器在不同的库加载和链接过程中从<em>ALList</em>获取数据。分别在加载和卸载库时，<em>ALList</em>会增长和缩短。</p>
+<p>持久性数据结构位于图3的顶部。图3中的“存储”在某种程度上意味着<em>LSPath</em>。</p>
+<h4 id="临时数据结构"><a href="#临时数据结构" class="headerlink" title="临时数据结构"></a>临时数据结构</h4><p>自然地，在加载库期间会使用许多临时数据结构。其中，最重要的两个是<em>load_tasks</em>和<em>local_group</em>。他们两个都表现出对<em>库的依赖</em>。</p>
+<p><strong><em>load_tasks</em></strong>是一个队列，其中包含要加载的库-<em>库相关性</em>的子库，这些<em>库</em>尚未加载到内存中。当链接程序开始搜索库并使刚解析的相关库<em>入库</em>时（从<code>DT_NEEDED</code>ELF格式库的表中），* load_tasks*出队。</p>
+<p>加载所有<em>树</em>后（<em>此时load_tasks</em>为空），*<strong>便**<em>构造了</em></strong>local_group**<em>并将其用于重定位。</em>local_group<em>是</em>soinfo<em>的队列，</em>并按<em>BFS顺序表示</em>库依赖关系<em>。（将在“特殊功能”部分中讨论另一个称为</em>global_group的*类似数据结构。）</p>
+<p>临时数据结构在上图的底部列出。</p>
+<h3 id="Library装载程序"><a href="#Library装载程序" class="headerlink" title="Library装载程序"></a>Library装载程序</h3><p>在开始的时候，Library被操作系统请求-<em>Root</em>-添加到<em>load_tasks</em>，如上图所示。在库加载的程序，动态链接程序不断在<em>load_tasks</em>加载的所有Library 并更新它，如图的左半部分， 完成此过程后，将加载<em>library dependency</em>中的所有库。</p>
+<h4 id="Library定位"><a href="#Library定位" class="headerlink" title="Library定位"></a>Library定位</h4><p>动态链接器从<em>load_tasks中</em>提取一个名称/路径，如果它是绝对路径，则直接打开，否则将遍历<em>LSPath</em>来寻找该库。</p>
+<p>找到并打开该库后，它可能是<em>系统库</em>或<em>应用程序库</em>。<em>系统库</em>是从系统库路径如<code>/system/lib</code>; <em>应用程序库</em>是从应用程序库路径（如）加载的<code>/data/data/com.example.app/lib</code>。</p>
+<p>在从Zygote派生应用程序之前，动态链接程序仅在系统库路径下搜索库。在应用程序派生并设置了库路径之后，动态链接器首先在应用程序路径下搜索，然后在系统库路径下搜索。</p>
+<h4 id="Library加载"><a href="#Library加载" class="headerlink" title="Library加载"></a>Library加载</h4><p>从存储中打开库之后，并且在将库加载到内存中之前，链接器要验证刚刚打开的文件是否为有效的共享库。它根据ELF数据执行检查：magic number，32/64位，小/大字节序，机器类型等。如果有任何错误，该库和<em>库依赖项</em>将被卸载。</p>
+<p>如果验证通过，则动态链接器将读取库头并将所有可装入的段加载到内存中。它通过检查<code>PT_LOAD</code>程序头表来计算所需的库内存大小。内存分配只是通过<code>mmap</code>。（在<a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/bionic/+/android-2.3_r1/linker/linker.c"><em>Jelly Bean</em></a>之前和之前，库内存由<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Buddy_memory_allocation">伙伴内存分配系统</a>系统管理）</p>
+<h4 id="Library预链接"><a href="#Library预链接" class="headerlink" title="Library预链接"></a>Library<em>预链接</em></h4><p>“预链接”旨在通过读取<em>库的依赖</em>关系（动态<code>DT_NEEDED</code>部分）来建立一个更高级别的<em>库依赖</em>关系。<code>DT_NEEDED</code>表中记录的所有库名称均添加到<em>load_tasks中</em>并进行加载。</p>
+<p>可以很容易地看到，在加载库时，相同的库（名称）可能会多次添加到<em>load_tasks中</em>。动态链接器会在打开该库之前和之后遍历<em>ALList，</em>以检查该库是否已通过名称和<em>索引</em>节点（i-node）加载到内存中。如果找到，动态链接器将删除该<em>load_tasks</em>节点，然后进行下一步获取。因此，<em>ALList</em>中没有重复加载的库。</p>
+<p>在Android的整个开发过程中，库的读取依赖项的发生时间已更改。在<em>Lollipop-MR1</em>之前，库链接是DFS，它以递归方式加载和链接<em>库依赖关系</em>。从<em>Lollipop-MR1</em>开始，库将更改链接到BFS。此更改使库链接一个两阶段的过程，<em>库相关性中的</em>所有库都在重定位之前已加载到内存中。</p>
+<h3 id="Library-Relocation程序"><a href="#Library-Relocation程序" class="headerlink" title="Library Relocation程序"></a>Library Relocation程序</h3><p>库加载过程完成后，库的依赖关系记录在<em>soinfo中</em>。动态链接器读取以root开头的<em>soinfo</em>来建造<em>local_group</em>。重定位在<em>local_group</em>上<em>执行</em>。重定位主循环将库从<em>local_group</em> 出队并查找。<em>local_group</em>是根据BFS构建的，因此重定位也是BFS。</p>
+<p>当解析一个库的符号时，动态链接器会遍历<em>Relocation Section</em>，这是共享库中需要重新放置（<code>DT_REL</code>或<code>DT_RELA</code>ELF）所有内容的表。对于每个重定位条目，链接器都会读取符号索引并将其转换为符号名称。使用该名称，链接器在依赖关系树中搜索它的定义-从库本身开始，然后是<em>global_group</em>（请参见“动态链接器的扩展”）和<em>local_group</em>。在库中搜索符号定义时，动态链接程序将检查其符号表（<code>DT_SYMTAB</code>ELF）。有一种用于表查找的加速方法，<code>DT_HASH</code>ELF是一个散列表，其中包含库的所有“已导出”或“已导入”符号。</p>
+<p>库重定位过程很直观。完成后，动态链接器将调用依赖项中的所有库构造函数。构造函数完成后，将加载库，动态链接器会将此库的处理程序返回给用户。</p>
+<h2 id="扩展动态链接器"><a href="#扩展动态链接器" class="headerlink" title="扩展动态链接器"></a>扩展动态链接器</h2><p>动态链接具有一些扩展以支持各种情况，而Android则针对特定目的扩展了动态链接功能。</p>
+<h3 id="通用动态链接"><a href="#通用动态链接" class="headerlink" title="通用动态链接"></a>通用动态链接</h3><h4 id="Global-Library"><a href="#Global-Library" class="headerlink" title="Global Library"></a>Global Library</h4><p>当一个库被声明为“全局库”并加载了标志时<code>RTLD_GLOBAL</code>，该库的符号定义对于之后加载的所有库具有**<em>最高优先级**</em>。</p>
+<p>每次加载库时，Android动态链接器都会在每次开始时构建<em>global_group</em>。重定位符号时，首先查找<em>global_group-</em> “全局库”可以覆盖之后要加载的库的符号定义。</p>
+<h4 id="Preload库"><a href="#Preload库" class="headerlink" title="Preload库"></a>Preload库</h4><p>当二进制文件带有标志执行时<code>LD_PRELOAD</code>。这些库将在二进制文件真正执行之前加载。Android动态链接器在初始化时会预加载这些库。这些库将带有该标志<code>RTLD_GLOBAL</code>。之后，“预加载库”就像“全局库”。<code>LD_PRELOAD</code>仅对纯native程序有效。</p>
+<h3 id="Android扩展动态链接"><a href="#Android扩展动态链接" class="headerlink" title="Android扩展动态链接"></a>Android扩展动态链接</h3><p>Android系统扩展了动态链接，以改善从Java和本机加载库时的体验。该API是<code>android_dlopen_ext()</code>。直到M，此扩展程序的功能如下所示，其中大多数功能都很容易理解。只需从源文件中复制…。</p>
+<p>该扩展的数据结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef struct &#123;</span><br><span class="line">  uint64_t flags;</span><br><span class="line">  void*   reserved_addr;</span><br><span class="line">  size_t  reserved_size;</span><br><span class="line">  int     relro_fd;</span><br><span class="line">  int     library_fd;</span><br><span class="line">  off64_t library_fd_offset;</span><br><span class="line">&#125; android_dlextinfo;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="与库内存相关"><a href="#与库内存相关" class="headerlink" title="与库内存相关"></a>与库内存相关</h4><blockquote>
+<p>**<code>ANDROID_DLEXT_RESERVED_ADDRESS</code>**：设置后，<code>reserved_addr</code>and<code>reserved_size</code>字段必须指向地址空间的一个已经保留的区域，如果合适，该区域将用于加载库。如果保留区域不够大，则加载将失败。</p>
+</blockquote>
+<blockquote>
+<p>**<code>ANDROID_DLEXT_RESERVED_ADDRESS_HINT</code>**：作为DLEXT_RESERVED_ADDRESS，但是如果保留区域不够大，则链接器将改为选择可用地址。</p>
+</blockquote>
+<h4 id="Library打开相关"><a href="#Library打开相关" class="headerlink" title="Library打开相关"></a>Library打开相关</h4><blockquote>
+<p>**<code>ANDROID_DLEXT_USE_LIBRARY_FD</code>**：指示dlopen使用<code>library_fd</code>而不是按名称打开文件。filename参数仍用于标识库。</p>
+</blockquote>
+<blockquote>
+<p>**<code>ANDROID_DLEXT_USE_LIBRARY_FD_OFFSET</code>**：如果使用打开图书馆，<code>library_fd</code>请从开始阅读<code>library_fd_offset</code>。该标志仅在<code>ANDROID_DLEXT_USE_LIBRARY_FD</code>设置时有效。</p>
+</blockquote>
+<blockquote>
+<p>**<code>ANDROID_DLEXT_FORCE_LOAD</code>**：设置后，请勿检查文件stat（2）s是否已加载该库。如果由于某些原因多个ELF文件共享相同的文件名（例如，由于已经加载并删除了已加载的库），则此标志允许强制加载该库。请注意，如果该库具有与旧库相同的dt_soname，而其他库在<code>DT_NEEDED</code>列表中具有该soname ，则第一个库将用于解析任何依赖项。</p>
+</blockquote>
+<h4 id="Library-relocation相关"><a href="#Library-relocation相关" class="headerlink" title="Library relocation相关"></a>Library relocation相关</h4><blockquote>
+<p>**<code>ANDROID_DLEXT_WRITE_RELRO</code>**：设置后，请<code>relro_fd</code>在执行重定位后将映射库的GNU RELRO部分写入，以允许另一进程在相同地址加载相同库时重用它。这意味着<code>ANDROID_DLEXT_USE_RELRO</code>。</p>
+</blockquote>
+<blockquote>
+<p>**<code>ANDROID_DLEXT_USE_RELRO</code>**：设置后，<code>relro_fd</code>在执行重定位后，将映射库的GNU RELRO部分与进行比较，并替换与从文件映射的版本相同的所有重定位页面。</p>
+</blockquote>
+<h2 id="动态链接器的引导程序"><a href="#动态链接器的引导程序" class="headerlink" title="动态链接器的引导程序"></a>动态链接器的引导程序</h2><p>动态链接器旨在“链接”所有可重定位的二进制文件，并且必须使其自身看起来像<code>libdl.so</code>可重定位的<code>libdl.so</code>二进制文件-二进制文件只是一个使<code>ld</code>编译器工具链满意的虚拟库。动态链接器在编译时是静态链接的，除了系统调用外不依赖任何其他资源。自我定位和伪造的<code>libdl.so</code>是<em>Bootstrap</em>。</p>
+<p>Android动态链接器的引导分为两个步骤：</p>
+<ol>
+<li>初始化：硬编码以重新定位链接器本身。</li>
+<li>初始化后：准备“链接器运行时”以加载库。</li>
+</ol>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>在此阶段，所有执行的代码都将静态重定位。没有外部变量，外部函数或GOT访问。从调用<code>begin.S</code>，之后将调用Post-initialize函数。主要操作是重定位链接器本身并创建虚拟<code>libdl.so</code> <em>soinfo</em>。</p>
+<p>重定位链接器本身是一个悲伤的故事，每件事都是手工获得的。在对<em>soinfo进行正确设置</em>（主要与内存相关）之后，便会进行真正的重定位。然后调用链接器的构造函数以初始化链接器的全局变量。</p>
+<p>主要设置创建虚拟<code>libdl.so</code> <em>soinfo的</em>过程，并将<em>soinfo</em>的引用更新为硬编码数组，例如符号表。的<em>soinfo</em>节点<code>libdl.so</code>始终是<em>ALList</em>的第一个节点。</p>
+<p>完成这些工作后，链接器将重新定位。</p>
+<h3 id="后初始化"><a href="#后初始化" class="headerlink" title="后初始化"></a>后初始化</h3><p>在自我重定位后，动态链接程序将<em>重</em>定位<em>somain</em>（主进程）Zygote。</p>
+<p>在重定位Zygote之前，链接器会从系统（如<code>LD_LIBRARY_PATH</code>和）中请求运行时变量<code>LD_PRELOAD</code>。然后，它重新安置了Zygote。Zygote重定位后，加载在中声明的所有库<code>LD_PRELOAD</code>。完成所有操作后，链接器完成<em>Bootstrap</em>并跳转到Zygote。</p>
+<h2 id="Library依赖"><a href="#Library依赖" class="headerlink" title="Library依赖"></a>Library依赖</h2><p>如开头所述，动态链接器的一项任务是重新构建<em>库依赖项</em>。在某些特殊情况下，重建过程对运行时环境敏感。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-38f9ca731c7a688b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Android的Tricky库依赖关系生成"></p>
+<p>考虑到有两组库*-set1<em>和</em>set2<em>。这两个集合中的某些库共享相同的名称，但具有不同的定义。首先，只能加载</em>set1<em>，然后可以加载</em>set1<em>和</em>set2<em>。诀窍是，无论如何依赖，在阶段1中加载的库只能依赖</em>set1中的<em>库，如上图所示。这是因为每当需要</em>set1中的<em>库时，动态链接程序都将简单地重用它的</em>soinfo*。</p>
+<p><code>LD_PRELOAD</code>在传统的Linux中，在Android的Zygote分支之前加载的库就是这种情况。对于大多数开发人员来说，这很好，但是可能会影响某些仿真系统。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>动态链接器重新构建可执行文件的依赖关系，查找，加载和链接它。它是现代操作系统的基本基础结构，并且对运行环境敏感。动态链接通常是在高端平台上定制的，并且需要* bootstrap*。</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/preview/behavior-changes.html#ndk">Android N包括名称空间更改，以防止加载非公共API</a>。此功能严重影响了Android的生态系统。从理论上讲，<em>名称空间</em>可以在动态链接中实现“虚拟化”。我们在本文档中的“内部流程”中讨论了动态链接，而<em>名称空间</em>可以构建多个虚拟空间-<em>名称空间</em>-在一个流程中进行动态链接，从而使动态链接成为“内部名称空间”。将来我们将引用<em>命名空间</em>。（请参阅<a target="_blank" rel="noopener" href="https://jackwish.net/2017/namespace-based-dynamic-linking.html">基于命名空间的动态链接</a>）</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2021/01/02/Electron-Preload-%E9%A2%84%E5%8A%A0%E8%BD%BD/" class="styled-border">
+                    ←
+                    Electron Preload 预加载
+                    
+                </a>
+            
+            
+                <a href="/2020/11/23/Javascript%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E%E6%96%B9%E6%B3%95/" class="styled-border">
+                    
+                    Javascript全局变量的声明方法
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
