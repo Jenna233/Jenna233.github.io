@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>volatile的作用 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[TOC] 缓存计算机最大的存储空间就是磁盘（硬盘），但是访问的速度也是最慢的，价格最便宜；再就是内存，容量更小，造价更高，但是速度也更快。不过跟cpu的计算速度比起来，那就太慢了。可以想像，如果cpu每次计算都要从内存读取数据，那大部分的时间估计都浪费在这上面了。所以就引入了缓存的概：缓存的结构大概是这样的，从1级到3级速度越来越慢，最后通过总线与内存连接。如果时多核多cpu，那么结构大概是这样">
+<meta property="og:type" content="article">
+<meta property="og:title" content="volatile的作用">
+<meta property="og:url" content="https://jenna233.github.io/2021/01/24/volatile%E7%9A%84%E4%BD%9C%E7%94%A8/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[TOC] 缓存计算机最大的存储空间就是磁盘（硬盘），但是访问的速度也是最慢的，价格最便宜；再就是内存，容量更小，造价更高，但是速度也更快。不过跟cpu的计算速度比起来，那就太慢了。可以想像，如果cpu每次计算都要从内存读取数据，那大部分的时间估计都浪费在这上面了。所以就引入了缓存的概：缓存的结构大概是这样的，从1级到3级速度越来越慢，最后通过总线与内存连接。如果时多核多cpu，那么结构大概是这样">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-e0792fe47faa1fc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-7d7a9bb6ed02db32.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-d306b060db608814.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-01-23T16:31:12.000Z">
+<meta property="article:modified_time" content="2021-01-23T16:32:26.950Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Java, 多线程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-e0792fe47faa1fc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">volatile的作用</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/1/24 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">Java, 多线程</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[TOC]</p>
+<h1 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h1><p>计算机最大的存储空间就是磁盘（硬盘），但是访问的速度也是最慢的，价格最便宜；再就是内存，容量更小，造价更高，但是速度也更快。不过跟cpu的计算速度比起来，那就太慢了。可以想像，如果cpu每次计算都要从内存读取数据，那大部分的时间估计都浪费在这上面了。所以就引入了缓存的概：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-e0792fe47faa1fc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>缓存的结构大概是这样的，从1级到3级速度越来越慢，最后通过总线与内存连接。如果时多核多cpu，那么结构大概是这样的：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-7d7a9bb6ed02db32.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="多线程造成的缓存不一致"><a href="#多线程造成的缓存不一致" class="headerlink" title="多线程造成的缓存不一致"></a>多线程造成的缓存不一致</h4><p>由于现在大部分的机器都有多个cpu，这就导致如果是运行多线程的任务，就可能运行在不同的cpu上。试想一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int a &#x3D; 0;</span><br><span class="line">int b &#x3D; a;</span><br><span class="line">b +&#x3D; 1;</span><br></pre></td></tr></table></figure>
+<p>如果开启两个线程执行，我们想要的结果是3，但是最后的结果只是2。这是因为在做加法运算的时候，cpu会先把a的值读入cpu的缓存，然后更新缓存，在更新内存。很有可能两个线程分散在两个cpu，每个都是对自己缓存内的数据进行读写，这样就造成了结果不一致的现象。</p>
+<h1 id="volatile-的作用"><a href="#volatile-的作用" class="headerlink" title="volatile 的作用"></a>volatile 的作用</h1><p>从多核CPU的缓存中我们知道volatile的作用就是当一个线程更新某个volatile声明的变量时，会通知其他的cpu使缓存失效，从而其他cpu想要做更新操作时，需要从内存重新读取数据。具体的通知方式，一种是通过<strong>某种协议</strong>，比如MESI；再就是<strong>对总线加锁</strong>，控制变量的读取。</p>
+<p>在多线程中，volatile和synchronized都起到非常重要的作用，synchronized是通过加锁来实现线程的安全性。而volatile的主要作用是在多处理器开发中保证共享变量对于多线程的可见性。<br>可见性的意思是，当一个线程修改一个共享变量时，另外一个线程能读取到修改以后的值。接下来通过一个简单的案例来演示可见性问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class VolatileDemo &#123;</span><br><span class="line">    private &#x2F;*volatile*&#x2F; static boolean stop&#x3D;false; &#x2F;&#x2F;添加volatile修饰和不添加volatile修饰的演示效果</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        Thread thread&#x3D;new Thread(()-&gt;&#123;</span><br><span class="line">            int i&#x3D;0;</span><br><span class="line">            while(!stop)&#123;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        thread.start();</span><br><span class="line">        System.out.println(&quot;begin start thread&quot;);</span><br><span class="line">        Thread.sleep(1000);</span><br><span class="line">        stop&#x3D;true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol>
+<li>定义一个共享变量 stop</li>
+<li>在main线程中创建一个子线程 thread，子线程读取到 stop的值做循环结束的条件</li>
+<li>main线程中修改stop的值为 true</li>
+<li>当 stop没有增加volatile修饰时，子线程对于主线程的 stop=true的修改是不可见的，这样将导致子线程出现死循环</li>
+<li>当 stop增加了volatile修饰时，子线程可以获取到主线程对于 stop=true的值，子线程while循环条件不满足退出循环</li>
+</ol>
+<p>增加volatile关键字以后，main线程对于共享变量 stop值的更新，对于子线程 thread可见，这就是volatile的作用</p>
+<h1 id="什么是可见性"><a href="#什么是可见性" class="headerlink" title="什么是可见性"></a>什么是可见性</h1><p>在并发编程中，线程安全问题的本质其实就是 原子性、有序性、可见性；接下来主要围绕这三个问题进行展开分析其本质，彻底了解可见性的特性</p>
+<ul>
+<li><strong>原子性</strong> 和数据库事务中的原子性一样，满足原子性特性的操作是不可中断的，要么全部执行成功要么全部执行失败</li>
+<li><strong>有序性</strong> 编译器和处理器为了优化程序性能而对指令序列进行重排序，也就是你编写的代码顺序和最终执行的指令顺序是不一致的，重排序可能会导致多线程程序出现内存可见性问题</li>
+<li><strong>可见性</strong> 多个线程访问同一个共享变量时，其中一个线程对这个共享变量值的修改，其他线程能够立刻获得修改以后的值</li>
+</ul>
+<h1 id="1-原子性"><a href="#1-原子性" class="headerlink" title="1. 原子性"></a>1. 原子性</h1><p>即一个操作或者多个操作，要么全部执行并且执行的过程不会被任何因素打断，要么就都不执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i &#x3D; 0;       &#x2F;&#x2F;1</span><br><span class="line">j &#x3D; i ;      &#x2F;&#x2F;2</span><br><span class="line">i++;         &#x2F;&#x2F;3</span><br><span class="line">i &#x3D; j + 1;   &#x2F;&#x2F;4</span><br></pre></td></tr></table></figure>
+<p>上面四个操作，有哪个几个是原子操作，那几个不是？如果不是很理解，可能会认为都是原子性操作，其实只有1才是原子操作，其余均不是。</p>
+<ol>
+<li>在Java中，对基本数据类型的变量和赋值操作都是原子性操作； </li>
+<li>中包含了两个操作：读取i，将i值赋值给j </li>
+<li>中包含了三个操作：读取i值、i + 1 、将+1结果赋值给i； </li>
+<li>中同三一样</li>
+</ol>
+<p>在单线程环境下我们可以认为整个步骤都是原子性操作，但是在多线程环境下则不同，Java只保证了基本数据类型的变量和赋值操作才是原子性的（注：在32位的JDK环境下，对64位数据的读取不是原子性操作，如long、double）。</p>
+<p>要想在多线程环境下保证原子性，则可以通过锁、synchronized来确保。volatile是无法保证复合操作的原子性。</p>
+<h1 id="2-可见性"><a href="#2-可见性" class="headerlink" title="2. 可见性"></a>2. 可见性</h1><p>可见性是指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值。<br>举个简单的例子，看下面这段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;线程1执行的代码</span><br><span class="line">int i &#x3D; 0;</span><br><span class="line">i &#x3D; 10;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;线程2执行的代码</span><br><span class="line">j &#x3D; i;</span><br></pre></td></tr></table></figure>
+<p>假若执行线程1的是CPU1，执行线程2的是CPU2。由上面的分析可知，当线程1执行 i = 10这句时，会先把i的初始值加载到CPU1的高速缓存中，然后赋值为10，那么在CPU1的高速缓存当中i的值变为10了，却没有立即写入到主存当中。此时线程2执行 j = i，它会先去主存读取i的值并加载到CPU2的缓存当中，注意此时内存当中i的值还是0，那么就会使得j的值为0，而不是10。这就是可见性问题，线程1对变量i修改了之后，线程2没有立即看到线程1修改的值。</p>
+<p>在上面已经分析了，在多线程环境下，一个线程对共享变量的操作对其他线程是不可见的。</p>
+<p>对于可见性，Java提供了volatile关键字来保证可见性。当一个共享变量被volatile修饰时，它会保证修改的值会立即被更新到主存，当有其他线程需要读取时，它会去内存中读取新值。而普通的共享变量不能保证可见性，因为普通共享变量被修改之后，什么时候被写入主存是不确定的，当其他线程去读取时，此时内存中可能还是原来的旧值，因此无法保证可见性。</p>
+<p>另外，通过synchronized和Lock也能够保证可见性，synchronized和Lock能保证同一时刻只有一个线程获取锁然后执行同步代码，并且在释放锁之前会将对变量的修改刷新到主存当中。因此可以保证可见性。</p>
+<h1 id="3-有序性"><a href="#3-有序性" class="headerlink" title="3. 有序性"></a>3. 有序性</h1><p>即程序执行的顺序按照代码的先后顺序执行。<br>举个简单的例子，看下面这段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int i &#x3D; 0;              </span><br><span class="line">boolean flag &#x3D; false;</span><br><span class="line">i &#x3D; 1;                &#x2F;&#x2F;语句1  </span><br><span class="line">flag &#x3D; true;          &#x2F;&#x2F;语句2</span><br></pre></td></tr></table></figure>
+
+<p>上面代码定义了一个int型变量，定义了一个boolean类型变量，然后分别对两个变量进行赋值操作。从代码顺序上看，语句1是在语句2前面的，那么JVM在真正执行这段代码的时候会保证语句1一定会在语句2前面执行吗？不一定，为什么呢？这里可能会发生指令重排序（Instruction Reorder）。</p>
+<p>下面解释一下什么是指令重排序，一般来说，处理器为了提高程序运行效率，可能会对输入代码进行优化，它不保证程序中各个语句的执行先后顺序同代码中的顺序一致，但是它会保证程序最终执行结果和代码顺序执行的结果是一致的。</p>
+<p>比如上面的代码中，语句1和语句2谁先执行对最终的程序结果并没有影响，那么就有可能在执行过程中，语句2先执行而语句1后执行。但是要注意，虽然处理器会对指令进行重排序，但是它会保证程序最终结果会和代码顺序执行结果相同，那么它靠什么保证的呢？再看下面一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int a &#x3D; 10;    &#x2F;&#x2F;语句1</span><br><span class="line">int r &#x3D; 2;    &#x2F;&#x2F;语句2</span><br><span class="line">a &#x3D; a + 3;    &#x2F;&#x2F;语句3</span><br><span class="line">r &#x3D; a*a;     &#x2F;&#x2F;语句4</span><br></pre></td></tr></table></figure>
+<p>这段代码有4个语句，那么可能的一个执行顺序是：<br>语句2 -&gt; 语句1 -&gt; 语句3 -&gt; 语句4<br>那么可不可能是这个执行顺序：<br>语句2 -&gt; 语句1 -&gt; 语句4 -&gt; 语句3。<br>不可能，因为处理器在进行重排序时是会考虑指令之间的数据依赖性，如果一个指令Instruction 2必须用到Instruction 1的结果，那么处理器会保证Instruction 1会在Instruction 2之前执行。虽然重排序不会影响单个线程内程序执行的结果，但是多线程呢？下面看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;线程1:</span><br><span class="line">context &#x3D; loadContext();   &#x2F;&#x2F;语句1</span><br><span class="line">inited &#x3D; true;             &#x2F;&#x2F;语句2</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;线程2:</span><br><span class="line">while(!inited )&#123;</span><br><span class="line">  sleep()</span><br><span class="line">&#125;</span><br><span class="line">doSomethingwithconfig(context);</span><br></pre></td></tr></table></figure>
+<p>上面代码中，由于语句1和语句2没有数据依赖性，因此可能会被重排序。假如发生了重排序，在线程1执行过程中先执行语句2，而此时线程2会以为初始化工作已经完成，那么就会跳出while循环，去执行doSomethingwithconfig(context)方法，而此时context并没有被初始化，就会导致程序出错。</p>
+<p>从上面可以看出，指令重排序不会影响单个线程的执行，但是会影响到线程并发执行的正确性。也就是说，要想并发程序正确地执行，必须要保证原子性、可见性以及有序性。只要有一个没有被保证，就有可能会导致程序运行不正确。</p>
+<p>在Java内存模型中，允许编译器和处理器对指令进行重排序，但是重排序过程不会影响到单线程程序的执行，却会影响到多线程并发执行的正确性。</p>
+<p>在Java里面，可以通过volatile关键字来保证一定的“有序性”。另外可以通过synchronized和Lock来保证有序性，很显然，synchronized和Lock保证每个时刻是有一个线程执行同步代码，相当于是让线程顺序执行同步代码，自然就保证了有序性。另外，Java内存模型具备一些先天的“有序性”，即不需要通过任何手段就能够得到保证的有序性，这个通常也称为 happens-before 原则。如果两个操作的执行次序无法从happens-before原则推导出来，那么它们就不能保证它们的有序性，虚拟机可以随意地对它们进行重排序。</p>
+<h4 id="如何保证有序性"><a href="#如何保证有序性" class="headerlink" title="如何保证有序性"></a>如何保证有序性</h4><ul>
+<li>synchronized 和lock</li>
+<li>happens-before原则，即不需要通过任何手段就能够得到保证的有序性，这个通常也称为 happens-before 原则。如果两个操作的执行次序无法从happens-before原则推导出来，那么它们就不能保证它们的有序性，虚拟机可以随意地对它们进行重排序。</li>
+<li>volatile 关键字， JVM 内存屏障： 屏障两边的指令不可以重排！保障有序！</li>
+<li>as if serial : 不管怎么重排序，单线程程序的执行结果不能被改变。编译器、runtime和处理器都必须遵守as-if-serial语义。所以编译器和处理器不会对存在数据依赖关系的操作做重排序，因为这种重排序会改变执行结果。但是，如果操作之间不存在数据依赖关系，这些操作就可能被编译器和处理器重排序</li>
+</ul>
+<h1 id="一些细节"><a href="#一些细节" class="headerlink" title="一些细节"></a>一些细节</h1><h4 id="MESI"><a href="#MESI" class="headerlink" title="MESI"></a>MESI</h4><p>所谓缓存一致性，就是多个CPU核心中缓存的同一共享数据的数据一致性，而(MESI)使用比较广泛的缓存一致性协议。MESI协议实际上是表示缓存的四种状态</p>
+<ul>
+<li>M(Modify) 表示共享数据只缓存在当前CPU缓存中，并且是被修改状态，也就是缓存的数据和主内存中的数据不一致</li>
+<li>E(Exclusive) 表示缓存的独占状态，数据只缓存在当前CPU缓存中，并且没有被修改</li>
+<li>S(Shared) 表示数据可能被多个CPU缓存，并且各个缓存中的数据和主内存数据一致</li>
+<li>I(Invalid) 表示缓存已经失效`</li>
+</ul>
+<p>每个CPU核心不仅仅知道自己的读写操作，也会监听其他Cache的读写操作<br>CPU的读取会遵循几个原则<br><img src="https://upload-images.jianshu.io/upload_images/15531792-d306b060db608814.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ol>
+<li>如果缓存的状态是I，那么就从内存中读取，否则直接从缓存读取</li>
+<li>如果缓存处于M或者E的CPU 嗅探到其他CPU有读的操作，就把自己的缓存写入到内存，并把自己的状态设置为S</li>
+<li>只有缓存状态是M或E的时候，CPU才可以修改缓存中的数据，修改后，缓存状态变为</li>
+</ol>
+<h4 id="如何实现一致性"><a href="#如何实现一致性" class="headerlink" title="如何实现一致性"></a>如何实现一致性</h4><ol>
+<li>MESI如果能解决，就使用MESI</li>
+<li>如果不能，就锁总线</li>
+</ol>
+<h4 id="singleton-DCL-double-check-lock"><a href="#singleton-DCL-double-check-lock" class="headerlink" title="singleton DCL (double check lock)"></a>singleton DCL (double check lock)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class MySingleon&#123;</span><br><span class="line">        private static volatile MySingleon instance; &#x2F;&#x2F; 需要加上 volatile</span><br><span class="line">        public static MySingleon getInstance()&#123;</span><br><span class="line">		    if(null &#x3D;&#x3D; instance)&#123;</span><br><span class="line">			    synchronized (MySingleon.class)&#123;</span><br><span class="line">				    if(null &#x3D;&#x3D; instance)&#123;</span><br><span class="line">					    instance &#x3D; new MySingleon();</span><br><span class="line">				    &#125;</span><br><span class="line">			    &#125;</span><br><span class="line">		     &#125;</span><br><span class="line">		    return instance;</span><br><span class="line">	    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于上述创建object的过程会经历三个阶段</p>
+<ol>
+<li>new 一块内存，变量为默认值 0，半初始化</li>
+<li>初始化为类的初始值</li>
+<li>将对象和指针 关联起来</li>
+</ol>
+<p>3和2 无法推导happens before, 因此可能会被指令重排序， 指令重排序之后， 3 可能在2 前面， 其他线程拿到半初始化的指针去用。 导致变量的值和类初始值不一样。<br>因此，对于double check 与synchronized创建的singleton，我们需要对成员变量加上 volatile。</p>
+<h4 id="JRS-内存屏障"><a href="#JRS-内存屏障" class="headerlink" title="JRS 内存屏障"></a>JRS 内存屏障</h4><p> 在两条指令之间加屏障就可以阻止重排序。 java 虚拟机的几种屏障规范实现（底层硬件没有）：</p>
+<ul>
+<li>LoadLoad, 两条load之间的屏障</li>
+<li>StoreStore， 两条store之间的屏障</li>
+<li>LoadStore， load和store之间的屏障</li>
+<li>StoreLoad， store和load之间的屏障</li>
+</ul>
+<p><strong>volatile 阻止指令冲排序过程：</strong></p>
+<ol>
+<li><p>write:<br>StoreStoreBarrier    所有写操作完了才写<br>volatile write<br>StoreLoadBarrier   我写完了后面才能读</p>
+</li>
+<li><p>read<br>LoadLoadBarrier     我读完了后面才能读<br>volatile read<br>LoadStoreBarrier   我读完了后面才能写</p>
+</li>
+</ol>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xing901022/p/7840684.html">Volatile的作用</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000017255405">(七)Volatile的作用及原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yeyang/p/13576636.html">并发编程三大特性——原子性、可见性、有序性</a></li>
+</ul>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2021/01/16/Synchronized-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/" class="styled-border">
+                    
+                    Synchronized 锁升级过程
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
