@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>享元模式 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转自]设计模式 | 享元模式及典型应用 什么是享元模式运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用。由于享元模式要求能够共享的对象必须是细粒度对象，因此它又称为轻量级模式，它是一种对象结构型模式。享元模式结构较为复杂，一般结合工厂模式一起使用。 享元模式FlyWeight，运用共享技术有效的支持大量细粒度的对象。 典型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="享元模式">
+<meta property="og:url" content="https://jenna233.github.io/2021/02/14/%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转自]设计模式 | 享元模式及典型应用 什么是享元模式运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用。由于享元模式要求能够共享的对象必须是细粒度对象，因此它又称为轻量级模式，它是一种对象结构型模式。享元模式结构较为复杂，一般结合工厂模式一起使用。 享元模式FlyWeight，运用共享技术有效的支持大量细粒度的对象。 典型">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-aed98d9525a9b524.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-02-14T07:26:59.000Z">
+<meta property="article:modified_time" content="2021-02-14T07:27:21.902Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Java 设计模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-aed98d9525a9b524.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">享元模式</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/2/14 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Java-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">Java 设计模式</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转自]<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903683860217864">设计模式 | 享元模式及典型应用</a></p>
+<h1 id="什么是享元模式"><a href="#什么是享元模式" class="headerlink" title="什么是享元模式"></a>什么是享元模式</h1><p>运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用。由于享元模式要求能够共享的对象必须是细粒度对象，因此它又称为轻量级模式，它是一种对象结构型模式。享元模式结构较为复杂，一般结合工厂模式一起使用。</p>
+<p>享元模式FlyWeight，运用共享技术有效的支持大量细粒度的对象。</p>
+<p>典型的享元模式的例子为文书处理器中以图形结构来表示字符。一个做法是，每个字形有其字型外观, 字模 metrics，和其它格式资讯，但这会使每个字符就耗用上千字节。取而代之的是，每个字符参照到一个共享字形物件，此物件会被其它有共同特质的字符所分享；只有每个字符（文件中或页面中）的位置才需要另外储存。</p>
+<p><strong>角色</strong></p>
+<ul>
+<li>Flyweight（抽象享元类）：通常是一个接口或抽象类，在抽象享元类中声明了具体享元类公共的方法，这些方法可以向外界提供享元对象的内部数据（内部状态），同时也可以通过这些方法来设置外部数据（外部状态）。</li>
+<li>ConcreteFlyweight（具体享元类）：它实现了抽象享元类，其实例称为享元对象；在具体享元类中为内部状态提供了存储空间。通常我们可以结合单例模式来设计具体享元类，为每一个具体享元类提供唯一的享元对象。</li>
+<li>UnsharedConcreteFlyweight（非共享具体享元类）：并不是所有的抽象享元类的子类都需要被共享，不能被共享的子类可设计为非共享具体享元类；当需要一个非共享具体享元类的对象时可以直接通过实例化创建。</li>
+<li>FlyweightFactory（享元工厂类）：享元工厂类用于创建并管理享元对象，它针对抽象享元类编程，将各种类型的具体享元对象存储在一个享元池中，享元池一般设计为一个存储“键值对”的集合（也可以是其他类型的集合），可以结合工厂模式进行设计；当用户请求一个具体享元对象时，享元工厂提供一个存储在享元池中已创建的实例或者创建一个新的实例（如果不存在的话），返回新创建的实例并将其存储在享元池中。</li>
+</ul>
+<p><code>单纯享元模式：在单纯享元模式中，所有的具体享元类都是可以共享的，不存在非共享具体享元类。 复合享元模式：将一些单纯享元对象使用组合模式加以组合，还可以形成复合享元对象，这样的复合享元对象本身不能共享，但是它们可以分解成单纯享元对象，而后者则可以共享</code></p>
+<p>在享元模式中引入了享元工厂类，享元工厂类的作用在于提供一个用于存储享元对象的享元池，当用户需要对象时，首先从享元池中获取，如果享元池中不存在，则创建一个新的享元对象返回给用户，并在享元池中保存该新增对象。<br>典型的享元工厂类的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class FlyweightFactory &#123;</span><br><span class="line">    &#x2F;&#x2F;定义一个HashMap用于存储享元对象，实现享元池</span><br><span class="line">    private HashMap flyweights &#x3D; newHashMap();</span><br><span class="line">    public Flyweight getFlyweight(String key)&#123;</span><br><span class="line">        &#x2F;&#x2F;如果对象存在，则直接从享元池获取</span><br><span class="line">        if(flyweights.containsKey(key))&#123;</span><br><span class="line">            return(Flyweight)flyweights.get(key);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;如果对象不存在，先创建一个新的对象添加到享元池中，然后返回</span><br><span class="line">        else &#123;</span><br><span class="line">            Flyweight fw &#x3D; newConcreteFlyweight();</span><br><span class="line">            flyweights.put(key,fw);</span><br><span class="line">            return fw;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>享元类的设计是享元模式的要点之一，在享元类中要将内部状态和外部状态分开处理，通常将内部状态作为享元类的成员变量，而外部状态通过注入的方式添加到享元类中。<br>典型的享元类代码如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Flyweight &#123;</span><br><span class="line">    &#x2F;&#x2F;内部状态intrinsicState作为成员变量，同一个享元对象其内部状态是一致的</span><br><span class="line">    private String intrinsicState;</span><br><span class="line">    public Flyweight(String intrinsicState) &#123;</span><br><span class="line">        this.intrinsicState&#x3D;intrinsicState;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;外部状态extrinsicState在使用时由外部设置，不保存在享元对象中，即使是同一个对象</span><br><span class="line">    public void operation(String extrinsicState) &#123;</span><br><span class="line">        &#x2F;&#x2F;......</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>享元模式一般的类图如下<br><img src="https://upload-images.jianshu.io/upload_images/15531792-aed98d9525a9b524.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>具体示例请看原文： <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903683860217864">设计模式 | 享元模式及典型应用</a></p>
+<h4 id="享元模式总结"><a href="#享元模式总结" class="headerlink" title="享元模式总结"></a>享元模式总结</h4><p><strong>享元模式的主要优点如下：</strong></p>
+<p>可以极大减少内存中对象的数量，使得相同或相似对象在内存中只保存一份，从而可以节约系统资源，提高系统性能。<br>享元模式的外部状态相对独立，而且不会影响其内部状态，从而使得享元对象可以在不同的环境中被共享。</p>
+<p><strong>享元模式的主要缺点如下：</strong></p>
+<p>享元模式使得系统变得复杂，需要分离出内部状态和外部状态，这使得程序的逻辑复杂化。<br>为了使对象可以共享，享元模式需要将享元对象的部分状态外部化，而读取外部状态将使得运行时间变长。</p>
+<p><strong>适用场景：</strong></p>
+<p>一个系统有大量相同或者相似的对象，造成内存的大量耗费。<br>对象的大部分状态都可以外部化，可以将这些外部状态传入对象中。<br>在使用享元模式时需要维护一个存储享元对象的享元池，而这需要耗费一定的系统资源，因此，应当在需要多次重复使用享元对象时才值得使用享元模式。</p>
+<h4 id="源码分析享元模式的典型应用"><a href="#源码分析享元模式的典型应用" class="headerlink" title="源码分析享元模式的典型应用"></a>源码分析享元模式的典型应用</h4><p><strong>String中的享元模式</strong><br>Java中将String类定义为final（不可改变的），JVM中字符串一般保存在字符串常量池中，java会确保一个字符串在常量池中只有一个拷贝，这个字符串常量池在JDK6.0以前是位于常量池中，位于永久代，而在JDK7.0中，JVM将其从永久代拿出来放置于堆中。<br>我们做一个测试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        String s1 &#x3D; &quot;hello&quot;;</span><br><span class="line">        String s2 &#x3D; &quot;hello&quot;;</span><br><span class="line">        String s3 &#x3D; &quot;he&quot; + &quot;llo&quot;;</span><br><span class="line">        String s4 &#x3D; &quot;hel&quot; + new String(&quot;lo&quot;);</span><br><span class="line">        String s5 &#x3D; new String(&quot;hello&quot;);</span><br><span class="line">        String s6 &#x3D; s5.intern();</span><br><span class="line">        String s7 &#x3D; &quot;h&quot;;</span><br><span class="line">        String s8 &#x3D; &quot;ello&quot;;</span><br><span class="line">        String s9 &#x3D; s7 + s8;</span><br><span class="line">        System.out.println(s1&#x3D;&#x3D;s2);&#x2F;&#x2F;true</span><br><span class="line">        System.out.println(s1&#x3D;&#x3D;s3);&#x2F;&#x2F;true</span><br><span class="line">        System.out.println(s1&#x3D;&#x3D;s4);&#x2F;&#x2F;false</span><br><span class="line">        System.out.println(s1&#x3D;&#x3D;s9);&#x2F;&#x2F;false</span><br><span class="line">        System.out.println(s4&#x3D;&#x3D;s5);&#x2F;&#x2F;false</span><br><span class="line">        System.out.println(s1&#x3D;&#x3D;s6);&#x2F;&#x2F;true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>String类的final修饰的，以字面量的形式创建String变量时，jvm会在编译期间就把该字面量hello放到字符串常量池中，由Java程序启动的时候就已经加载到内存中了。这个字符串常量池的特点就是有且只有一份相同的字面量，如果有其它相同的字面量，jvm则返回这个字面量的引用，如果没有相同的字面量，则在字符串常量池创建这个字面量并返回它的引用。<br>由于s2指向的字面量hello在常量池中已经存在了（s1先于s2），于是jvm就返回这个字面量绑定的引用，所以s1==s2。<br>s3中字面量的拼接其实就是hello，jvm在编译期间就已经对它进行优化，所以s1和s3也是相等的。<br>s4中的new String(“lo”)生成了两个对象，lo，new String(“lo”)，lo存在字符串常量池，new String(“lo”)存在堆中，String s4 = “hel” + new String(“lo”)实质上是两个对象的相加，编译器不会进行优化，相加的结果存在堆中，而s1存在字符串常量池中，当然不相等。s1==s9的原理一样。<br>s4==s5两个相加的结果都在堆中，不用说，肯定不相等。<br>s1==s6中，s5.intern()方法能使一个位于堆中的字符串在运行期间动态地加入到字符串常量池中（字符串常量池的内容是程序启动的时候就已经加载好了），如果字符串常量池中有该对象对应的字面量，则返回该字面量在字符串常量池中的引用，否则，创建复制一份该字面量到字符串常量池并返回它的引用。因此s1==s6输出true。</p>
+<p><strong>Integer 中的享元模式</strong><br>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    Integer i1 &#x3D; 12 ;</span><br><span class="line">    Integer i2 &#x3D; 12 ;</span><br><span class="line">    System.out.println(i1 &#x3D;&#x3D; i2);</span><br><span class="line"></span><br><span class="line">    Integer b1 &#x3D; 128 ;</span><br><span class="line">    Integer b2 &#x3D; 128 ;</span><br><span class="line">    System.out.println(b1 &#x3D;&#x3D; b2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line">false</span><br></pre></td></tr></table></figure>
+<p>为什么第一个是true，第二个是false？ 反编译后可以发现 Integer b1 = 128; 实际变成了 Integer b1 = Integer.valueOf(128);，所以我们来看 Integer 中的 valueOf 方法的实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public final class Integer extends Number implements Comparable&lt;Integer&gt; &#123;</span><br><span class="line">    public static Integer valueOf(int var0) &#123;</span><br><span class="line">        return var0 &gt;&#x3D; -128 &amp;&amp; var0 &lt;&#x3D; Integer.IntegerCache.high ? Integer.IntegerCache.cache[var0 + 128] : new Integer(var0);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;...省略...</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>IntegerCache 缓存类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;是Integer内部的私有静态类,里面的cache[]就是jdk事先缓存的Integer。</span><br><span class="line">private static class IntegerCache &#123;</span><br><span class="line">    static final int low &#x3D; -128;&#x2F;&#x2F;区间的最低值</span><br><span class="line">    static final int high;&#x2F;&#x2F;区间的最高值，后面默认赋值为127，也可以用户手动设置虚拟机参数</span><br><span class="line">    static final Integer cache[]; &#x2F;&#x2F;缓存数组</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        &#x2F;&#x2F; high value may be configured by property</span><br><span class="line">        int h &#x3D; 127;</span><br><span class="line">        &#x2F;&#x2F;这里可以在运行时设置虚拟机参数来确定h  :-Djava.lang.Integer.IntegerCache.high&#x3D;250</span><br><span class="line">        String integerCacheHighPropValue &#x3D;</span><br><span class="line">            sun.misc.VM.getSavedProperty(&quot;java.lang.Integer.IntegerCache.high&quot;);</span><br><span class="line">        if (integerCacheHighPropValue !&#x3D; null) &#123;&#x2F;&#x2F;用户设置了</span><br><span class="line">            int i &#x3D; parseInt(integerCacheHighPropValue);</span><br><span class="line">            i &#x3D; Math.max(i, 127);&#x2F;&#x2F;虽然设置了但是还是不能小于127</span><br><span class="line">            &#x2F;&#x2F; 也不能超过最大值</span><br><span class="line">            h &#x3D; Math.min(i, Integer.MAX_VALUE - (-low) -1);</span><br><span class="line">        &#125;</span><br><span class="line">        high &#x3D; h;</span><br><span class="line"></span><br><span class="line">        cache &#x3D; new Integer[(high - low) + 1];</span><br><span class="line">        int j &#x3D; low;</span><br><span class="line">        &#x2F;&#x2F;循环将区间的数赋值给cache[]数组</span><br><span class="line">        for(int k &#x3D; 0; k &lt; cache.length; k++)</span><br><span class="line">            cache[k] &#x3D; new Integer(j++);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private IntegerCache() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>可以看到 Integer 默认先创建并缓存 -128 ~ 127 之间数的 Integer 对象，当调用 valueOf 时如果参数在 -128 ~ 127 之间则计算下标并从缓存中返回，否则创建一个新的 Integer 对象</p>
+<p><strong>Long 中的享元模式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public final class Long extends Number implements Comparable&lt;Long&gt; &#123;</span><br><span class="line">    public static Long valueOf(long var0) &#123;</span><br><span class="line">        return var0 &gt;&#x3D; -128L &amp;&amp; var0 &lt;&#x3D; 127L ? Long.LongCache.cache[(int)var0 + 128] : new Long(var0);</span><br><span class="line">    &#125;   </span><br><span class="line">    private static class LongCache &#123;</span><br><span class="line">        private LongCache()&#123;&#125;</span><br><span class="line"></span><br><span class="line">        static final Long cache[] &#x3D; new Long[-(-128) + 127 + 1];</span><br><span class="line"></span><br><span class="line">        static &#123;</span><br><span class="line">            for(int i &#x3D; 0; i &lt; cache.length; i++)</span><br><span class="line">                cache[i] &#x3D; new Long(i - 128);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;...</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>同理，Long 中也有缓存，不过不能指定缓存最大值</p>
+<p><strong>Apache Commons Pool2中的享元模式</strong><br>对象池化的基本思路是：将用过的对象保存起来，等下一次需要这种对象的时候，再拿出来重复使用，从而在一定程度上减少频繁创建对象所造成的开销。用于充当保存对象的“容器”的对象，被称为“对象池”（Object Pool，或简称Pool）<br>Apache Commons Pool实现了对象池的功能。定义了对象的生成、销毁、激活、钝化等操作及其状态转换，并提供几个默认的对象池实现。<br>有几个重要的对象：</p>
+<ul>
+<li>PooledObject（池对象）：用于封装对象（如：线程、数据库连接、TCP连接），将其包裹成可被池管理的对象。</li>
+<li>PooledObjectFactory（池对象工厂）：定义了操作PooledObject实例生命周期的一些方法，PooledObjectFactory必须实现线程安全。</li>
+<li>Object Pool （对象池）：Object Pool负责管理PooledObject，如：借出对象，返回对象，校验对象，有多少激活对象，有多少空闲对象。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 对象池</span><br><span class="line">private final Map&lt;S, PooledObject&lt;S&gt;&gt; allObjects &#x3D; new ConcurrentHashMap&lt;S, PooledObject&lt;S&gt;&gt;();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+重要方法：</li>
+</ul>
+<p>borrowObject：从池中借出一个对象。<br>returnObject：将一个对象返还给池。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2021/02/14/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="styled-border">
+                    
+                    工厂模式
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
