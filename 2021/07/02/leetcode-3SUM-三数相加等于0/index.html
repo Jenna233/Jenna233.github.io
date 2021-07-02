@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>leetcode-3SUM(三数相加等于0) | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="转自leetcode-3SUM(三数相加等于0)Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c &#x3D; 0? Find all unique triplets in the array which gives the sum of zero. Note: The solu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode-3SUM(三数相加等于0)">
+<meta property="og:url" content="https://jenna233.github.io/2021/07/02/leetcode-3SUM-%E4%B8%89%E6%95%B0%E7%9B%B8%E5%8A%A0%E7%AD%89%E4%BA%8E0/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="转自leetcode-3SUM(三数相加等于0)Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c &#x3D; 0? Find all unique triplets in the array which gives the sum of zero. Note: The solu">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-07-02T06:47:41.000Z">
+<meta property="article:modified_time" content="2021-07-02T06:48:22.170Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">leetcode-3SUM(三数相加等于0)</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/7/2 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>转自<a target="_blank" rel="noopener" href="https://blog.csdn.net/u013374645/article/details/81054778">leetcode-3SUM(三数相加等于0)</a><br>Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.</p>
+<p>Note:</p>
+<p>The solution set must not contain duplicate triplets.</p>
+<p>Example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Given array nums &#x3D; [-1, 0, 1, 2, -1, -4],</span><br><span class="line"> </span><br><span class="line">A solution set is:</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]]</span><br></pre></td></tr></table></figure>
+
+<p>Java 程序如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.LinkedList;</span><br><span class="line">import java.util.List;</span><br><span class="line"> </span><br><span class="line">public class ThreeSum &#123;</span><br><span class="line">    public static List&lt;List&lt;Integer&gt;&gt; threeSum(int[] nums) &#123;</span><br><span class="line">        &#x2F;&#x2F;先将数组进行升序排序</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        LinkedList result &#x3D; new LinkedList();</span><br><span class="line">        &#x2F;&#x2F;先选择一个数，然后在后面的挑选两个元素求和，因此i &lt; num.length - 2</span><br><span class="line">        for(int i &#x3D; 0; i &lt; nums.length - 2; i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;定义两个指针</span><br><span class="line">            int lo,hi,sum;</span><br><span class="line">            &#x2F;&#x2F;当i&#x3D;0时，意味着第一次遍历，当i&gt;0时，若num[i]&#x3D;&#x3D;num[i-1]，则可以跳过该元素（因为数组是有序的）</span><br><span class="line">            if(i &#x3D;&#x3D; 0 || nums[i] !&#x3D; nums[i-1])&#123;</span><br><span class="line">                &#x2F;&#x2F;低位指针从i+1开始，避免重复元祖</span><br><span class="line">                lo &#x3D; i+1;</span><br><span class="line">                &#x2F;&#x2F;高位指针从最后一个元素开始</span><br><span class="line">                hi &#x3D; nums.length-1;</span><br><span class="line">                while (lo &lt; hi)&#123;</span><br><span class="line">                    sum &#x3D; 0 - nums[i];</span><br><span class="line">                    if(sum &#x3D;&#x3D; nums[lo]+nums[hi])&#123;</span><br><span class="line">                        result.add(Arrays.asList(nums[i],nums[lo],nums[hi]));</span><br><span class="line">                        &#x2F;&#x2F;若当前指针元素与移动方向上的下一个指针元素相同，则跳过（此处要做++（--）操作才能跳过）</span><br><span class="line">                        while (lo&lt;hi &amp;&amp; nums[lo] &#x3D;&#x3D; nums[lo+1]) &#123;</span><br><span class="line">                            lo++;</span><br><span class="line">                        &#125;</span><br><span class="line">                        while (lo&lt;hi &amp;&amp; nums[hi] &#x3D;&#x3D; nums[hi-1]) &#123;</span><br><span class="line">                            hi--;</span><br><span class="line">                        &#125;</span><br><span class="line">                        lo++;</span><br><span class="line">                        hi--;</span><br><span class="line">                    &#125;</span><br><span class="line">                    &#x2F;&#x2F;若两数之和小于0，则lo++；大于0则hi--</span><br><span class="line">                    else if(nums[lo]+nums[hi] &lt; sum) lo++;</span><br><span class="line">                    else hi--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        int[] nums&#x3D; new int[]&#123;-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6&#125;;</span><br><span class="line">        System.out.println(Arrays.deepToString(threeSum(nums).toArray()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2021/07/02/LeetCode-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" class="styled-border">
+                    ←
+                    LeetCode 最长回文子串
+                    
+                </a>
+            
+            
+                <a href="/2021/02/20/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAflutter-%E7%A8%8B%E5%BA%8F/" class="styled-border">
+                    
+                    创建一个flutter 程序
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

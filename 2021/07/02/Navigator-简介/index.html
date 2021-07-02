@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Navigator 简介 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]javascript Navigator 对象介绍 Navigator 对象Navigator 对象包含有关浏览器的信息，没有应用于 navigator 对象的公开标准，不过所有浏览器都支持该对象，它的实例是唯一的，可以用 Window 对象的 navigator 属性来引用它.更加详细的介绍查看MDN官方文档：Navigator Navigator 对象属性appCodeName是一个只读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Navigator 简介">
+<meta property="og:url" content="https://jenna233.github.io/2021/07/02/Navigator-%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]javascript Navigator 对象介绍 Navigator 对象Navigator 对象包含有关浏览器的信息，没有应用于 navigator 对象的公开标准，不过所有浏览器都支持该对象，它的实例是唯一的，可以用 Window 对象的 navigator 属性来引用它.更加详细的介绍查看MDN官方文档：Navigator Navigator 对象属性appCodeName是一个只读">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-07-02T06:50:42.000Z">
+<meta property="article:modified_time" content="2021-07-02T06:51:12.229Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="React &amp; JS">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Navigator 简介</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/7/2 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/React-JS/" rel="tag">React & JS</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://blog.csdn.net/justflyhigh/article/details/7604200">javascript Navigator 对象介绍</a></p>
+<h1 id="Navigator-对象"><a href="#Navigator-对象" class="headerlink" title="Navigator 对象"></a>Navigator 对象</h1><p>Navigator 对象包含有关浏览器的信息，没有应用于 navigator 对象的公开标准，不过所有浏览器都支持该对象，它的实例是唯一的，可以用 Window 对象的 navigator 属性来引用它.<br>更加详细的介绍查看MDN官方文档：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Navigator">Navigator</a></p>
+<h1 id="Navigator-对象属性"><a href="#Navigator-对象属性" class="headerlink" title="Navigator 对象属性"></a>Navigator 对象属性</h1><h4 id="appCodeName"><a href="#appCodeName" class="headerlink" title="appCodeName"></a>appCodeName</h4><p>是一个只读字符串，声明了浏览器的代码名，在所有以 Netscape 代码为基础的浏览器中，它的值是 “Mozilla”，为了兼容起见，在 Microsoft 的浏览器中，它的值也是 “Mozilla”<br>    语法：navigator.appCodeName;<br>    实例：document.write(navigator.appCodeName); //输出 Mozilla</p>
+<h4 id="appName"><a href="#appName" class="headerlink" title="appName"></a>appName</h4><p>是一个只读到字符串，声明了浏览器的名称，在基于 Netscape 的浏览器中，这个属性的值是 “Netscape”，在 IE 中，这个属性的值是 “Microsoft Internet Explorer”，其他浏览器可以正确地表示自己或者伪装成其他的浏览器以达到兼容性<br>    语法：navigator.appName;<br>    实例：document.write(navigator.appName); //输出 Netscape</p>
+<h4 id="appVersion"><a href="#appVersion" class="headerlink" title="appVersion"></a>appVersion</h4><p>返回浏览器的平台和版本信息。该属性是一个只读的字符串，该字符串的第一部分是版本号，把该字符串传递给 parseInt() 只能获取主版本号，该属性的其余部分提供了有关浏览器版本的其他细节，包括运行它的操作系统的信息<br>    语法：navigator.appVersion;<br>    实例：document.write(navigator.appVersion); //输出 5.0 (X11)</p>
+<h4 id="cookieEnabled"><a href="#cookieEnabled" class="headerlink" title="cookieEnabled"></a>cookieEnabled</h4><p>返回一个布尔值，如果浏览器启用了 cookie，该属性值为 true，如果禁用了 cookie，则值为 false<br>    语法：navigator.cookieEnabled;<br>    实例：document.write(navigator.cookieEnabled); //输出 true</p>
+<h4 id="onLine"><a href="#onLine" class="headerlink" title="onLine"></a>onLine</h4><p>是一个只读的布尔值，声明了系统是否处于脱机模式，在 IE 4+ 中，用户可以在浏览器中选择脱机工作的状态，当脱机工作被选后，系统就进入了脱机状态，内容将从缓存进行读取<br>    语法：navigator.onLine;<br>    实例：document.write(navigator.onLine); //输出 true</p>
+<h4 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h4><p>是一个只读的字符串，声明了运行浏览器的操作系统和（或）硬件平台，虽然该属性没有标准的值集合，但它有些常用值，比如 “Win32”、”MacPPC” 以及 “Linuxi586”，等等<br>    语法：navigator.platform;<br>    实例：document.write(navigator.platform); //输出 Linux i686</p>
+<h4 id="userAgent"><a href="#userAgent" class="headerlink" title="userAgent"></a>userAgent</h4><p>是一个只读的字符串，声明了浏览器用于 HTTP 请求的用户代理头的值，一般来讲，它是在 navigator.appCodeName 的值之后加上斜线和 navigator.appVersion 的值构成的，例如：Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; SV1; .NET CLR 1.1.4322<br>    语法：navigator.userAgent;<br>    实例：document.write(navigator.userAgent); //输出 Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20100101 Firefox/7.0.1</p>
+<h4 id="Navigator-对象方法"><a href="#Navigator-对象方法" class="headerlink" title="Navigator 对象方法"></a>Navigator 对象方法</h4><p>javaEnabled()返回一个布尔值，该值指示浏览器是否支持并启用了 Java，如果是，则返回 true，否则返回 false<br>    语法：navigator.javaEnabled();<br>    实例：document.write(navigator.javaEnabled()); //输出 true</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2021/07/02/Java-%E5%BC%BA%E5%BC%95%E7%94%A8%EF%BC%8C%E8%BD%AF%E5%BC%95%E7%94%A8%EF%BC%8C%E5%BC%B1%E5%BC%95%E7%94%A8%EF%BC%8C%E8%99%9A%E5%BC%95%E7%94%A8/" class="styled-border">
+                    ←
+                    Java 强引用，软引用，弱引用，虚引用
+                    
+                </a>
+            
+            
+                <a href="/2021/07/02/Git-rebase-%E4%B8%8Emege-%E7%9A%84%E5%8C%BA%E5%88%AB/" class="styled-border">
+                    
+                    Git rebase 与mege 的区别
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

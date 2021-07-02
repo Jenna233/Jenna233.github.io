@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Git rebase 与mege 的区别 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]Differences Between Git Merge and Rebase — and Why You Should Care 无论你的项目使用哪种分支策略，在分支之间集成代码更改都是几乎每天都需要做的事情。 使用 git 有两个主要选项，要么merge，要么rebase。在本文中，将说明并强调两个选项之间的差异，并指出执行操作时需要注意的事项。首先，将使用动画单独完成这两个操作，并在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git rebase 与mege 的区别">
+<meta property="og:url" content="https://jenna233.github.io/2021/07/02/Git-rebase-%E4%B8%8Emege-%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]Differences Between Git Merge and Rebase — and Why You Should Care 无论你的项目使用哪种分支策略，在分支之间集成代码更改都是几乎每天都需要做的事情。 使用 git 有两个主要选项，要么merge，要么rebase。在本文中，将说明并强调两个选项之间的差异，并指出执行操作时需要注意的事项。首先，将使用动画单独完成这两个操作，并在">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-f70423c017137973.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-8de4d88ded589823.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-a70b08f38fedd932.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-2844851e2bc77d5c.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-2fbf208fae86837e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-974d4a3d06498666.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-07-02T06:49:51.000Z">
+<meta property="article:modified_time" content="2021-07-02T06:50:18.124Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-f70423c017137973.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Git rebase 与mege 的区别</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/7/2 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Git/" rel="tag">Git</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://betterprogramming.pub/differences-between-git-merge-and-rebase-and-why-you-should-care-ae41d96237b6">Differences Between Git Merge and Rebase — and Why You Should Care</a></p>
+<p>无论你的项目使用哪种分支策略，在分支之间集成代码更改都是几乎每天都需要做的事情。 使用 git 有两个主要选项，要么merge，要么rebase。<br>在本文中，将说明并强调两个选项之间的差异，并指出执行操作时需要注意的事项。<br>首先，将使用动画单独完成这两个操作，并在最后进行并排比较。 如果你已经熟悉这些操作的工作原理，可以直接跳到比较部分。</p>
+<p>阅读官方 Git 手册，它指出 rebase “reapplies commits on top of another base branch”，而合并“joins two or more development histories together”。 换句话说，merge 和 rebase 之间的主要区别在于，merge 保留了发生的历史，而 rebase 重写了它。 在我们仔细研究它们各自的内部运作以了解这真正意味着什么之前，让我们从一个例子开始。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-f70423c017137973.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>查看上面的示例，我们看到开发人员 Ada 和 Satoshi 最初创建了两个主题分支（feature-1 和 feature-2），源于主分支上的同一个提交（C1）。 然后，Ada 通过将其合并到 master（创建合并提交 C4）来完成 feature-1。 Satoshi 现在有两个选项可以将 Ada 的更改集成到他的分支特性 2 中——merge或rebase。</p>
+<h1 id="Merge"><a href="#Merge" class="headerlink" title="Merge"></a>Merge</h1><p>让我们从最常见的集成变更工作流程开始：merge。 在 Satoshi 准备将 Ada 的更改merge到 feature-2 之前，他必须首先更新他的本地master分支，因为它目前落后。 一旦 master 和 o/master 同步，Satoshi就准备将所有内容merge到他的主题分支中。<br>看看这个 30 秒的动画说明了这个过程：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-8de4d88ded589823.gif?imageMogr2/auto-orient/strip" alt="anotherMerge2.gif"><br>将所有更改merge Feature 2 后，Satoshi 现在可以继续开发分支，并在完成时将其merge回 master 来完成它。<br>下面是merge操作的最终结果。 开发历史原样保留，仅添加了 C7。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-a70b08f38fedd932.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h1 id="Rebase"><a href="#Rebase" class="headerlink" title="Rebase"></a>Rebase</h1><p>熟悉了基本的merge工作流程，是时候从 rebase 的角度来看相同的示例了。 就像在merge的情况下一样，在Satoshi开始整合更改之前，他必须首先确保他的本地和远程master分支同步。 但是，Satoshi 可以使用 rebase 集成所有更改，从而“重写历史”，而不是进行常规merge“保留发生的历史”。<br>通过将 feature-2 重新rebase到 master Git 上，C5 和 C6 的提交将一个一个地倒回并重新应用到 C4 上，使其看起来像 feature-2 最初是从 Ada 已完成更改的尖端分支出来的。<br>观看30 秒动画了解实际过程：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-2844851e2bc77d5c.gif?imageMogr2/auto-orient/strip" alt="rebase.gif"></p>
+<p>再次整合所有更改后，Satoshi 准备继续在他的主题分支上工作。<br>下面是 rebase 操作的最终结果。 注意提交 C5 和 C6 是如何直接重新应用到 C4 上的，重写开发历史并完全删除旧提交！<br><img src="https://upload-images.jianshu.io/upload_images/15531792-2fbf208fae86837e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>现在我们知道了merge和rebase的不同之处，是时候更详细地比较这两种结果了。</p>
+<h1 id="Merge-和-Rebase的不同"><a href="#Merge-和-Rebase的不同" class="headerlink" title="Merge 和 Rebase的不同"></a>Merge 和 Rebase的不同</h1><p><img src="https://upload-images.jianshu.io/upload_images/15531792-974d4a3d06498666.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>正如我们在上面看到的，mege操作通过创建一个新的单一merge提交 (C7) 将分支交织在一起，导致菱形非线性历史——基本上保留发生的历史。 通过将这个结果与 rebase 操作的结果进行比较，我们看到没有创建合并提交，相反，两个提交 C5 和 C6 只是简单地倒回并直接重新应用到 C4 之上，保持历史线性。 如果我们进一步检查两次重新应用的提交，我们可以看到哈希值发生了变化，这表明 rebase 确实重写了历史记录。</p>
+<p><code>注意：每当重新rebase分支时，即使内容可能仍然相同，也将始终生成新的提交！ 因此，之前的提交最终会从历史记录中完全删除。</code></p>
+<h1 id="力量越大责任越大"><a href="#力量越大责任越大" class="headerlink" title="力量越大责任越大"></a>力量越大责任越大</h1><p>我们已经看到 rebase 是如何重写历史的，而 merge 是如何保留它的。 但这在更广泛的意义上意味着什么？ 这两种操作有哪些可能性和潜在缺点？</p>
+<h3 id="冲突解决"><a href="#冲突解决" class="headerlink" title="冲突解决"></a>冲突解决</h3><p>例如，假设您、在尝试集成更改时遇到了一些令人讨厌的冲突。 在合并场景中，只需要解决一次冲突，直接在 C7 提交中。 另一方面，使用 rebase，您可能会被迫在每次提交（C5 和 C6）中解决类似的冲突，因为它们被重新应用。<br>如果冲突不是那么容易解决，这可能表明你和你的同事沟通不足，因为你们处理相同文件的时间太长了。</p>
+<h3 id="已发布的分支"><a href="#已发布的分支" class="headerlink" title="已发布的分支"></a>已发布的分支</h3><p>另一个与 rebase 相关的潜在问题发生在你正在 rebase 的分支已经远程发布，并且其他人已经基于它的工作。 然后，你rebase的分支可能会给所有相关方带来严重的混乱和头痛，因为 Git 会告诉你你的分支同时领先和落后。 如果发生这种情况，使用 rebase 标志 (git pull –rebase) 拉取远程更改通常可以解决问题。<br>此外，每当你rebase一个已经发布的分支时，无论是否没有其他人基于它工作，你仍然需要强制push它以将你的更新发送到远程服务器——完全覆盖现有的远程引用。</p>
+<h3 id="数据丢失-to-your-advantage"><a href="#数据丢失-to-your-advantage" class="headerlink" title="数据丢失 (to your advantage)"></a>数据丢失 (to your advantage)</h3><p>后，由于 rebase 重写历史而merge保留它，因此在 rebase 时实际上可能会丢失数据。 当重新应用新的提交时，旧的提交（最终，垃圾回收后）被删除。 事实上，这个特性正是 rebase 如此强大的原因——它允许你在公开之前整理你的开发历史！ 通过交互式 rebase（即将发表的文章的主题），你可以例如删除不需要的提交、将更改压缩在一起，或者只是更新提交消息。</p>
+<h3 id="Rebase-的经验法则"><a href="#Rebase-的经验法则" class="headerlink" title="Rebase 的经验法则"></a>Rebase 的经验法则</h3><p>为了避免与 rebase 相关的最常见问题，建议遵守以下规则：</p>
+<ol>
+<li>不要 rebase 远程发布的分支……</li>
+<li>……除非你知道你是唯一一个在做这件事的人（并且觉得十分安全可靠）<br>3。 在Rebase之前，从你要rebase的分支的顶端创建一个备份分支，因为它可以让您轻松比较结果（一旦完成）并在必要时跳回rebase前的状态。</li>
+</ol>
+<h3 id="更加高级的rebase-用法"><a href="#更加高级的rebase-用法" class="headerlink" title="更加高级的rebase 用法"></a>更加高级的rebase 用法</h3><p>有很多更高级的 rebase 用例，它们都超出了本文的范围，但将作为后续文章的一部分。 如前所述，更突出的功能之一是交互式 rebase，它允许你自定义每个提交应如何重新应用。<br>此模式可用于拆分提交、将提交压缩在一起、重新排序提交，甚至完全删除提交，仅举几例。</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>许多开发人员倾向于只使用merge而不是 rebase，通常带有“至少我知道我不会丢失任何工作”的心理。 从某种意义上说，不使用不习惯使用的工具是一种可靠的方法。 即使你知道有更强大的功能但是不学习不利用，也不是一个好办法。<br>这有点像说，“我知道我有这辆很棒的车，但我更喜欢坚持第一档，因为我知道速度会致命”，而不是学习如何换档并在更高的速度下安全地旅行。<br>根据我的经验，学习如何使用 rebase 尤其可以加深你对 Git 的理解，并总体上提高你作为集成开发人员的水平——尤其是在源代码管理方面！<br>最后，我在职业生涯早期从一位高级开发人员那里得到的最好的建议之一是：“放弃Source Tree 中各种按钮的使用，而是学习如何从终端使用 Git 命令！ 否则，你将永远无法获得使用 Git 的全部好处，而且你以后将无法编写任何自动化pipeline的脚本。”</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2021/07/02/Navigator-%E7%AE%80%E4%BB%8B/" class="styled-border">
+                    ←
+                    Navigator 简介
+                    
+                </a>
+            
+            
+                <a href="/2021/07/02/LeetCode-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" class="styled-border">
+                    
+                    LeetCode 最长回文子串
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
