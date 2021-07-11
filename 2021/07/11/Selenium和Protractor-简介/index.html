@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Selenium和Protractor 简介 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1.Selenium[转]Selenium框架简介 Selenium是一系列基于Web的自动化工具，提供一套测试函数，用于支持Web自动化测试。函数非常灵活，能够完成界面元素定位、窗口跳转、结果比较。具有如下特点：   一、多浏览器支持           可以对多浏览器进行测试，如IE、Firefox、Safari、Chrome、Android手机浏览器等。    二、支持多种语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Selenium和Protractor 简介">
+<meta property="og:url" content="https://jenna233.github.io/2021/07/11/Selenium%E5%92%8CProtractor-%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="1.Selenium[转]Selenium框架简介 Selenium是一系列基于Web的自动化工具，提供一套测试函数，用于支持Web自动化测试。函数非常灵活，能够完成界面元素定位、窗口跳转、结果比较。具有如下特点：   一、多浏览器支持           可以对多浏览器进行测试，如IE、Firefox、Safari、Chrome、Android手机浏览器等。    二、支持多种语言">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-0259693b22ef6667.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-a62432216d8fe3ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-b16531021c5cae59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-fe0d5684dd7893b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-4f6752bbb3e82970.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-a41e7b7b63de5d45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-07-11T03:41:56.000Z">
+<meta property="article:modified_time" content="2021-07-11T03:44:13.345Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="React &amp; JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-0259693b22ef6667.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Selenium和Protractor 简介</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/7/11 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/React-JS/" rel="tag">React & JS</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <h1 id="1-Selenium"><a href="#1-Selenium" class="headerlink" title="1.Selenium"></a>1.Selenium</h1><p>[转]<a target="_blank" rel="noopener" href="https://blog.csdn.net/wanglian2017/article/details/72843984">Selenium框架简介</a><br> Selenium是一系列基于Web的自动化工具，提供一套测试函数，用于支持Web自动化测试。函数非常灵活，能够完成界面元素定位、窗口跳转、结果比较。具有如下特点：<br>   一、多浏览器支持<br>           可以对多浏览器进行测试，如IE、Firefox、Safari、Chrome、Android手机浏览器等。</p>
+<p>   二、支持多种语言<br>          如Java、C#、Python、Ruby、PHP等。</p>
+<p>  三、支持多种操作系统<br>         如Windows、Linux、IOS、Android等。</p>
+<p>  四、开源免费<br>         官网：<a target="_blank" rel="noopener" href="http://www.seleniumhg.org/">http://www.seleniumhg.org/</a><br>       Selenium框架由多个工具组成，包括： Selenium IDE，Selenium RC，Selenium WebDriver和SeleniumRC。</p>
+<h3 id="Selenium-IDE"><a href="#Selenium-IDE" class="headerlink" title="Selenium IDE"></a>Selenium IDE</h3><p>该工具是一个用于构建脚本的初级工具，其实是FireFox的一个插件，拥有一个易于使用的界面。它拥有记录功能，能够记录用户执行的操作，并可以导出为可重复使用的脚本。如果没有编程经验，可以通过Selenium IDE来快速熟悉Selenium的命令。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-0259693b22ef6667.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>该工具实际使用不多。</p>
+<h3 id="Selenium-RC"><a href="#Selenium-RC" class="headerlink" title="Selenium RC"></a>Selenium RC</h3><p>   Selenium RC是selenium家族核心部分。Selenium RC支持多种不同的语言编写自动化测试脚本，通过SeleniumRC的服务器作为代理服务器去访问应用，从而达到测试的目的。<br>      SeleniumRC分为ClientLibraries和SeleniumServer。ClientLibraries库主要用于编写测试脚本，用来控制SeleniumServer的库。SeleniumServer负责控制浏览器行为。SeleniumServer包含三部分：Launcher，Http Proxy和Core。其中，Selenium Core是被Selenium Server嵌入到浏览器页面中的，其实SeleniumCore就是一堆JavaScript函数的集合，即通过这些JavaScript函数，我们才可以实现用程序对浏览器进行操作。Launcher用于启动浏览器，把Selenium Core加载到浏览器页面当中，并把浏览器的代理设置为SeleniumServer的HttpProxy。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-a62432216d8fe3ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>Selenium引入了Remote Control Server 这样一个代理 Server，JavaScript 脚本注入和与 Server 通讯都通过这个代理Server 来进行。之所以引入这个代理 Remote Control Server 是因为“同源策略”的限制，通过这个代理服务器来“欺骗”远程Server，达到使其以为是从同一个地方 load 代码以正确返回请求数据的效果。如上图，RC的流程为：</p>
+<ol>
+<li><p>测试用例通过Http请求建立与 selenium-RC server 的连接</p>
+</li>
+<li><p>Selenium RC Server 驱动一个浏览器，把Selenium Core加载入浏览器页面当中，并把浏览器的代理设置为Selenium Server的Http Proxy</p>
+</li>
+<li><p>执行用例向Selenium Server发送Http请求，Selenium Server对请求进行解析，然后通过Http Proxy发送JS命令通知Selenium Core执行操作浏览器的动作并注入 JS 代码</p>
+</li>
+<li><p>Selenium Core执行接受到的指令并操作</p>
+</li>
+<li><p>当浏览器收到新的请求时，发送http请求</p>
+</li>
+<li><p>Selenium Server接收到浏览器发送的Http请求后，自己重组Http请求，获取对应的Web页面</p>
+</li>
+<li><p>Selenium Server中的Http Proxy把接受到的页面返回给浏览器</p>
+</li>
+</ol>
+<h3 id="Selenium-WebDriver"><a href="#Selenium-WebDriver" class="headerlink" title="Selenium WebDriver"></a>Selenium WebDriver</h3><p>Selenium RC使用的是JavaScript注入技术与浏览器打交道，需要Selenium RC启动一个Server，将操作Web元素的API调用转化为一段段Javascript，在Selenium内核启动浏览器之后注入这段Javascript。开发过Web应用的人都知道，Javascript可以获取并调用页面的任何元素，自如的进行操作。由此才实现了Selenium的目的：自动化Web操作。这种Javascript注入技术的缺点是速度不理想，而且稳定性大大依赖于Selenium内核对API翻译成的Javascript质量高低。</p>
+<p>   当Selenium2.x提出了WebDriver的概念之后，它提供了完全另外的一种方式与浏览器交互。那就是利用浏览器原生的API，封装成一套更加面向对象的SeleniumWebDriver API，直接操作浏览器页面里的元素，甚至操作浏览器本身（截屏，窗口大小，启动，关闭，安装插件，配置证书之类的）。由于使用的是浏览器原生的API，速度大大提高，而且调用的稳定性交给了浏览器厂商本身，显然是更加科学。然而带来的一些副作用就是，不同的浏览器厂商，对Web元素的操作和呈现多少会有一些差异，这就直接导致了Selenium WebDriver要分浏览器厂商不同，而提供不同的实现。例如Firefox就有专门的FirefoxDriver，Chrome就有专门的ChromeDriver等等。（甚至包括了AndroidDriver和iOS WebDriver）</p>
+<p>   启动SeleniumRC至今为止还保留着，应该是考虑到向前兼容。</p>
+<p>   Selenium RC要求真实的浏览器环境，而WebFriver可以直接操作HtmlUnit驱动，Selenium启动Firefox非常慢，而WebFriver可以通过HtmlUnit在系统内存中迅速的执行，但是这两者都不方便调试。Webdriver不支持并行测试，而Selenium Grid可以搞定这个。WebFriver要求针对浏览器选择最合适的语言来编写脚本，而众所周知，程序员总是希望使用自己擅长的语言来编写脚本，公司也不可能派多个脚本人员在一个项目中仅仅是为了多浏览器支持。因此，我们需要一款工具，它能够把两者的优点集合起来，这就是我们下面介绍的Selenium 2.0，即Selenium 1.0+Webdriver 。</p>
+<p>Selenium2增加了WebDriver，保持RC向前兼容。WebDriver项目是由Simon Stewart创建的，它是一个非常便捷的自动化测试工具。WebDriver对不同浏览器的处理方式和RC有着明显的不同，RC是不管什么浏览器都是JavaScript来处理，而WebDriver是选择浏览器最容易接受的语言来处理。比如，在IE中，C++最合适，在Firefox中， JavaScript最合适等等。通过灵活选择最合适的语言来处理多浏览器，我们可以很好的回避某些浏览器对JavaScript的安全限制。而且WebDriver不仅仅具有这些能力，它还能够调用操作系统API，尤其是当用户需要模拟鼠标和键盘进行真是的页面操作的时候，这项能力的作用尤为明显。</p>
+<p>  现在支持的WebDriver：AndroidDriver,ChromeDriver, FirefoxDriver,  HtmlUnitDriver, EventFiringWebDriver,InternetExplorerDriver,  IPhoneDriver,  IPhoneSimulatorDriver,  RemoteWebDriver。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-b16531021c5cae59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>Selenium Grid介绍省略</p>
+<p>Selenium 与工具之间的关系<br><img src="https://upload-images.jianshu.io/upload_images/15531792-fe0d5684dd7893b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h1 id="2-Protractor"><a href="#2-Protractor" class="headerlink" title="2.Protractor"></a>2.Protractor</h1><p>[转]<a target="_blank" rel="noopener" href="https://blog.csdn.net/wosishui21/article/details/38340527">Protractor小结</a><br>   Protractor是一个Node.js程序，需要安装Node.js才可运行。Protractor默认使用Jasmine测试框架。Protractor是基于WebDriverJS作了封装。</p>
+<h4 id="Selenium-Server"><a href="#Selenium-Server" class="headerlink" title="Selenium Server"></a>Selenium Server</h4><p>SeleniumServer介于测试脚本(用WebDriver API所写)和浏览器Driver(由WebDriver协议控制)之间，充当代理角色。</p>
+<p>Server端转发来自测试脚本的命令给driver，并返回来自driver端的应答给测试脚本。Server端可处理不同语言的测试脚本，也可启动并管理不同版本的多个浏览器。</p>
+<p>示意图如下：</p>
+<p>         [Test Scripts] &lt; ————&gt; [Selenium Server] &lt; ———— &gt; [Browser Drivers]</p>
+<p>  <code>注：当测试Chrome浏览器时，SeleniumServer是可选的，通过配置chromeOnly:true or false来实现。</code></p>
+<h4 id="浏览器支持"><a href="#浏览器支持" class="headerlink" title="浏览器支持"></a>浏览器支持</h4><p>Protractor支持Chrome、FireFox、Safari和IE</p>
+<h4 id="测试框架支持"><a href="#测试框架支持" class="headerlink" title="测试框架支持"></a>测试框架支持</h4><p>Protractor支持三种行为驱动开发(BDD)测试框架：Jasmine、Mocha和Cucumber。这些框架基于JavaScript和Node.js，提供语法、脚手架和报告工具便于你编写和管理你的测试脚本。Protractor默认使用Jasmine框架。</p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="**工作原理"></a>**工作原理</h2><p>Protractor结合Selenium提供了一个自动化测试基础设施，用以模拟在浏览器或移动设备上运行的Angular应用中的用户交互。<br>当使用Protractor时，注意这几点：</p>
+<ol>
+<li>Protractor基于WebDriverJS作了封装，其中WebDriverJS是Selenium WebDriver API的JavaScript语言实现；</li>
+<li>WebDriver命令是异步的。他们被安排在一个控制流中，返回promises，而非原始值；</li>
+<li>测试脚本发送命令给SeleniumServer，按次序跟浏览器Driver通信。</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-4f6752bbb3e82970.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>  一个使用SeleniumWebDriver的测试涉及三块：测试脚本、Server端和浏览器，三者之间的通信过程如下图：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-a41e7b7b63de5d45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>SeleniumServer关注来自测试脚本的解释命令，将其转发给一个或多个浏览器。Server端和浏览器之间使用WebDriver Wire Protocol，一种JSON协议。转发命令再被浏览器Driver解释。</p>
+<p>对于Protractor，测试脚本使用Node.js运行。为确保被测的应用已经稳定，Protractor在浏览器响应操作之前会执行一个额外的命令。举例如下：</p>
+<pre><code>     element(by.css(&#39;button.myclass&#39;)).click();</code></pre>
+<p> 这句测试脚本将会产生三个命令，发送给浏览器Driver：</p>
+<ol>
+<li>/session/:sessionId/execute_async：首先，Protractor告诉浏览器将执行一段JavaScript代码。这是个定制的命令，当应用处理完延时和异步请求，可继续执行测试时，该命令用于要求Angular对此作出应答。</li>
+<li>/session/:sessionId/element：然后，发送定位元素的命令</li>
+<li>/session/:sessionId/element/:id/click：最后发送执行点击操作的命令</li>
+</ol>
+<h2 id="特性简介"><a href="#特性简介" class="headerlink" title="**特性简介"></a>**特性简介</h2><h4 id="测试脚本"><a href="#测试脚本" class="headerlink" title="测试脚本"></a>测试脚本</h4><p>Protractor运行需要两个文件，测试脚本文件 (spec file)和配置文件<br>简单的测试文件如下，其中describe函数和it函数是Jasmine框架中的语法，describe定义一个测试案例集，it为单个测试案例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; spec.js</span><br><span class="line">describe(&#39;angularjs homepage&#39;, function() &#123;</span><br><span class="line">  it(&#39;should add one and two&#39;, function() &#123;</span><br><span class="line">    browser.get(&#39;http:&#x2F;&#x2F;juliemr.github.io&#x2F;protractor-demo&#x2F;&#39;);</span><br><span class="line">    element(by.model(&#39;first&#39;)).sendKeys(1);</span><br><span class="line">    element(by.model(&#39;second&#39;)).sendKeys(2);</span><br><span class="line">    element(by.id(&#39;gobutton&#39;)).click();</span><br><span class="line">    expect(element(by.binding(&#39;latest&#39;)).getText()).</span><br><span class="line">        toEqual(&#39;5&#39;);&#x2F;&#x2F; This is wrong!</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>配置文件如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; conf.js</span><br><span class="line">exports.config &#x3D; &#123;</span><br><span class="line">  seleniumAddress: &#39;http:&#x2F;&#x2F;localhost:4444&#x2F;wd&#x2F;hub&#39;,</span><br><span class="line">  specs: [&#39;spec.js&#39;],</span><br><span class="line">  multiCapabilities: [&#123;</span><br><span class="line">    browserName: &#39;firefox&#39;</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    browserName: &#39;chrome&#39;</span><br><span class="line">  &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="元素定位"><a href="#元素定位" class="headerlink" title="元素定位"></a>元素定位</h4><p> Protractor提供一个全局函数element，使用一个Locator作为参数，返回一个ElementFinder。通过element.all函数可以操作多个元素。其中，ElementFinder有一组action方法，例如click()，getText()和sendKeys()。在Protractor中，所有的action操作都是异步的。</p>
+<p><strong>Locators</strong><br> 一个定位器(locator)告诉Protractor如何找到一个特定的DOM元素，Protractor通过全局对象by来定位。例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; find an element using a css selector</span><br><span class="line"></span><br><span class="line">by.css(&#39;.myclass&#39;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; find an element with the given id</span><br><span class="line"></span><br><span class="line">by.id(&#39;myid&#39;)</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; find an element with a certain ng-model</span><br><span class="line"></span><br><span class="line">by.model(&#39;name&#39;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; find an element bound to the given variable</span><br><span class="line"></span><br><span class="line">by.binding(&#39;bindingname&#39;)</span><br></pre></td></tr></table></figure>
+<p>locator再作为参数传给element函数，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">element(by.css(&#39;some-css&#39;));</span><br><span class="line">element(by.model(&#39;item.name&#39;));</span><br><span class="line">element(by.binding(&#39;item.name&#39;));</span><br></pre></td></tr></table></figure>
+<p><strong>actions</strong><br> element()函数返回一个ElementFinder对象。ElementFinder对象知道如何使用locator定位DOM元素，但实际还未执行定位。只有等定位元素涉及action方法调用时才会执行。<br><code>注：WebElement上任何在WebDriverJS中可执行的action方法在ElementFinder上也可执行。</code><br>常用的action方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var el &#x3D; element(locator);</span><br><span class="line">&#x2F;&#x2F; Click on the element</span><br><span class="line">el.click();</span><br><span class="line">&#x2F;&#x2F; Send keys to the element (usually an input)</span><br><span class="line">el.sendKeys(&#39;my text&#39;);</span><br><span class="line">&#x2F;&#x2F; Clear the text in an element (usually an input)</span><br><span class="line">el.clear();</span><br><span class="line">&#x2F;&#x2F; Get the value of an attribute, for example, get the value of an input</span><br><span class="line">el.getAttribute(&#39;value&#39;);</span><br></pre></td></tr></table></figure>
+<p> 既然所有的actions是异步的，所有action方法会返回一个promise。所以，如果要获取一个元素的文本并记录，可以这样实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var el &#x3D; element(locator);</span><br><span class="line">el.getText().then(function(text) &#123;</span><br><span class="line">  console.log(text);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>定位多个元素</strong><br>处理多个DOM元素时，使用element.all函数。示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Number of elements.</span><br><span class="line">element.all(locator).count();</span><br><span class="line">&#x2F;&#x2F; Get my index (starting at 0).</span><br><span class="line">element.all(locator).get(index);</span><br><span class="line">&#x2F;&#x2F; First and last.</span><br><span class="line">element.all(locator).first();</span><br><span class="line">element.all(locator).last();</span><br></pre></td></tr></table></figure>
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2021/07/02/Java-%E5%BC%BA%E5%BC%95%E7%94%A8%EF%BC%8C%E8%BD%AF%E5%BC%95%E7%94%A8%EF%BC%8C%E5%BC%B1%E5%BC%95%E7%94%A8%EF%BC%8C%E8%99%9A%E5%BC%95%E7%94%A8/" class="styled-border">
+                    
+                    Java 强引用，软引用，弱引用，虚引用
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
