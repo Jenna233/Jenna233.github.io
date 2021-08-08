@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Jvm 类加载机制和流程 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]# jvm类加载器，类加载机制详解，看这一篇就够了  前言jvm的启动是通过引导类加载器（bootstrap class loader）创建一个初始类（initial class）来完成的，这个类是由jvm的具体实现指定的。[来自官方规范] jvm组成结构之一就是类装载器子系统，我们今天就来仔细讲讲这个组件。 Java代码执行流程图大家通过这个流程图，了解一下我们写好的Java代码是如何执行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jvm 类加载机制和流程">
+<meta property="og:url" content="https://jenna233.github.io/2021/08/08/Jvm-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E5%92%8C%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]# jvm类加载器，类加载机制详解，看这一篇就够了  前言jvm的启动是通过引导类加载器（bootstrap class loader）创建一个初始类（initial class）来完成的，这个类是由jvm的具体实现指定的。[来自官方规范] jvm组成结构之一就是类装载器子系统，我们今天就来仔细讲讲这个组件。 Java代码执行流程图大家通过这个流程图，了解一下我们写好的Java代码是如何执行">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-ffbdb54a2c78c49b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-7fe97d957c50216d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-64d0c278e112da14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-8c05999c52e58dfb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-1592512b6feb81b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-37853219eaf490c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-08-08T06:27:27.000Z">
+<meta property="article:modified_time" content="2021-08-08T06:27:55.483Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-ffbdb54a2c78c49b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Jvm 类加载机制和流程</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/8/8 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000037574626"># <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000037574626">jvm类加载器，类加载机制详解，看这一篇就够了</a>
+</a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>jvm的启动是通过引导类加载器（bootstrap class loader）创建一个初始类（initial class）来完成的，这个类是由jvm的具体实现指定的。[来自官方规范]</p>
+<p>jvm组成结构之一就是<code>类装载器子系统</code>，我们今天就来仔细讲讲这个组件。</p>
+<h4 id="Java代码执行流程图"><a href="#Java代码执行流程图" class="headerlink" title="Java代码执行流程图"></a>Java代码执行流程图</h4><p>大家通过这个流程图，了解一下我们写好的Java代码是如何执行的，其中要经历类加载器这个流程，我们就来仔细讲讲这里面的知识点。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-ffbdb54a2c78c49b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="类加载子系统"><a href="#类加载子系统" class="headerlink" title="类加载子系统"></a>类加载子系统</h4><p><img src="https://upload-images.jianshu.io/upload_images/15531792-7fe97d957c50216d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>暂时看不懂这两张图没关系，跟着往下看<br><img src="https://upload-images.jianshu.io/upload_images/15531792-64d0c278e112da14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h4><p>类的生命周期包括：<strong>加载、链接、初始化、使用和卸载</strong>，其中加载、链接、初始化，属于类加载的过程，我们下面仔细讲解。使用是指我们new对象进行使用，卸载指对象被垃圾回收掉了。</p>
+<h4 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h4><ul>
+<li><strong>第一步：Loading加载</strong><br>通过类的全限定名（包名 + 类名），获取到该类的.class文件的二进制字节流<br>将二进制字节流所代表的静态存储结构，转化为方法区运行时的数据结构</li>
+</ul>
+<p>在内存中生成一个代表该类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口</p>
+<p>总结：加载二进制数据到内存 —&gt; 映射成jvm能识别的结构 —&gt; 在内存中生成class文件。</p>
+<ul>
+<li><strong>第二步：Linking链接</strong><br>链接是指将上面创建好的class类合并至Java虚拟机中，使之能够执行的过程，可分为验证、准备、解析三个阶段。</li>
+</ul>
+<p>① 验证（Verify）</p>
+<blockquote>
+<p>确保class文件中的字节流包含的信息，符合当前虚拟机的要求，保证这个被加载的class类的正确性，不会危害到虚拟机的安全。</p>
+</blockquote>
+<p>② 准备（Prepare）</p>
+<blockquote>
+<p>为类中的<strong>静态字段</strong>分配内存，并设置默认的初始值，比如int类型初始值是0。被final修饰的static字段不会设置，因为final在编译的时候就分配了</p>
+</blockquote>
+<p>③ 解析（Resolve）</p>
+<blockquote>
+<p>解析阶段的目的，<strong>是将<code>常量池</code>内的符号引用转换为直接引用的过程（将常量池内的符号引用解析成为实际引用）</strong>。如果符号引用指向一个未被加载的类，或者未被加载类的字段或方法，那么解析将触发这个类的加载（但未必触发这个类的链接以及初始化。<br>事实上，解析器操作往往会伴随着 JVM 在执行完初始化之后再执行。 符号引用就是一组符号来描述所引用的目标。符号引用的字面量形式明确定义在《Java 虚拟机规范》的Class文件格式中。直接引用就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。<br><br>解析动作主要针对类、接口、字段、类方法、接口方法、方法类型等。对应常量池中的 CONSTANT_Class_info、CONSTANT_Fieldref_info、CONSTANT_Methodref_info等。</p>
+</blockquote>
+<ul>
+<li><strong>第三步：initialization初始化</strong><blockquote>
+<p>初始化就是执行类的**构造器方法init()**的过程。<br>这个方法不需要定义，是javac编译器自动收集类中所有类变量的赋值动作和静态代码块中的语句合并来的。<br><br>若该类具有父类，jvm会保证父类的init先执行，然后在执行子类的init。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="类加载器的分类"><a href="#类加载器的分类" class="headerlink" title="类加载器的分类"></a>类加载器的分类</h4><p><img src="https://upload-images.jianshu.io/upload_images/15531792-8c05999c52e58dfb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>第一个：启动类/引导类：Bootstrap ClassLoader</strong></p>
+<blockquote>
+<p><strong>这个类加载器使用C/C++语言实现的，嵌套在JVM内部，java程序无法直接操作这个类。</strong><br>它用来加载Java核心类库，如：JAVA_HOME/jre/lib/rt.jar、resources.jar、sun.boot.class.path路径下的包，用于提供jvm运行所需的包。<br><br><strong>并不是继承自java.lang.ClassLoader，它没有父类加载器</strong><br><br>它加载扩展类加载器和应用程序类加载器，并成为他们的父类加载器<br><br>出于安全考虑，启动类只加载包名为：java、javax、sun开头的类</p>
+</blockquote>
+<p><strong>第二个：扩展类加载器：Extension ClassLoader</strong></p>
+<blockquote>
+<p>Java语言编写，由sun.misc.Launcher$ExtClassLoader实现，我们可以用Java程序操作这个加载器<br>派生继承自java.lang.ClassLoader，父类加载器为启动类加载器<br><br>从系统属性：java.ext.dirs目录中加载类库，或者从JDK安装目录：jre/lib/ext目录下加载类库。我们就可以将我们自己的包放在以上目录下，就会自动加载进来了。</p>
+</blockquote>
+<p><strong>第三个：应用程序类加载器：Application Classloader</strong></p>
+<blockquote>
+<p>Java语言编写，由sun.misc.Launcher$AppClassLoader实现。<br>派生继承自java.lang.ClassLoader，父类加载器为启动类加载器<br><br>它负责加载环境变量classpath或者系统属性java.class.path指定路径下的类库<br><br><strong>它是程序中默认的类加载器，我们Java程序中的类，都是由它加载完成的。</strong><br><br>我们可以通过ClassLoader#getSystemClassLoader()获取并操作这个加载器</p>
+</blockquote>
+<p><strong>第四个：自定义加载器</strong></p>
+<blockquote>
+<p>一般情况下，以上3种加载器能满足我们日常的开发工作，不满足时，我们还可以自定义加载器<br>比如用网络加载Java类，为了保证传输中的安全性，采用了加密操作，那么以上3种加载器就无法加载这个类，这时候就需要自定义加载器。</p>
+</blockquote>
+<p><strong>自定义加载器实现步骤</strong></p>
+<blockquote>
+<p>继承java.lang.ClassLoader类，重写findClass()方法<br>如果没有太复杂的需求，可以直接继承URLClassLoader类，重写loadClass方法，具体可参考AppClassLoader和ExtClassLoader。</p>
+</blockquote>
+<p><strong>获取ClassLoader几种方式</strong></p>
+<p>它是一个抽象类，其后所有的类加载器继承自 ClassLoader（不包括启动类加载器）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 方式一：获取当前类的 ClassLoader</span><br><span class="line">clazz.getClassLoader()</span><br><span class="line">&#x2F;&#x2F; 方式二：获取当前线程上下文的 ClassLoader</span><br><span class="line">Thread.currentThread().getContextClassLoader()</span><br><span class="line">&#x2F;&#x2F; 方式三：获取系统的 ClassLoader</span><br><span class="line">ClassLoader.getSystemClassLoader()</span><br><span class="line">&#x2F;&#x2F; 方式四：获取调用者的 ClassLoader</span><br><span class="line">DriverManager.getCallerClassLoader()</span><br></pre></td></tr></table></figure>
+<h1 id="类加载机制—双亲委派机制"><a href="#类加载机制—双亲委派机制" class="headerlink" title="类加载机制—双亲委派机制"></a>类加载机制—双亲委派机制</h1><p>jvm对class文件采用的是按需加载的方式，当需要使用该类时，jvm才会将它的class文件加载到内存中产生class对象。</p>
+<p>在加载类的时候，是采用的双亲委派机制，即把请求交给父类处理的一种任务委派模式。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-1592512b6feb81b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h4><p>（1）如果一个类加载器接收到了类加载的请求，它自己不会先去加载，会把这个请求委托给父类加载器去执行。</p>
+<p>（2）如果父类还存在父类加载器，则继续向上委托，一直委托到启动类加载器：Bootstrap ClassLoader</p>
+<p>（3）如果父类加载器可以完成加载任务，就返回成功结果，如果父类加载失败，就由子类自己去尝试加载，如果子类加载失败就会抛出ClassNotFoundException异常，这就是双亲委派模式</p>
+<h4 id="第三方包加载方式：反向委派机制"><a href="#第三方包加载方式：反向委派机制" class="headerlink" title="第三方包加载方式：反向委派机制"></a>第三方包加载方式：反向委派机制</h4><p>在Java应用中存在着很多服务提供者接口（Service Provider Interface，SPI），这些接口允许第三方为它们提供实现，如常见的 SPI 有 JDBC、JNDI等，这些 SPI 的接口属于 Java 核心库，一般存在rt.jar包中，由Bootstrap类加载器加载。而Bootstrap类加载器无法直接加载SPI的实现类，同时由于双亲委派模式的存在，Bootstrap类加载器也无法反向委托AppClassLoader加载器SPI的实现类。在这种情况下，我们就需要一种特殊的类加载器来加载第三方的类库，而线程上下文类加载器（双亲委派模型的破坏者）就是很好的选择。</p>
+<p>从图可知rt.jar核心包是有Bootstrap类加载器加载的，其内包含SPI核心接口类，由于SPI中的类经常需要调用外部实现类的方法，而jdbc.jar包含外部实现类(jdbc.jar存在于classpath路径)无法通过Bootstrap类加载器加载，因此只能委派线程上下文类加载器把jdbc.jar中的实现类加载到内存以便SPI相关类使用。显然这种线程上下文类加载器的加载方式破坏了“双亲委派模型”，它在执行过程中抛弃双亲委派加载链模式，使程序可以逆向使用类加载器，当然这也使得Java类加载器变得更加灵活。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-37853219eaf490c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="沙箱安全机制"><a href="#沙箱安全机制" class="headerlink" title="沙箱安全机制"></a>沙箱安全机制</h4><p>自定义 String 类，但是在加载自定义 String 类的时候会率先使用引导类加载器加载，而引导类加载器在加载的过程中会先加载 JDK 自带的文件（rt.jar 包中的 javalangString.class），报错信息说没有 main 方法就是因为加载的 rt.jar 包中的 String 类。这样可以保证对 Java 核心源代码的保护，这就是沙箱安全机制。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2021/08/08/HashMap-%E5%92%8C-HashTable-%E7%9A%84%E5%8C%BA%E5%88%AB/" class="styled-border">
+                    
+                    HashMap 和 HashTable 的区别
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
