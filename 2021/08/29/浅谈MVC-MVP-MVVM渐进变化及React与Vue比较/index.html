@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>浅谈MVC,MVP,MVVM渐进变化及React与Vue比较 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转] 浅谈MVC,MVP,MVVM渐进变化及React与Vue比较 1 设计模式MVCMVC全名是Model View Controller,把应用程序分成三部分分别是:  Model(业务模型): 用于管理应用程序数据处理逻辑的部分,通过观察者模式(Pub&amp;Sub &#x2F; Events)发送消息给View; View(视图界面): 用于处理数据显示的部分,注册并接收Model的数据更新视图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈MVC,MVP,MVVM渐进变化及React与Vue比较">
+<meta property="og:url" content="https://jenna233.github.io/2021/08/29/%E6%B5%85%E8%B0%88MVC-MVP-MVVM%E6%B8%90%E8%BF%9B%E5%8F%98%E5%8C%96%E5%8F%8AReact%E4%B8%8EVue%E6%AF%94%E8%BE%83/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转] 浅谈MVC,MVP,MVVM渐进变化及React与Vue比较 1 设计模式MVCMVC全名是Model View Controller,把应用程序分成三部分分别是:  Model(业务模型): 用于管理应用程序数据处理逻辑的部分,通过观察者模式(Pub&amp;Sub &#x2F; Events)发送消息给View; View(视图界面): 用于处理数据显示的部分,注册并接收Model的数据更新视图">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-cf6a4122b5fe2746.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-3b68aff013e94953.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-bd03b1577decb97b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-21db4cd6e0492623.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-a0ab7632a6daee38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-19b88b12049ea29d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-40744a96a1b8ad4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-08-29T07:26:47.000Z">
+<meta property="article:modified_time" content="2021-08-29T07:27:43.350Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Reacr &amp; JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-cf6a4122b5fe2746.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">浅谈MVC,MVP,MVVM渐进变化及React与Vue比较</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/8/29 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Reacr-JS/" rel="tag">Reacr & JS</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转] <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019991211">浅谈MVC,MVP,MVVM渐进变化及React与Vue比较</a></p>
+<h1 id="1-设计模式"><a href="#1-设计模式" class="headerlink" title="1 设计模式"></a>1 设计模式</h1><h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><p>MVC全名是Model View Controller,把应用程序分成三部分分别是:</p>
+<ul>
+<li>Model(业务模型): 用于管理应用程序数据处理逻辑的部分,通过观察者模式(Pub&amp;Sub / Events)发送消息给View;</li>
+<li>View(视图界面): 用于处理数据显示的部分,注册并接收Model的数据更新视图,通常视图是依据模型数据创建的;</li>
+<li>Controller(控制器): 用于连接模型和视图控制应用程序的流程(事件绑定等),通常控制器负责响应View的事件（路由，键盘，鼠标等），调用Model的接口进行操作;<br><img src="https://upload-images.jianshu.io/upload_images/15531792-cf6a4122b5fe2746.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+<h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><ol>
+<li>当用户在视图界面中发生交互事件，View捕获到这个操作会把处理的权利交移给Controller;</li>
+<li>Controller会对来自View数据进行预处理并决定调用Model的相关暴露接口;</li>
+<li>Model执行相关的业务逻辑更改数据之后会通知有关的View重新渲染;</li>
+<li>View收到通知后从Model请求最新的数据，然后重新渲染相关视图界面;</li>
+</ol>
+<p>还有一种情况: MVC允许在不改变视图外观的情况下改变视图对用户输入的响应方式,只要用不同种类的controller实例替换即可。例如改变URL触发hashChange事件,用户不经过View直接到达Controller最后再影响回View.</p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点:"></a>优点:</h4><ul>
+<li>耦合性低,MVC 分层有助于管理复杂的应用程序,同时也让应用程序的测试更加容易;</li>
+<li>重用性高,多个视图能共享一个模型,可以做到多视图同时更新;</li>
+<li>生命周期成本低,MVC使开发和维护用户接口的技术含量降低;</li>
+<li>部署快,只需要部署对应部分代码而不是完整项目;</li>
+<li>可维护性高,分离视图层和业务逻辑层也使得应用更易于维护和修改;</li>
+<li>有利软件工程化管理,可以使用控制器来联接不同的模型和视图去完成用户的需求;<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点:"></a>缺点:</h4></li>
+<li>没有明确的定义,完全理解MVC并不是很容易,现存就有很多对MVC不同解读实现的方式;</li>
+<li>不适合小型，中等规模的应用程序,花费大量时间将MVC应用到规模并不是很大的应用程序通常会得不偿失;</li>
+<li>增加系统结构和实现的复杂性,对于简单的界面，会增加结构的复杂性，并可能产生过多的更新操作，降低运行效率;</li>
+<li>视图与控制器间的过于紧密的连接,视图没有控制器的存在，其应用是很有限的，反之亦然,导致测试困难(依据模型数据创建部分);</li>
+<li>视图对模型数据的低效率访问,依据模型操作接口的不同，视图可能需要多次调用才能获得足够的显示数据;</li>
+<li>观察者模式由于事件触发的隐式行为可能导致很难查找问题的来源并影响其解决;</li>
+</ul>
+<h2 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h2><p>MVP全名是Model-View-Presenter,从经典的模式MVC演变而来,分两种情况:</p>
+<h4 id="Passive-View-被动视图"><a href="#Passive-View-被动视图" class="headerlink" title="Passive View(被动视图)"></a>Passive View(被动视图)</h4><p>Presenter占据绝对主导地位,掌控著Model和View,而后两者之间互不联系.</p>
+<ul>
+<li>Model(业务模型): 用于管理应用程序数据处理逻辑的部分,通过观察者模式(Pub&amp;Sub / Events)发送消息给Presenter;</li>
+<li>View(视图界面): 用于处理数据显示的部分,传递事件和提供相关接口给Presenter;</li>
+<li>Presenter(派发器): 作为中间层同步控制著Model数据修改和View视图变化;<br><img src="https://upload-images.jianshu.io/upload_images/15531792-3b68aff013e94953.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+<h4 id="流程-1"><a href="#流程-1" class="headerlink" title="流程:"></a>流程:</h4><ol>
+<li>当用户在视图界面中发生交互事件，View捕获到这个操作会把处理的权利交移给Presenter进行处理;</li>
+<li>Presenter需要时候可以获取Model其中的数据,并对Model进行操作更新;</li>
+<li>Model数据变化之后会通知Presenter;</li>
+<li>Presenter收到通知后会执行View提供的相关接口重新渲染相关视图界面;<h4 id="MVC和MVP-Passive-View-区别"><a href="#MVC和MVP-Passive-View-区别" class="headerlink" title="MVC和MVP(Passive View)区别:"></a>MVC和MVP(Passive View)区别:</h4></li>
+</ol>
+<ul>
+<li>后者View和Model完全解耦，它们之间的通信是通过Presenter (MVC中的Controller)来进行的，所有的交互都发生在Presenter内部;</li>
+<li>前者Controller只能通过Model间接触发View自行更新视图,后者View不再负责更新视图,而是提供接口给Presenter执行;</li>
+</ul>
+<h2 id="Supervising-Controller-监督控制器"><a href="#Supervising-Controller-监督控制器" class="headerlink" title="Supervising Controller(监督控制器)"></a>Supervising Controller(监督控制器)</h2><p>Presenter依旧占据主导地位,但是会把一部分简单的视图逻辑(如双向绑定)交还给View和Model进行处理,自身负责其他复杂的视图逻辑.</p>
+<ul>
+<li>Model(业务模型): 用于管理应用程序数据处理逻辑的部分,通过观察者模式(Pub&amp;Sub / Events)发送消息给Presenter或者View;</li>
+<li>View(视图界面): 用于处理数据显示的部分和接管部分简单的视图逻辑,同步简单的视图和模型的状态,传递事件和提供相关接口给Presenter;</li>
+<li>Presenter(派发器): 作为中间层同步控制著Model数据修改和View视图变化;</li>
+</ul>
+<p>MVC和MVP(Supervising Controller)区别:</p>
+<ol>
+<li>视图支持Presenter和View两种途径更新;</li>
+</ol>
+<h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点:"></a>优点:</h4><ol>
+<li>模型与视图高度分离，我们可以修改视图而不影响模型;</li>
+<li>可以更高效地使用模型，因为所有的交互都发生在一个地方——Presenter内部;</li>
+<li>可以将一个Presenter用于多个视图，而不需要改变Presenter的逻辑;</li>
+<li>如果把逻辑放在Presenter中，就可以脱离用户接口来测试这些逻辑（单元测试）;</li>
+</ol>
+<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点:"></a>缺点:</h4><ol>
+<li>由于对视图的渲染放在了Presenter中，所以View和Presenter的交互会过于频繁并且难以维护;</li>
+</ol>
+<h2 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h2><p>MVVM全名是<strong>Model-View-ViewModel</strong>,本质上就是MVC的改进版,也可以说是MVP的改良版,把应用程序分成三部分分别是:</p>
+<ul>
+<li>Model(业务模型): 用于管理应用程序数据;</li>
+<li>View(视图界面): 通过使用模板语法来声明式的将数据渲染进DOM;</li>
+<li>ViewModel(视图模型): 包含了领域模型（Domain Model）和视图的状态（State）,核心就是双向绑定技术（Two-Way-Data-Binding）,View和Model之间数据同步操作交由给内部的Binder/Data-binding engine处理;</li>
+</ul>
+<p>MVP和MVVM区别: 它使用 数据绑定(Data Binding)、依赖属性(Dependency Property)、命令(Command)、路由事件(Routed Event) 来搞定与view层的交互, 当ViewModel对Model进行更新的时候，会通过数据绑定更新到View.<br><img src="https://upload-images.jianshu.io/upload_images/15531792-bd03b1577decb97b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="优点-2"><a href="#优点-2" class="headerlink" title="优点:"></a>优点:</h4><ul>
+<li>双向绑定（data-binding）：View的变动，自动反映在 ViewModel，反之亦然;</li>
+<li>解放MVP大量手动同步状态的问题，提高了代码的可维护性;</li>
+<li>简化测试,Model正确就能保证View输出;<h4 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点:"></a>缺点:</h4></li>
+<li>大型项目的绑定数据较多会提高维护成本;</li>
+<li>View里的数据绑定无法检测断点,只能从Model下手;</li>
+</ul>
+<h1 id="2-React-VS-Vue"><a href="#2-React-VS-Vue" class="headerlink" title="2 React VS Vue"></a>2 React VS Vue</h1><p>两个框架是现在最热门的选择之一,它们既类似又不同.</p>
+<ul>
+<li>使用 Virtual DOM</li>
+<li>提供了响应式 (Reactive) 和组件化 (Composable) 的视图组件。</li>
+<li>将注意力集中保持在核心库，而将其他功能如路由和全局状态管理交给相关的库。</li>
+</ul>
+<p>React就是MVC里的V,只专注视图层,而Vue算是MVVM框架,双向绑定是特色之一.</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h3 id="React"><a href="#React" class="headerlink" title="React"></a>React</h3><p>React is a JavaScript library for building user interfaces.</p>
+<ul>
+<li><p>Declarative: React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes. Declarative views make your code more predictable, simpler to understand, and easier to debug.</p>
+</li>
+<li><p>Component-Based: Build encapsulated components that manage their own state, then compose them to make complex UIs. Since component logic is written in JavaScript instead of templates, you can easily pass rich data through your app and keep state out of the DOM.</p>
+</li>
+<li><p>Learn Once, Write Anywhere: We don’t make assumptions about the rest of your technology stack, so you can develop new features in React without rewriting existing code. React can also render on the server using Node and power mobile apps using React Native.</p>
+<h3 id="翻译"><a href="#翻译" class="headerlink" title="翻译:"></a>翻译:</h3><p>React是一个用于构建用户界面的Javascript库.</p>
+</li>
+<li><p>声明式: React让你无痛创建交互式UI界面,为你的App应用程序里的每个状态设计简单的视图,并且当你的数据改变之后会进行高效地更新和正确地渲染对应组件,声明式视图让你的代码更可预测、更易于理解和更容易调试.</p>
+</li>
+<li><p>组件化: 构建封装组件管理它们自己的内部状态,然后组合它们去构建复杂UI界面.因为组件逻辑写在Javascript而不是模板里,你能轻松注入丰富的数据到你的App并且状态脱离在Dom之外.</p>
+</li>
+<li><p>只需学习一次,就能用到任何地方,我们不对你的其余技术栈作出假设,所以你能在React里开发新的特性而不需要重写你的现有代码.React也能使用Nodejs进行服务器渲染和使用React Native进行移动端的丰富开发.</p>
+</li>
+</ul>
+<h3 id="Vue"><a href="#Vue" class="headerlink" title="Vue"></a>Vue</h3><p>Vue (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable. The core library is focused on the view layer only, and is easy to pick up and integrate with other libraries or existing projects. On the other hand, Vue is also perfectly capable of powering sophisticated Single-Page Applications when used in combination with modern tooling and supporting libraries.</p>
+<h3 id="翻译-1"><a href="#翻译-1" class="headerlink" title="翻译:"></a>翻译:</h3><p>Vue.js (读音 /vjuː/，类似于 view) 是一套构建用户界面的渐进式框架。与其他重量级框架不同的是，Vue 采用自底向上增量开发的设计。Vue 的核心库只关注视图层，它不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与单文件组件和 Vue 生态系统支持的库结合使用时，Vue 也完全能够为复杂的单页应用程序提供驱动。</p>
+<h2 id="声明式渲染"><a href="#声明式渲染" class="headerlink" title="声明式渲染"></a>声明式渲染</h2><h3 id="React-官方写法"><a href="#React-官方写法" class="headerlink" title="React(官方写法)"></a>React(官方写法)</h3><p>React 组件实现一个 render() 方法，它接收输入数据并返回显示的内容。此示例使用类似XML的语法，称为 JSX 。输入数据可以通过 this.props 传入组件，被 render() 访问。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class HelloMessage extends React.Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        Hello &#123;this.props.name&#125;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;HelloMessage name&#x3D;&quot;Taylor&quot; &#x2F;&gt;,</span><br><span class="line">  mountNode</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="Vue-官方写法"><a href="#Vue-官方写法" class="headerlink" title="Vue(官方写法)"></a>Vue(官方写法)</h3><p>Vue.js 的核心是一个允许采用简洁的模板语法来声明式的将数据渲染进 DOM 的系统</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">  &#123;&#123; message &#125;&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&#x2F;&#x2F; --------省略--------</span><br><span class="line">var app &#x3D; new Vue(&#123;</span><br><span class="line">  el: &#39;#app&#39;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    message: &#39;Hello Vue!&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><h3 id="React-JSX"><a href="#React-JSX" class="headerlink" title="React JSX"></a>React JSX</h3><p>他是 JavaScrip 的一种扩展语法。 React 官方推荐使用这种语法来描述 UI 信息。JSX 可能会让你想起某种模板语言，但是它具有 JavaScrip 的全部能力,从本质上讲，JSX 只是为 React.createElement(component, props, …children) 函数提供的语法糖。</p>
+<ul>
+<li>JSX 执行更快，因为它在编译为 JavaScript 代码后进行了优化。</li>
+<li>它是类型安全的，在编译过程中就能发现错误。</li>
+<li>使用 JSX 编写模板更加简单快速。</li>
+</ul>
+<p>JSX 对使用React 不是必须的。</p>
+<h3 id="Vue-Templates"><a href="#Vue-Templates" class="headerlink" title="Vue Templates"></a>Vue Templates</h3><p>Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM 绑定至底层 Vue 实例的数据。所有 Vue.js 的模板都是合法的 HTML ，所以能被遵循规范的浏览器和 HTML 解析器解析。<br>在底层的实现上，Vue 将模板编译成虚拟 DOM 渲染函数。结合响应系统，在应用状态改变时，Vue 能够智能地计算出重新渲染组件的最小代价并应用到 DOM 操作上。<br>事实上 Vue 也提供了渲染函数，甚至支持 JSX。然而，默认推荐的还是模板。</p>
+<ul>
+<li>对于很多习惯了 HTML 的开发者来说，模板比起 JSX 读写起来更自然。这里当然有主观偏好的成分，但如果这种区别会导致开发效率的提升，那么它就有客观的价值存在。</li>
+<li>基于 HTML 的模板使得将已有的应用逐步迁移到 Vue 更为容易。</li>
+<li>这也使得设计师和新人开发者更容易理解和参与到项目中。</li>
+<li>你甚至可以使用其他模板预处理器，比如 Pug 来书写 Vue 的模板。</li>
+</ul>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p>个人感觉两者其实上手速度都挺快,相比之下JSX除了修改部分属性名字跟普通HTML变化不算大,Templates额外添加很多自定义功能帮助开发者做更多的事,框架痕迹也比较重.<br>我们可以把组件区分为两类：一类是偏视图表现的 (presentational)推荐使用模板，一类则是偏逻辑的 (logical)推荐使用 JSX 或渲染函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;Jsx写法</span><br><span class="line">&lt;div className&#x3D;&quot;list&quot;&gt;</span><br><span class="line">    &lt;ol&gt;</span><br><span class="line">        &#123; todos.map(item &#x3D;&gt;&lt;li&gt;&#123;todo.text&#125;&lt;&#x2F;li&gt;) &#125;</span><br><span class="line">    &lt;&#x2F;ol&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;Templates写法</span><br><span class="line">&lt;div class&#x3D;&quot;list&quot;&gt;</span><br><span class="line">    &lt;ol&gt;</span><br><span class="line">        &lt;li v-for&#x3D;&quot;todo in todos&quot;&gt;</span><br><span class="line">            &#123;&#123; todo.text &#125;&#125;</span><br><span class="line">        &lt;&#x2F;li&gt;</span><br><span class="line">    &lt;&#x2F;ol&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h3 id="React-1"><a href="#React-1" class="headerlink" title="React"></a>React</h3><p>React 中推荐通过 CSS-in-JS 的方案实现的 (比如 styled-components、glamorous 和 emotion),虽然在构建时将 CSS 提取到一个单独的样式表是支持的，但 bundle 里通常还是需要一个运行时程序来让这些样式生效。当你能够利用 JavaScript 灵活处理样式的同时，也需要权衡 bundle 的尺寸和运行时的开销</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var styleObj &#x3D; &#123; color:&quot;blue&quot;, fontSize:40, fontWeight:&quot;normal&quot; &#125;;</span><br><span class="line">--------省略--------</span><br><span class="line">&lt;h1 style&#x3D;&#123;styleObj&#125; className&#x3D;&quot;alert-text&quot;&gt;Hello&lt;&#x2F;h1&gt;</span><br></pre></td></tr></table></figure>
+<p>这个可选 scoped 属性会自动添加一个唯一的属性 (比如 data-v-21e5b78) 为组件内 CSS 指定作用域，编译的时候 .list-container:hover 会被编译成类似 .list-container[data-v-21e5b78]:hover。<br>最后，Vue 的单文件组件里的样式设置是非常灵活的。通过 vue-loader，你可以使用任意预处理器、后处理器，甚至深度集成 CSS Modules——全部都在 <style> 标签内。</p>
+<h3 id="对比-1"><a href="#对比-1" class="headerlink" title="对比"></a>对比</h3><p>各有好坏吧,React侵入式做法不太喜欢,Vue组件式做法倒也还行,个人而言更倾向独立css样式外部引入易于管理.</p>
+<h2 id="状态-State-OR-属性-Data"><a href="#状态-State-OR-属性-Data" class="headerlink" title="状态(State) OR 属性(Data)"></a>状态(State) OR 属性(Data)</h2><h3 id="React-2"><a href="#React-2" class="headerlink" title="React"></a>React</h3><p>State是私有的，并且由组件本身完全控制。</p>
+<p>不要直接修改 state(状态),setState() 代替;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 错误</span><br><span class="line">this.state.comment &#x3D; &#39;Hello&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 正确</span><br><span class="line">this.setState(&#123;comment: &#39;Hello&#39;&#125;);</span><br></pre></td></tr></table></figure>
+<p>state(状态)更新会被合并,React 为了优化性能，有可能会将多个setState()调用合并为一次更新;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">componentDidMount() &#123;</span><br><span class="line">  fetchPosts().then(response &#x3D;&gt; &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      posts: response.posts</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  fetchComments().then(response &#x3D;&gt; &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      comments: response.comments</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>state(状态) 更新可能是异步的,不能依赖他们的值计算下一个state(状态);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 错误</span><br><span class="line">this.setState(&#123;</span><br><span class="line">  counter: this.state.counter + this.props.increment,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 正确</span><br><span class="line">&#x2F;&#x2F;另一种 setState() 的形式，它接受一个函数而不是一个对象。这个函数将接收前一个状态作为第一个参数，应用更新时的 props 作为第二个参数</span><br><span class="line">this.setState((prevState, props) &#x3D;&gt; (&#123;</span><br><span class="line">  counter: prevState.counter + props.increment</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+<h3 id="Vue-1"><a href="#Vue-1" class="headerlink" title="Vue"></a>Vue</h3><p>当一个 Vue 实例被创建时，它向 Vue 的响应式系统中加入了其 data 对象中能找到的所有的属性。当这些属性的值发生改变时，视图将会产生“响应”，即匹配更新为新的值。</p>
+<p>只有当实例被创建时 data 中存在的属性是响应式的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 有效</span><br><span class="line">data: &#123;</span><br><span class="line">  visitCount1: 0</span><br><span class="line">&#125;</span><br><span class="line">--------省略--------</span><br><span class="line">&#x2F;&#x2F; 触发任何视图的更新</span><br><span class="line">vm.visitCount1 &#x3D; 2</span><br><span class="line">&#x2F;&#x2F; 不会触发任何视图的更新</span><br><span class="line">vm.visitCount2 &#x3D; 2</span><br></pre></td></tr></table></figure>
+<h3 id="对比-2"><a href="#对比-2" class="headerlink" title="对比"></a>对比</h3><p>React是属于单向控制,即只能是通过改变State从而改变视图,我们可以利用JS方法像表单等场景模拟双向绑定的效果,实际还是由State去触发视图更新<br>Vue是属于双向绑定,原理是通过 Object.defineProperty 监听劫持data对象的getter/setter属性来实现的</p>
+<h2 id="Props组件通信"><a href="#Props组件通信" class="headerlink" title="Props组件通信"></a>Props组件通信</h2><p>一个组件可以选择将数据向下传递，作为其子组件的 props(属性).</p>
+<h3 id="React-3"><a href="#React-3" class="headerlink" title="React"></a>React</h3><p>父组件单向控制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;父组件传递数据</span><br><span class="line">&lt;Child num&#x3D;&#123;this.state.num&#125; &#x2F;&gt;</span><br><span class="line">&#x2F;&#x2F;--------省略--------</span><br><span class="line">&#x2F;&#x2F;子组件读取数据</span><br><span class="line">&lt;h2&gt;It is &#123;this.props.num&#125;.&lt;&#x2F;h2&gt;</span><br></pre></td></tr></table></figure>
+<p>子组件自主控制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;父组件传递数据</span><br><span class="line">&lt;Child num&#x3D;&#123;this.state.num&#125; &#x2F;&gt;</span><br><span class="line">&#x2F;&#x2F;--------省略--------</span><br><span class="line">constructor(props) &#123;</span><br><span class="line">  super(props);</span><br><span class="line">  this.state &#x3D; &#123;</span><br><span class="line">      &#x2F;&#x2F;初始化成state</span><br><span class="line">      num: this.props.num,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>父子组件双向控制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;传递修改函数</span><br><span class="line">class Father extends Component &#123;</span><br><span class="line">  construtor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state &#x3D; &#123;</span><br><span class="line">      num: 1,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  onChangeState(val) &#123;</span><br><span class="line">    this.setState(val);</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    &lt;Child num&#x3D;&#123;this.state.num&#125; onClicked&#x3D;&#123;this.onChangeState.bind(this)&#125; &#x2F;&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;调用修改函数添加入参</span><br><span class="line">class Child extends Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    &lt;button onClicked&#x3D;&#123;() &#x3D;&gt; this.props.onClicked(&#123;num: 2&#125;)&#125;&gt;</span><br><span class="line">      It is &#123;this.props.num&#125;.</span><br><span class="line">    &lt;&#x2F;button&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Vue-2"><a href="#Vue-2" class="headerlink" title="Vue"></a>Vue</h3><p>父组件单向控制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;父组件传递数据</span><br><span class="line">&lt;child message&#x3D;&quot;hello!&quot;&gt;&lt;&#x2F;child&gt;</span><br><span class="line">&#x2F;&#x2F;--------省略--------</span><br><span class="line">&#x2F;&#x2F;子组件要显式地用 props 选项声明它预期的数据</span><br><span class="line">Vue.component(&#39;child&#39;, &#123;</span><br><span class="line">  &#x2F;&#x2F; 声明 props</span><br><span class="line">  props: [&#39;message&#39;],</span><br><span class="line">  &#x2F;&#x2F; 就像 data 一样，prop 也可以在模板中使用</span><br><span class="line">  &#x2F;&#x2F; 同样也可以在 vm 实例中通过 this.message 来使用</span><br><span class="line">  template: &#39;&lt;span&gt;&#123;&#123; message &#125;&#125;&lt;&#x2F;span&gt;&#39;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>子组件自主控制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;父组件传递数据</span><br><span class="line">&lt;child message&#x3D;&quot;hello!&quot;&gt;&lt;&#x2F;child&gt;</span><br><span class="line">&#x2F;&#x2F;--------省略--------</span><br><span class="line">&#x2F;&#x2F;1, 定义一个局部变量，并用 prop 的值初始化它：</span><br><span class="line">props: [&#39;message&#39;],</span><br><span class="line">data: function () &#123;</span><br><span class="line">  return &#123; msg: this.message &#125;</span><br><span class="line">&#125;</span><br><span class="line">template: &#39;&lt;span&gt;&#123;&#123; msg &#125;&#125;&lt;&#x2F;span&gt;&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;2, 定义一个计算属性，处理 prop 的值并返回：</span><br><span class="line">props: [&#39;message&#39;],</span><br><span class="line">computed: &#123;</span><br><span class="line">  msg: function () &#123;</span><br><span class="line">    return this.message</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">template: &#39;&lt;span&gt;&#123;&#123; msg &#125;&#125;&lt;&#x2F;span&gt;&#39;</span><br></pre></td></tr></table></figure>
+<p>父子组件双向控制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;父组件传递数据</span><br><span class="line">&lt;child v-bind:message&#x3D;&quot;message&quot; v-on:update:message&#x3D;&quot;message &#x3D; $event&quot;&gt;&lt;&#x2F;child&gt;</span><br><span class="line">&#x2F;&#x2F;--------可用.sync 修饰符替代--------</span><br><span class="line">&#x2F;&#x2F;后面传递的message是变量,非字符串</span><br><span class="line">&#x2F;&#x2F;&lt;child :message.sync&#x3D;&quot;message&quot;&gt;&lt;&#x2F;child&gt;</span><br><span class="line">&#x2F;&#x2F;--------省略--------</span><br><span class="line">&#x2F;&#x2F;子组件</span><br><span class="line">props: [&#39;message&#39;],</span><br><span class="line">data: function () &#123;</span><br><span class="line">  return &#123; msg: this.message &#125;</span><br><span class="line">&#125;</span><br><span class="line">watch: &#123;</span><br><span class="line">    &#x2F;&#x2F;监听msg变化自动通信父组件更改</span><br><span class="line">    msg(val) &#123;</span><br><span class="line">        this.$emit(&#39;update:message&#39;, newMsg)</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h2 id="生命周期对比"><a href="#生命周期对比" class="headerlink" title="生命周期对比"></a>生命周期对比</h2><h3 id="React-4"><a href="#React-4" class="headerlink" title="React"></a>React</h3><table>
+<thead>
+<tr>
+<th>React生命周期</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>getDefaultProps</td>
+<td>作用于组件类，只调用一次，返回对象用于设置默认的props，对于引用值，会在实例中共享</td>
+</tr>
+<tr>
+<td>getInitialState</td>
+<td>作用于组件的实例，在实例创建时调用一次，用于初始化每个实例的state，此时可以访问this.props。</td>
+</tr>
+<tr>
+<td>componentWillMount</td>
+<td>在完成首次渲染之前调用，此时仍可以修改组件的state</td>
+</tr>
+<tr>
+<td>render</td>
+<td>必选的方法，创建虚拟DOM，该方法具有特殊的规则: 1) 只能通过this.props和this.state访问数据; 2) 可以返回null、false或任何React组件; 3) 只能出现一个顶级组件（不能返回数组）; 4) 不能改变组件的状态; 5) 不能修改DOM的输出;</td>
+</tr>
+<tr>
+<td>componentDidMount</td>
+<td>真实的DOM被渲染出来后调用，在该方法中可通过this.getDOMNode()访问到真实的DOM元素。此时已可以使用其他类库来操作这个DOM。在服务端中，该方法不会被调用。</td>
+</tr>
+<tr>
+<td>componentWillReceiveProps</td>
+<td>组件接收到新的props时调用，并将其作为参数nextProps使用，此时可以更改组件props及state</td>
+</tr>
+<tr>
+<td>shouldComponentUpdate</td>
+<td>组件是否应当渲染新的props或state，返回false表示跳过后续的生命周期方法，通常不需要使用以避免出现bug。在出现应用的瓶颈时，可通过该方法进行适当的优化。在首次渲染期间或者调用了forceUpdate方法后，该方法不会被调用</td>
+</tr>
+<tr>
+<td>componentWillUpdate</td>
+<td>接收到新的props或者state后，进行渲染之前调用，此时不允许更新props或state。</td>
+</tr>
+<tr>
+<td>componentDidUpdate</td>
+<td>完成渲染新的props或者state后调用，此时可以访问到新的DOM元素。</td>
+</tr>
+<tr>
+<td>componentWillUnmount</td>
+<td>组件被移除之前被调用，可以用于做一些清理工作，在componentDidMount方法中添加的所有任务都需要在该方法中撤销，比如创建的定时器或添加的事件监听器</td>
+</tr>
+<tr>
+<td>componentDidCatch</td>
+<td>16.x新增,捕获全局异常来进行页面的友好提示</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Vue生命周期</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>beforeCreate</td>
+<td>在实例初始化之后，数据观测 (data observer) 和 event/watcher 事件配置之前被调用</td>
+</tr>
+<tr>
+<td>created</td>
+<td>在实例创建完成后被立即调用。在这一步，实例已完成以下的配置：数据观测 (data observer)，属性和方法的运算，watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见</td>
+</tr>
+<tr>
+<td>beforeMount</td>
+<td>在挂载开始之前被调用：相关的 render 函数首次被调用。该钩子在服务器端渲染期间不被调用</td>
+</tr>
+<tr>
+<td>mounted</td>
+<td>el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$el 也在文档内. 注意 mounted 不会承诺所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以用 vm.$nextTick 替换掉 mounted</td>
+</tr>
+<tr>
+<td>beforeUpdate</td>
+<td>数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。你可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。该钩子在服务器端渲染期间不被调用</td>
+</tr>
+<tr>
+<td>updated</td>
+<td>由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。然而在大多数情况下，你应该避免在此期间更改状态。如果要相应状态改变，通常最好使用计算属性或 watcher 取而代之,注意 updated 不会承诺所有的子组件也都一起被重绘。如果你希望等到整个视图都重绘完毕，可以用 vm.$nextTick 替换掉 updated：该钩子在服务器端渲染期间不被调用</td>
+</tr>
+<tr>
+<td>activated</td>
+<td>keep-alive 组件激活时调用。该钩子在服务器端渲染期间不被调用</td>
+</tr>
+<tr>
+<td>deactivated</td>
+<td>keep-alive 组件停用时调用。该钩子在服务器端渲染期间不被调用</td>
+</tr>
+<tr>
+<td>beforeDestroy</td>
+<td>实例销毁之前调用。在这一步，实例仍然完全可用。该钩子在服务器端渲染期间不被调用。</td>
+</tr>
+<tr>
+<td>destroyed</td>
+<td>Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁</td>
+</tr>
+<tr>
+<td>errorCaptured</td>
+<td>当捕获一个来自子孙组件的错误时被调用。此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 false 以阻止该错误继续向上传播</td>
+</tr>
+</tbody></table>
+<h3 id="React示意图"><a href="#React示意图" class="headerlink" title="React示意图"></a>React示意图</h3><p><img src="https://upload-images.jianshu.io/upload_images/15531792-21db4cd6e0492623.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="Vue示意图"><a href="#Vue示意图" class="headerlink" title="Vue示意图"></a>Vue示意图</h3><p><img src="https://upload-images.jianshu.io/upload_images/15531792-a0ab7632a6daee38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="再渲染性能"><a href="#再渲染性能" class="headerlink" title="再渲染性能"></a>再渲染性能</h2><h3 id="React-5"><a href="#React-5" class="headerlink" title="React"></a>React</h3><p>在React里渲染机制是以组件单位更新的,也就是说当数据发生改变,当前视图包括其中的组件子组件和底下的子组件都会一起更新,这种违反性能的机制肯定是有问题的,所以React提供了生命周期shouldComponentUpdate方法让你决定当前组件是否更新,还有一个PureComponent方法会自动检测到state或者props发生变化时，才会调用render方法.但是只是浅比较,如果搭配ImmutableJs持久化数据据说性能大大的提升.除此之外还能节省大量的手动比较的代码和时间,</p>
+<p>简单描述过程</p>
+<ol>
+<li>调用render函数利用JS生成虚拟Dom树,直到数据state/props发生改变的时候，render函数会被再次调用渲染出另外一棵虚拟Dom树;</li>
+<li>比较前后两棵Dom树同层级的节点区别,非同层级节点包括所属子节点整个直接删除重新创建; <ul>
+<li>不同的节点类型,直接替换.</li>
+<li>相同节点类型当中的DOM节点,替换属性.</li>
+<li>相同类型当中的组件节点,继续递归比较所属子节点.</li>
+<li>DOM节点的递归children,继续递归比较children.</li>
+<li>列表比较.赋予唯一的key作比较.</li>
+</ul>
+</li>
+<li>更新视图中差异地方;</li>
+</ol>
+<h3 id="Vue-3"><a href="#Vue-3" class="headerlink" title="Vue"></a>Vue</h3><p>在 Vue 应用中，组件的依赖是在渲染过程中自动追踪的，所以系统能精确知晓哪个组件确实需要被重渲染,因为Vue是使用 Object.defineProperty对绑定属性进行数据劫持的,所以比起React组件式更新它能够精确接收到哪些组件才是需要渲染的.</p>
+<ol>
+<li>Vue 将遍历此data对象所有的属性，并使用 Object.defineProperty 把这些属性全部转为 getter/setter.</li>
+<li>每个组件实例都有相应的 watcher 实例对象，它会在组件渲染的过程中把属性记录为依赖.</li>
+<li>在属性被访问和修改时通知对应的组件.</li>
+<li>对应的组件再次调动渲染函数，生成虚拟Dom树对比，实现更新.</li>
+</ol>
+<h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><h3 id="React-Router"><a href="#React-Router" class="headerlink" title="React-Router"></a>React-Router</h3><p>这是React-Router3的模板写法,实际到了React-Router4的API和思想都有些大的差异</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import React from &#39;react&#39;</span><br><span class="line">import &#123; render &#125; from &#39;react-dom&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 首先我们需要导入一些组件...</span><br><span class="line">import &#123; Router, Route, Link &#125; from &#39;react-router&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 然后我们从应用中删除一堆代码和</span><br><span class="line">&#x2F;&#x2F; 增加一些 &lt;Link&gt; 元素...</span><br><span class="line">const App &#x3D; React.createClass(&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;App&lt;&#x2F;h1&gt;</span><br><span class="line">        &#123;&#x2F;* 把 &lt;a&gt; 变成 &lt;Link&gt; *&#x2F;&#125;</span><br><span class="line">        &lt;ul&gt;</span><br><span class="line">          &lt;li&gt;&lt;Link to&#x3D;&quot;&#x2F;about&quot;&gt;About&lt;&#x2F;Link&gt;&lt;&#x2F;li&gt;</span><br><span class="line">          &lt;li&gt;&lt;Link to&#x3D;&quot;&#x2F;inbox&quot;&gt;Inbox&lt;&#x2F;Link&gt;&lt;&#x2F;li&gt;</span><br><span class="line">        &lt;&#x2F;ul&gt;</span><br><span class="line"></span><br><span class="line">        &#123;&#x2F;*</span><br><span class="line">          接著用 &#96;this.props.children&#96; 替换 &#96;&lt;Child&gt;&#96;</span><br><span class="line">          router 会帮我们找到这个 children</span><br><span class="line">        *&#x2F;&#125;</span><br><span class="line">        &#123;this.props.children&#125;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 最后，我们用一些 &lt;Route&gt; 来渲染 &lt;Router&gt;。</span><br><span class="line">&#x2F;&#x2F; 这些就是路由提供的我们想要的东西。</span><br><span class="line">React.render((</span><br><span class="line">  &lt;Router&gt;</span><br><span class="line">    &lt;Route path&#x3D;&quot;&#x2F;&quot; component&#x3D;&#123;App&#125;&gt;</span><br><span class="line">      &lt;Route path&#x3D;&quot;about&quot; component&#x3D;&#123;About&#125; &#x2F;&gt;</span><br><span class="line">      &lt;Route path&#x3D;&quot;inbox&quot; component&#x3D;&#123;Inbox&#125; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;Route&gt;</span><br><span class="line">  &lt;&#x2F;Router&gt;</span><br><span class="line">), document.body)</span><br></pre></td></tr></table></figure>
+<h3 id="Vue-Router"><a href="#Vue-Router" class="headerlink" title="Vue-Router"></a>Vue-Router</h3><p>Vue-Router3的模板写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 1. 定义（路由）组件。</span><br><span class="line">&#x2F;&#x2F; 可以从其他文件 import 进来</span><br><span class="line">const Foo &#x3D; &#123; template: &#39;&lt;div&gt;foo&lt;&#x2F;div&gt;&#39; &#125;</span><br><span class="line">const Bar &#x3D; &#123; template: &#39;&lt;div&gt;bar&lt;&#x2F;div&gt;&#39; &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2. 定义路由</span><br><span class="line">&#x2F;&#x2F; 每个路由应该映射一个组件。 其中&quot;component&quot; 可以是</span><br><span class="line">&#x2F;&#x2F; 通过 Vue.extend() 创建的组件构造器，</span><br><span class="line">&#x2F;&#x2F; 或者，只是一个组件配置对象。</span><br><span class="line">&#x2F;&#x2F; 我们晚点再讨论嵌套路由。</span><br><span class="line">const routes &#x3D; [</span><br><span class="line">  &#123; path: &#39;&#x2F;foo&#39;, component: Foo &#125;,</span><br><span class="line">  &#123; path: &#39;&#x2F;bar&#39;, component: Bar &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 3. 创建 router 实例，然后传 &#96;routes&#96; 配置</span><br><span class="line">&#x2F;&#x2F; 你还可以传别的配置参数, 不过先这么简单著吧。</span><br><span class="line">const router &#x3D; new VueRouter(&#123;</span><br><span class="line">  routes &#x2F;&#x2F; （缩写）相当于 routes: routes</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 4. 创建和挂载根实例。</span><br><span class="line">&#x2F;&#x2F; 记得要通过 router 配置参数注入路由，</span><br><span class="line">&#x2F;&#x2F; 从而让整个应用都有路由功能</span><br><span class="line">const app &#x3D; new Vue(&#123;</span><br><span class="line">  router</span><br><span class="line">&#125;).$mount(&#39;#app&#39;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 现在，应用已经启动了！</span><br></pre></td></tr></table></figure>
+<h2 id="状态管理"><a href="#状态管理" class="headerlink" title="状态管理"></a>状态管理</h2><p>状态管理库有很多种,我只是举出我用过的例子,并不是必须的.下面只会展示最基本的代码,想跑完整流程还得看文档.</p>
+<h3 id="Redux"><a href="#Redux" class="headerlink" title="Redux"></a>Redux</h3><p>Redux 可以用这三个基本原则来描述：</p>
+<ul>
+<li>单一数据源: 整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中。</li>
+<li>State 是只读的: 唯一改变 state 的方法就是触发 action，action 是一个用于描述已发生事件的普通对象。</li>
+<li>使用纯函数来执行修改: 为了描述 action 如何改变 state tree ，你需要编写 reducers。</li>
+</ul>
+<p>Actions: 把数据从应用传到store的有效载荷。它是store数据的唯一来源.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> * action 类型</span><br><span class="line"> *&#x2F;</span><br><span class="line">export const ADD_TODO &#x3D; &#39;ADD_TODO&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;*</span><br><span class="line"> * action 创建函数</span><br><span class="line"> *&#x2F;</span><br><span class="line">export function addTodo(text) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        type: ADD_TODO,</span><br><span class="line">        text</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Reducers: 指定了应用状态的变化如何响应actions并发送到store的，记住actions只是描述了有事情发生了这一事实，并没有描述应用如何更新state。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import &#123;</span><br><span class="line">    combineReducers</span><br><span class="line">&#125; from &#39;redux&#39;</span><br><span class="line">import &#123;</span><br><span class="line">    ADD_TODO,</span><br><span class="line">&#125; from &#39;.&#x2F;actions&#39;</span><br><span class="line"></span><br><span class="line">function todos(state &#x3D; [], action) &#123;</span><br><span class="line">    switch (action.type) &#123;</span><br><span class="line">        case ADD_TODO:</span><br><span class="line">            return [</span><br><span class="line">                ...state,</span><br><span class="line">                &#123;</span><br><span class="line">                    text: action.text,</span><br><span class="line">                    completed: false</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        default:</span><br><span class="line">            return state</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const todoApp &#x3D; combineReducers(&#123;</span><br><span class="line">    todos</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">export default todoApp</span><br></pre></td></tr></table></figure>
+<p>Store: 就是把Actions和Reducers联系到一起的对象.</p>
+<ul>
+<li>维持应用的 state；</li>
+<li>提供 getState() 方法获取 state；</li>
+<li>提供 dispatch(action) 方法更新 state；</li>
+<li>通过 subscribe(listener) 注册监听器;</li>
+<li>通过 subscribe(listener) 返回的函数注销监听器。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &#123; createStore &#125; from &#39;redux&#39;</span><br><span class="line">import todoApp from &#39;.&#x2F;reducers&#39;</span><br><span class="line">let store &#x3D; createStore(todoApp)</span><br></pre></td></tr></table></figure>
+单向数据流<br><img src="https://upload-images.jianshu.io/upload_images/15531792-19b88b12049ea29d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+<ol>
+<li>定义Action描述对象;</li>
+<li>通过dispatcher触发Action对象;</li>
+<li>Reducer响应变化更新到Store状态管理对象;</li>
+<li>注入Store状态的组件视图更新;</li>
+<li>界面交互触发Action再次跑相应流程;</li>
+</ol>
+<p>进阶:</p>
+<ol>
+<li>Action利用中间件发起异步请求;</li>
+<li>Reducer逻辑拆分;</li>
+<li>组件注入部分Store状态;<br>等等,<a target="_blank" rel="noopener" href="https://link.segmentfault.com/?url=https://www.redux.org.cn/">Redux 中文文档</a>,(更多内容请自行查阅,本节到此为止了.)</li>
+</ol>
+<h3 id="Mobx"><a href="#Mobx" class="headerlink" title="Mobx"></a>Mobx</h3><p>另一种实现方式,具体可看<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019991169">Mobx4.X状态管理入门</a></p>
+<h3 id="Vuex"><a href="#Vuex" class="headerlink" title="Vuex"></a>Vuex</h3><p>Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 devtools extension，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能。</p>
+<p>Mutation: 必须是同步函数,更改Vuex的store中的状态的唯一方法是提交mutatio</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; mutation-types.js</span><br><span class="line">export const SOME_MUTATION &#x3D; &#39;SOME_MUTATION&#39;</span><br><span class="line">&#x2F;&#x2F; store.js</span><br><span class="line">import Vuex from &#39;vuex&#39;</span><br><span class="line">import &#123;</span><br><span class="line">    SOME_MUTATION</span><br><span class="line">&#125; from &#39;.&#x2F;mutation-types&#39;</span><br><span class="line"></span><br><span class="line">const store &#x3D; new Vuex.Store(&#123;</span><br><span class="line">    state: &#123; ...</span><br><span class="line">    &#125;,</span><br><span class="line">    mutations: &#123;</span><br><span class="line">        &#x2F;&#x2F; 我们可以使用 ES2015 风格的计算属性命名功能来使用一个常量作为函数名</span><br><span class="line">        [SOME_MUTATION](state) &#123;</span><br><span class="line">            &#x2F;&#x2F; mutate state</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Action 类似于mutation，不同在于：</p>
+<ul>
+<li>Action 提交的是 mutation，而不是直接变更状态;</li>
+<li>Action 可以包含任意异步操作;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">actions: &#123;</span><br><span class="line">  incrementAsync (&#123; commit &#125;) &#123;</span><br><span class="line">    setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">      commit(&#39;increment&#39;)</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Getter: 从store中的state中派生出一些状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">getters: &#123;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  doneTodosCount: (state, getters) &#x3D;&gt; &#123;</span><br><span class="line">    return getters.doneTodos.length</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>State: 包含了全部的应用层级状态。至此它便作为一个“唯一数据源 (SSOT)”而存在.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const app &#x3D; new Vue(&#123;</span><br><span class="line">  el: &#39;#app&#39;,</span><br><span class="line">  &#x2F;&#x2F; 把 store 对象提供给 “store” 选项，这可以把 store 的实例注入所有的子组件</span><br><span class="line">  store,</span><br><span class="line">  components: &#123; Counter &#125;,</span><br><span class="line">  template: &#96;</span><br><span class="line">    &lt;div class&#x3D;&quot;app&quot;&gt;</span><br><span class="line">      &lt;counter&gt;&lt;&#x2F;counter&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  &#96;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Module: Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块——从上至下进行同样方式的分割：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const moduleA &#x3D; &#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123; ... &#125;,</span><br><span class="line">  actions: &#123; ... &#125;,</span><br><span class="line">  getters: &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const moduleB &#x3D; &#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123; ... &#125;,</span><br><span class="line">  actions: &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const store &#x3D; new Vuex.Store(&#123;</span><br><span class="line">  modules: &#123;</span><br><span class="line">    a: moduleA,</span><br><span class="line">    b: moduleB</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.state.a &#x2F;&#x2F; -&gt; moduleA 的状态</span><br><span class="line">store.state.b &#x2F;&#x2F; -&gt; moduleB 的状态</span><br></pre></td></tr></table></figure>
+<p>单向数据流<br><img src="https://upload-images.jianshu.io/upload_images/15531792-40744a96a1b8ad4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>(官网来的)<br><a target="_blank" rel="noopener" href="https://link.segmentfault.com/?url=https://vuex.vuejs.org/zh-cn/">Vuex</a></p>
+<h3 id="对比-3"><a href="#对比-3" class="headerlink" title="对比"></a>对比</h3><ul>
+<li><p>Redux的Action可以是异步或者同步函数返回Javascript对象,Vuex分为同步函数不限制格式的mutation和可包含异步函数的action</p>
+</li>
+<li><p>React直接dispatch action触发状态更新,Vuex是dispatch action提交mutation再commmit触发状态更新</p>
+</li>
+<li><p>Redux指定了应用状态的变化如何响应actions并发送到store的reducer,且必须为纯函数.Vuex实际上是使用mutation更新状态</p>
+<p>  – Redux: (dispatch)action -&gt; (reducer)store<br>  – Vuex: (dispatch)action -&gt; (commit)mutation -&gt; (mutate)store</p>
+</li>
+<li><p>Vuex可以用getter派生出一些状态,就像计算函数会被缓存起来只有依赖变化之后才会重新计算.<br>(更多内容请自行查阅,本节到此为止了.)</p>
+</li>
+</ul>
+<h2 id="官方脚手架"><a href="#官方脚手架" class="headerlink" title="官方脚手架"></a>官方脚手架</h2><p>React 官方提供了 create-react-app,诟病的地方比较多.</p>
+<ul>
+<li>它不允许在项目生成时进行任何配置，而 Vue 支持 Yeoman-like 定制。</li>
+<li>它只提供一个构建单页面应用的单一模板，而 Vue 提供了各种用途的模板。</li>
+<li>它不能用用户自建的模板构建项目，而自建模板对企业环境下预先建立协议是特别有用的。</li>
+</ul>
+<p>更多人选择自己搭建或者使用民间打包库.</p>
+<p>Vue 提供了 Vue-cli 脚手架，能让你非常容易地构建项目，包含了 Webpack，Browserify，甚至 no build system,但是有些设置例如Scss预处理器等自定义配置需要自己搞,总的来说相当实用.</p>
+<h2 id="入门难度"><a href="#入门难度" class="headerlink" title="入门难度"></a>入门难度</h2><p>React正常来说需要搭配Jsx和Es6语法和构建环境;<br>Vue可以直接引入js库就能开发,而且内置的功能属性比React多得多</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2021/08/22/Android-%E4%BB%8E%E7%82%B9%E5%87%BB%E5%BA%94%E7%94%A8%E5%9B%BE%E6%A0%87%E5%88%B0%E7%95%8C%E9%9D%A2%E6%98%BE%E7%A4%BA%E7%9A%84%E8%BF%87%E7%A8%8B/" class="styled-border">
+                    
+                    Android 从点击应用图标到界面显示的过程
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
