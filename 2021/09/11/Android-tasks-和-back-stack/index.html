@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android tasks 和 back stack | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]Android Tasks and Back Stack (遵循CC 4.0 BY-SA版权协议)这是Android官网（https:&#x2F;&#x2F;developer.android.google.cn&#x2F;guide&#x2F;components&#x2F;activities&#x2F;tasks-and-back-stack）上面关于Task和Back Stack的描述。我今天想从一下几个问题出发去了解Task和Back St">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android tasks 和 back stack">
+<meta property="og:url" content="https://jenna233.github.io/2021/09/11/Android-tasks-%E5%92%8C-back-stack/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]Android Tasks and Back Stack (遵循CC 4.0 BY-SA版权协议)这是Android官网（https:&#x2F;&#x2F;developer.android.google.cn&#x2F;guide&#x2F;components&#x2F;activities&#x2F;tasks-and-back-stack）上面关于Task和Back Stack的描述。我今天想从一下几个问题出发去了解Task和Back St">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-83ed86bc2c776c67.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-8e42b83fae3329d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-72feb843f159c7d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-98988c92021b5be5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-6b8381c57b4d6ab8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-041cd7845d2a573b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-e053f2554f7dde42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-370f01e82177e20a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-af2721b1ada09295.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-e6ae40832164a6c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-09-11T12:24:42.000Z">
+<meta property="article:modified_time" content="2021-09-11T12:25:31.974Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-83ed86bc2c776c67.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Android tasks 和 back stack</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/9/11 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://blog.csdn.net/mypotatolove/article/details/81264125">Android Tasks and Back Stack</a> (遵循CC 4.0 BY-SA版权协议)<br><img src="https://upload-images.jianshu.io/upload_images/15531792-83ed86bc2c776c67.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>这是Android官网（<a target="_blank" rel="noopener" href="https://developer.android.google.cn/guide/components/activities/tasks-and-back-stack%EF%BC%89%E4%B8%8A%E9%9D%A2%E5%85%B3%E4%BA%8ETask%E5%92%8CBack">https://developer.android.google.cn/guide/components/activities/tasks-and-back-stack）上面关于Task和Back</a> Stack的描述。我今天想从一下几个问题出发去了解Task和Back Stack。</p>
+<h1 id="1-Task和Back-Stack，Activity的关系"><a href="#1-Task和Back-Stack，Activity的关系" class="headerlink" title="1. Task和Back Stack，Activity的关系"></a>1. Task和Back Stack，Activity的关系</h1><p>有人说Task == Back Stack，也有说Task 包含Back Stack，但是这些都说法不太准确。我认为Android使用Task来管理一个App的Activities，而Task是以Stack(栈)这种数据结构来存放所有的Activity。A task is a collection of activities that users interact with when performing a certain job，这句话表明task就是一些activitis的集合，集合的数据结构可以有很多种，我们可以用数组和队列来表示，而android系统选用了stack这种数据结构作为activities的存放方式。一个app只有一个Stack，所有的activities都位于同一个Stack（栈）中，不同的activity可以被划分为不同的task中，所以一个Stack（栈）中有几个task。<br>Stack（栈）这种数据结构的特点就是后进先出，由于栈的这种特点所以activities和tasks的默认的行为可以用下图来表示。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-8e42b83fae3329d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>当前的activity（Activity 1）启动另外一个activity（Activity 2）时，新的activity（Activity 2）就被放到栈顶并获得用户焦点显示给用户，之前的activity（Activity 1）仍然存在Stack（栈）中，但是被停止。系统仍然会保存之前activity（Activity 1）的状态。新的activity（Activity 3）被启动时又会被放到栈顶，之前activity（Activity 1，Activity 2）被压入栈中。当用户点击返回按钮时，栈顶activity（Activity 3）会出栈被销毁，位于下面的activity（Activity 2）就会成为栈顶activity恢复之前的状态。</p>
+<p>位于栈中的activities永远不会被重新排列只会有进栈和出栈的操作，新的activity被启动时就会进栈，当用户点击返回按钮时当前activity会被销毁并出栈。activities永远不会被重新排列，如果你的app中一个activity可以从多个activity被启动，每次一个新的activity实例会被创建并添加到stack（栈）中。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-72feb843f159c7d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h1 id="2-Task的管理"><a href="#2-Task的管理" class="headerlink" title="2. Task的管理"></a>2. Task的管理</h1><p>默认情况下一个app的所有的activity都是位于同一个任务栈中，遵循着后进先出的原则。但是你也许想让一个新启动的activity放在一个新的task中，而不是当前存在的task中。或者想直接使用当前栈中已经存在的activity实例，而不是重新创建一个新的activity例子。或者你想要清除一个task中除了root activity外的所有activity，当用户离开task的时候。</p>
+<p>你可以通过activiyt的属性和intent的flag去改变task的默认的行为：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-98988c92021b5be5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>通过launchMode你可以定义新的activity实例和当前的task之间的联系，设置不同的launchMode有两种方式，一种是通过在manifest文件中设置activity的launchMode属性，一种是在启动一个Activity设置intent的flag。</p>
+<p>通过activity的launchMode属性时有四种模式：</p>
+<p>a. “standard”(the default mode)</p>
+<p>标准模式也是默认模式，新启动的activity添加到当前的task中，不管当前task中是否有该activity的实例，都会启动新的activity。一个task可以存在多个相同的activity实例，被实例化的actiivty也可以存在多个不同的task中。</p>
+<p>b. “singleTop”<br> 如果该activity实例已经存在于当前task的顶部，系统不会创建一个该activity的实例，而是调用activity的onNewIntent(onNewIntent –&gt; onStart –&gt; onResume)方法。如果该activity实例已经存在于当前task中，但不是存在于顶部，系统还是会去创建该activity的一个实例并放在当前activity的顶部。launchMode为singleTop的activity可以被多次实例化，一个task中可以存在多个实例，多个实例也可以存在不同的task中。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-6b8381c57b4d6ab8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>c. “singleTask”</p>
+<p>关于singleTask，android官网上面的解释是：如果该activity实例不存在，系统会实例化该activity并创建一个单独的task，将实例化的activity作为task的根部。 但是在实际开发过程中，当我们只是把一个activity的launchMode声明为singleTask时，发现系统并没有为这个activity的实例单独创建一个task。在实验过程中发现，系统是否会为该activity创建新的task还与activity的属性taskAffinity有关。在声明activity时，我们一般没有单独设置taskAffinity属性，在没有特殊设置时taskAffinity属性的值为manifest中设置的包名。在启动一个activity时，如果启动的activity与被启动的activity的taskAffinity属性相同时，系统不会重新创建一个新的task，如果taskAffinity属性不同时系统就会为新启动的activity创建一个新的task。如果该activity已经存在于一个task中时，系统不会多次创建这个activity，系统会将整个task放到前台并将位于同一个task中在该activity之上的activity就会被清除出activity。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-041cd7845d2a573b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-e053f2554f7dde42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>d. “singleInstance”</p>
+<p>系统永远只存在一个该activity在一个单独的task中，由该activity启动的其他activities都会在另外单独的task中，存放该activity的task永远不会放其他activities。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-370f01e82177e20a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>实际上一个app所有的task和activity都是位于同一个Stack（栈）中，用户为了完成某个功能执行一些列的操作会形成一个activity序列，这个activity序列就称为task。一个app根据系统功能可以有多个task，所有的task都是放在同一个Stack（栈）中，task在栈中的顺序会根据用户的操作而改变。用户按back键时，栈中的activity会按顺序出栈。</strong></p>
+<h1 id="3-Intent-flags"><a href="#3-Intent-flags" class="headerlink" title="3. Intent flags"></a>3. Intent flags</h1><p>关于launchMode和intent flags之间的关系，android 官网上面有如下说明：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-af2721b1ada09295.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>launchMode设定的属性可能被intent flags的设定覆盖，在实际测试时发现并不是所有的情况下intent flags的设定都会覆盖launchMode的设定。如果Activity A设定的launchMode为standard或singleTop，Activity B 在启动Activity A时设置Intent flag为 FLAG_ACTIVITY_NEW_TASK时，在这种两种情况下flag的设定会覆盖launchMode的设定。但是当Activity A设定的launchMode为singleTask或singleInstance时，这两种情况下launchMode的设定并不会被覆盖。</p>
+<p>a. FLAG_ACTIVITY_NEW_TASK</p>
+<p>如果被启动的activity的task不存在时（之前没有taskAffinity相同的activity被启动），系统会创建新的task。但是已经有该activity对应的task存在时（之前有taskAffinity相同的activity被启动），系统不会创建新的task。和singleTask有不同之处，如果task中存在该activity，系统仍会创建新的activity，而不是将已经存在的activity移动的顶部。<br>b. FLAG_ACTIVITY_SINGLE_TOP</p>
+<p>可以覆盖掉launchMode为standard的设置，和singleTop的效果一样，当activity已经位于task顶部时不会在创建新的activity实例，会调用已有实例的onNewIntent方法。</p>
+<p>c. FLAG_ACTIVITY_CLEAR_TOP</p>
+<p>如果该activity已经存在于当前的task时，系统不会创建一个新的activity实例，而时清除掉task中位于该activity之上的其他activity，但是清除其他activty后返回该activity时onNewIntent并不会被调用。如果当前task不存在该activity时就会创建新的activity。 </p>
+<h1 id="4-Handling-affinities"><a href="#4-Handling-affinities" class="headerlink" title="4. Handling affinities"></a>4. Handling affinities</h1><p>affinity属性指明了activity更倾向于放在哪个task中。一个app中所有activities都是有设置taskAffinity属性的，默认情况下为manifest中设置的包名，所以默认情况下所有的activity都是位于相同的task中。我们可以去修改一个activity的taskAffinity属性，但属性值不能和默认值一样。不同app中的activity可以共享同一个taskAffinity属性值，一个app中不同的activity也可以有不同的taskAffinity属性值。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-e6ae40832164a6c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h1 id="5-清除Task"><a href="#5-清除Task" class="headerlink" title="5.清除Task"></a>5.清除Task</h1><p>如果用户离开一个task比较长时间，系统会清除掉task中除了root activity的activities。当用户返回到这个task时，只有位于这个task底部的activity会被恢复。系统这样做是因为，用户在一段时间之后用户可能已经放弃了之前所做的事情，用户重新返回是为了开始新的行为。但是你可以通过activity的以下三种属性去修改这些行为：</p>
+<p>a. alwaysRetainTaskState</p>
+<p>如果在一个task的root activity中设置这个属性为true，系统不会清除activities即使用户离开task比较长时间之后。</p>
+<p>b. clearTaskOnLaunch</p>
+<p> 如果在一个task的root activity中设置这个属性为true，在用户离开这个task之后，系统会清除掉task中除底部以外的所有activities。</p>
+<p>c. finishOnTaskLaunch</p>
+<p>这个属性和clearTaskOnLaunch类似，但是这个属性是专门针对单个的activity，而不是整个task。他可以让任何activity出栈包括root activity。当这个属性设置为true之后，这个activity只是在当前会话的时候是这个task的一部分，当离开这个task之后这个activity就不再存在了。</p>
+<p>alwaysRetainTaskState和clearTaskOnLaunch属性都是需要在root activity中设置。关于root activity的说法有两种：一种是说位于task底部的activity就是为root activity，如果是这样那么任何一个activity都可能成为root activity。另一种说法是声明了”android.intent.action.MAIN”和”android.intent.category.LAUNCHER”的activity为root activity。之前我也是认为第一种是正确的，但是实际在设置的时候发现只有在声明了”android.intent.action.MAIN”和”android.intent.category.LAUNCHER”的activity中设置alwaysRetainTaskState和clearTaskOnLaunch属性时才能生效。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2021/09/05/Retrofit-%E4%B8%8E-OKHttp-%E4%BB%8B%E7%BB%8D/" class="styled-border">
+                    
+                    Retrofit 与 OKHttp 介绍
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
