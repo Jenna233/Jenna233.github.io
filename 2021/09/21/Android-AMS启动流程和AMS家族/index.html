@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android AMS启动流程和AMS家族 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]Android解析ActivityManagerService（一）AMS启动流程和AMS家族 (遵循CC 4.0 BY-SA版权协议)关联系列Android系统启动流程系列Android应用进程系列Android深入四大组件系列 前言此前在Android系统启动流程、应用进程以及深入四大组件这三个系列文章中，都提及到了AMS，但都没有系统的来讲解它，本文就以AMS为主来进行讲解，其中会有一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android AMS启动流程和AMS家族">
+<meta property="og:url" content="https://jenna233.github.io/2021/09/21/Android-AMS%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E5%92%8CAMS%E5%AE%B6%E6%97%8F/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]Android解析ActivityManagerService（一）AMS启动流程和AMS家族 (遵循CC 4.0 BY-SA版权协议)关联系列Android系统启动流程系列Android应用进程系列Android深入四大组件系列 前言此前在Android系统启动流程、应用进程以及深入四大组件这三个系列文章中，都提及到了AMS，但都没有系统的来讲解它，本文就以AMS为主来进行讲解，其中会有一">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-34efe6a00ae6887f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-b03b714636aa8fa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2021-09-21T07:08:07.000Z">
+<meta property="article:modified_time" content="2021-09-21T07:08:42.822Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-34efe6a00ae6887f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Android AMS启动流程和AMS家族</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2021/9/21 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://blog.csdn.net/itachi85/article/details/76405596">Android解析ActivityManagerService（一）AMS启动流程和AMS家族</a> (遵循CC 4.0 BY-SA版权协议)<br>关联系列<br><a target="_blank" rel="noopener" href="http://liuwangshu.cn/tags/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8/">Android系统启动流程系列</a><br><a target="_blank" rel="noopener" href="http://liuwangshu.cn/tags/Android%E5%BA%94%E7%94%A8%E8%BF%9B%E7%A8%8B/">Android应用进程系列</a><br><a target="_blank" rel="noopener" href="http://liuwangshu.cn/tags/Android%E6%B7%B1%E5%85%A5%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/">Android深入四大组件系列</a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>此前在Android系统启动流程、应用进程以及深入四大组件这三个系列文章中，都提及到了AMS，但都没有系统的来讲解它，本文就以AMS为主来进行讲解，其中会有一些知识点与这些系列文章有所重合，这里会尽量做到详尽讲解。阅读此文章前，最好阅读相关文章中列出的系列文章，否则我不敢保证这篇文章你能看的懂。</p>
+<h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h1><p>AMS是系统的引导服务，应用进程的启动、切换和调度、四大组件的启动和管理都需要AMS的支持。从这里可以看出AMS的功能会十分的繁多，当然它并不是一个类承担这个重责，它有一些关联类，这在文章后面会讲到。AMS的涉及的知识点非常多，这篇文章主要会讲解AMS的以下几个知识点：</p>
+<ul>
+<li>AMS的启动流程。</li>
+<li>AMS与进程启动。</li>
+<li>AMS家族。<h1 id="2-AMS的启动流程"><a href="#2-AMS的启动流程" class="headerlink" title="2.AMS的启动流程"></a>2.AMS的启动流程</h1>AMS的启动是在SyetemServer进程中启动的，在<a target="_blank" rel="noopener" href="http://liuwangshu.cn/framework/booting/3-syetemserver.html">Android系统启动流程（三）解析SyetemServer进程启动过程</a>这篇文章中提及过，这里从SyetemServer的main方法开始讲起：</li>
+</ul>
+<p><strong>frameworks/base/services/java/com/android/server/SystemServer.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">       new SystemServer().run();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>main方法中只调用了SystemServer的run方法，如下所示。<br><strong>frameworks/base/services/java/com/android/server/SystemServer.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">private void run() &#123;</span><br><span class="line">       ...</span><br><span class="line">           System.loadLibrary(&quot;android_servers&quot;);&#x2F;&#x2F;1</span><br><span class="line">       ...</span><br><span class="line">           mSystemServiceManager &#x3D; new SystemServiceManager(mSystemContext);&#x2F;&#x2F;2</span><br><span class="line">           LocalServices.addService(SystemServiceManager.class, mSystemServiceManager);</span><br><span class="line">       ...    </span><br><span class="line">        try &#123;</span><br><span class="line">           Trace.traceBegin(Trace.TRACE_TAG_SYSTEM_SERVER, &quot;StartServices&quot;);</span><br><span class="line">           startBootstrapServices();&#x2F;&#x2F;3</span><br><span class="line">           startCoreServices();&#x2F;&#x2F;4</span><br><span class="line">           startOtherServices();&#x2F;&#x2F;5</span><br><span class="line">       &#125; catch (Throwable ex) &#123;</span><br><span class="line">           Slog.e(&quot;System&quot;, &quot;******************************************&quot;);</span><br><span class="line">           Slog.e(&quot;System&quot;, &quot;************ Failure starting system services&quot;, ex);</span><br><span class="line">           throw ex;</span><br><span class="line">       &#125; finally &#123;</span><br><span class="line">           Trace.traceEnd(Trace.TRACE_TAG_SYSTEM_SERVER);</span><br><span class="line">       &#125;</span><br><span class="line">       ...</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>在注释1处加载了动态库libandroid_servers.so。接下来在注释2处创建SystemServiceManager，它会对系统的服务进行创建、启动和生命周期管理。在注释3中的startBootstrapServices方法中用SystemServiceManager启动了ActivityManagerService、PowerManagerService、PackageManagerService等服务。在注释4处的startCoreServices方法中则启动了BatteryService、UsageStatsService和WebViewUpdateService。注释5处的startOtherServices方法中启动了CameraService、AlarmManagerService、VrManagerService等服务。这些服务的父类均为SystemService。从注释3、4、5的方法可以看出，官方把系统服务分为了三种类型，分别是引导服务、核心服务和其他服务，其中其他服务是一些非紧要和一些不需要立即启动的服务。系统服务总共大约有80多个，我们主要来查看引导服务AMS是如何启动的，注释3处的startBootstrapServices方法如下所示。</p>
+<p><strong>frameworks/base/services/java/com/android/server/SystemServer.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private void startBootstrapServices() &#123;</span><br><span class="line">     Installer installer &#x3D; mSystemServiceManager.startService(Installer.class);</span><br><span class="line">     &#x2F;&#x2F; Activity manager runs the show.</span><br><span class="line">     mActivityManagerService &#x3D; mSystemServiceManager.startService(</span><br><span class="line">             ActivityManagerService.Lifecycle.class).getService();&#x2F;&#x2F;1</span><br><span class="line">     mActivityManagerService.setSystemServiceManager(mSystemServiceManager);</span><br><span class="line">     mActivityManagerService.setInstaller(installer);</span><br><span class="line">   ...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>在注释1处调用了SystemServiceManager的startService方法，方法的参数是ActivityManagerService.Lifecycle.class：<br><strong>frameworks/base/services/core/java/com/android/server/SystemServiceManager.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">  public &lt;T extends SystemService&gt; T startService(Class&lt;T&gt; serviceClass) &#123;</span><br><span class="line">      try &#123;</span><br><span class="line">         ...</span><br><span class="line">          final T service;</span><br><span class="line">          try &#123;</span><br><span class="line">              Constructor&lt;T&gt; constructor &#x3D; serviceClass.getConstructor(Context.class);&#x2F;&#x2F;1</span><br><span class="line">              service &#x3D; constructor.newInstance(mContext);&#x2F;&#x2F;2</span><br><span class="line">          &#125; catch (InstantiationException ex) &#123;</span><br><span class="line">            ...</span><br><span class="line">          &#125;</span><br><span class="line">          &#x2F;&#x2F; Register it.</span><br><span class="line">          mServices.add(service);&#x2F;&#x2F;3</span><br><span class="line">          &#x2F;&#x2F; Start it.</span><br><span class="line">          try &#123;</span><br><span class="line">              service.onStart();&#x2F;&#x2F;4</span><br><span class="line">          &#125; catch (RuntimeException ex) &#123;</span><br><span class="line">              throw new RuntimeException(&quot;Failed to start service &quot; + name</span><br><span class="line">                      + &quot;: onStart threw an exception&quot;, ex);</span><br><span class="line">          &#125;</span><br><span class="line">          return service;</span><br><span class="line">      &#125; finally &#123;</span><br><span class="line">          Trace.traceEnd(Trace.TRACE_TAG_SYSTEM_SERVER);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>startService方法传入的参数是Lifecycle.class，Lifecycle继承自SystemService。首先，通过反射来创建Lifecycle实例，注释1处得到传进来的Lifecycle的构造器constructor，在注释2处调用constructor的newInstance方法来创建Lifecycle类型的service对象。接着在注释3处将刚创建的service添加到ArrayList类型的mServices对象中来完成注册。最后在注释4处调用service的onStart方法来启动service，并返回该service。Lifecycle是AMS的内部类，代码如下所示。<br><strong>frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public static final class Lifecycle extends SystemService &#123;</span><br><span class="line">     private final ActivityManagerService mService;</span><br><span class="line">     public Lifecycle(Context context) &#123;</span><br><span class="line">         super(context);</span><br><span class="line">         mService &#x3D; new ActivityManagerService(context);&#x2F;&#x2F;1</span><br><span class="line">     &#125;</span><br><span class="line">     @Override</span><br><span class="line">     public void onStart() &#123;</span><br><span class="line">         mService.start();&#x2F;&#x2F;2</span><br><span class="line">     &#125;</span><br><span class="line">     public ActivityManagerService getService() &#123;</span><br><span class="line">         return mService;&#x2F;&#x2F;3</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码结合SystemServiceManager的startService方法来分析，当通过反射来创建Lifecycle实例时，会调用注释1处的方法创建AMS实例，当调用Lifecycle类型的service的onStart方法时，实际上是调用了注释2处AMS的start方法。在SystemServer的startBootstrapServices方法的注释1处，调用了如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mActivityManagerService &#x3D; mSystemServiceManager.startService(</span><br><span class="line">               ActivityManagerService.Lifecycle.class).getService();</span><br></pre></td></tr></table></figure>
+<p>我们知道SystemServiceManager的startService方法最终会返回Lifecycle类型的对象，紧接着又调用了Lifecycle的getService方法，这个方法会返回AMS类型的mService对象，见注释3处，这样AMS实例就会被创建并且返回。</p>
+<h1 id="3-AMS与进程启动"><a href="#3-AMS与进程启动" class="headerlink" title="3.AMS与进程启动"></a>3.AMS与进程启动</h1><p>在<a target="_blank" rel="noopener" href="http://liuwangshu.cn/framework/booting/2-zygote.html">Android系统启动流程（二）解析Zygote进程启动过程</a>这篇文章中，我提到了Zygote的Java框架层中，会创建一个Server端的Socket，这个Socket用来等待AMS来请求Zygote来创建新的应用程序进程。要启动一个应用程序，首先要保证这个应用程序所需要的应用程序进程已经被启动。AMS在启动应用程序时会检查这个应用程序需要的应用程序进程是否存在，不存在就会请求Zygote进程将需要的应用程序进程启动。Service的启动过程中会调用ActiveServices的bringUpServiceLocked方法，如下所示。<br><strong>frameworks/base/services/core/java/com/android/server/am/ActiveServices.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">  private String bringUpServiceLocked(ServiceRecord r, int intentFlags, boolean execInFg,</span><br><span class="line">            boolean whileRestarting, boolean permissionsReviewRequired)</span><br><span class="line">            throws TransactionTooLargeException &#123;</span><br><span class="line">  ...</span><br><span class="line">  final String procName &#x3D; r.processName;&#x2F;&#x2F;1</span><br><span class="line">  ProcessRecord app;</span><br><span class="line">  if (!isolated) &#123;</span><br><span class="line">            app &#x3D; mAm.getProcessRecordLocked(procName, r.appInfo.uid, false);&#x2F;&#x2F;2</span><br><span class="line">            if (DEBUG_MU) Slog.v(TAG_MU, &quot;bringUpServiceLocked: appInfo.uid&#x3D;&quot; + r.appInfo.uid</span><br><span class="line">                        + &quot; app&#x3D;&quot; + app);</span><br><span class="line">            if (app !&#x3D; null &amp;&amp; app.thread !&#x3D; null) &#123;&#x2F;&#x2F;3</span><br><span class="line">                try &#123;</span><br><span class="line">                    app.addPackage(r.appInfo.packageName, r.appInfo.versionCode,</span><br><span class="line">                    mAm.mProcessStats);</span><br><span class="line">                    realStartServiceLocked(r, app, execInFg);&#x2F;&#x2F;4</span><br><span class="line">                    return null;</span><br><span class="line">                &#125; catch (TransactionTooLargeException e) &#123;</span><br><span class="line">                   ...</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                app &#x3D; r.isolatedProc;</span><br><span class="line">            &#125;</span><br><span class="line">       if (app &#x3D;&#x3D; null &amp;&amp; !permissionsReviewRequired) &#123;&#x2F;&#x2F;5</span><br><span class="line">            if ((app&#x3D;mAm.startProcessLocked(procName, r.appInfo, true, intentFlags,</span><br><span class="line">                    &quot;service&quot;, r.name, false, isolated, false)) &#x3D;&#x3D; null) &#123;&#x2F;&#x2F;6</span><br><span class="line">              ...</span><br><span class="line">            &#125;</span><br><span class="line">            if (isolated) &#123;</span><br><span class="line">                r.isolatedProc &#x3D; app;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"> ...     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在注释1处得到ServiceRecord的processName的值赋值给procName ，其中ServiceRecord用来描述Service的android:process属性。注释2处将procName和Service的uid传入到AMS的getProcessRecordLocked方法中，来查询是否存在一个与Service对应的ProcessRecord类型的对象app，ProcessRecord主要用来记录运行的应用程序进程的信息。注释5处判断Service对应的app为null则说明用来运行Service的应用程序进程不存在，则调用注释6处的AMS的startProcessLocked方法来创建对应的应用程序进程，<br>具体的过程请查看<a target="_blank" rel="noopener" href="http://liuwangshu.cn/framework/applicationprocess/1.html">Android应用程序进程启动过程（前篇）</a>。</p>
+<h1 id="4-AMS家族"><a href="#4-AMS家族" class="headerlink" title="4.AMS家族"></a>4.AMS家族</h1><p>ActivityManager是一个和AMS相关联的类，它主要对运行中的Activity进行管理，这些管理工作并不是由ActivityManager来处理的，而是交由AMS来处理，ActivityManager中的方法会通过ActivityManagerNative（以后简称AMN）的getDefault方法来得到ActivityManagerProxy(以后简称AMP)，通过AMP就可以和AMN进行通信，而AMN是一个抽象类，它会将功能交由它的子类AMS来处理，因此，AMP就是AMS的代理类。AMS作为系统核心服务，很多API是不会暴露给ActivityManager的，因此ActivityManager并不算是AMS家族一份子。<br>为了讲解AMS家族，这里拿Activity的启动过程举例，Activity的启动过程中会调用Instrumentation的execStartActivity方法，如下所示。<br><strong>frameworks/base/core/java/android/app/Instrumentation.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public ActivityResult execStartActivity(</span><br><span class="line">            Context who, IBinder contextThread, IBinder token, Activity target,</span><br><span class="line">            Intent intent, int requestCode, Bundle options) &#123;</span><br><span class="line">      ...</span><br><span class="line">        try &#123;</span><br><span class="line">            intent.migrateExtraStreamToClipData();</span><br><span class="line">            intent.prepareToLeaveProcess(who);</span><br><span class="line">            int result &#x3D; ActivityManagerNative.getDefault()</span><br><span class="line">                .startActivity(whoThread, who.getBasePackageName(), intent,</span><br><span class="line">                        intent.resolveTypeIfNeeded(who.getContentResolver()),</span><br><span class="line">                        token, target !&#x3D; null ? target.mEmbeddedID : null,</span><br><span class="line">                        requestCode, 0, null, options);</span><br><span class="line">            checkStartActivityResult(result, intent);</span><br><span class="line">        &#125; catch (RemoteException e) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;Failure from system&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>execStartActivity方法中会调用AMN的getDefault来获取AMS的代理类AMP。接着调用了AMP的startActivity方法，先来查看AMN的getDefault方法做了什么，如下所示。<br><strong>frameworks/base/core/java/android/app/ActivityManagerNative.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> static public IActivityManager getDefault() &#123;</span><br><span class="line">        return gDefault.get();</span><br><span class="line">    &#125;</span><br><span class="line">    private static final Singleton&lt;IActivityManager&gt; gDefault &#x3D; new Singleton&lt;IActivityManager&gt;() &#123;</span><br><span class="line">        protected IActivityManager create() &#123;</span><br><span class="line">            IBinder b &#x3D; ServiceManager.getService(&quot;activity&quot;);&#x2F;&#x2F;1</span><br><span class="line">            if (false) &#123;</span><br><span class="line">                Log.v(&quot;ActivityManager&quot;, &quot;default service binder &#x3D; &quot; + b);</span><br><span class="line">            &#125;</span><br><span class="line">            IActivityManager am &#x3D; asInterface(b);&#x2F;&#x2F;2</span><br><span class="line">            if (false) &#123;</span><br><span class="line">                Log.v(&quot;ActivityManager&quot;, &quot;default service &#x3D; &quot; + am);</span><br><span class="line">            &#125;</span><br><span class="line">            return am;</span><br><span class="line">        &#125;+</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>getDefault方法调用了gDefault的get方法，我们接着往下看，gDefault 是一个Singleton类。注释1处得到名为”activity”的Service引用，也就是IBinder类型的AMS的引用。接着在注释2处将它封装成AMP类型对象，并将它保存到gDefault中，此后调用AMN的getDefault方法就会直接获得AMS的代理对象AMP。注释2处的asInterface方法如下所示。<br><strong>frameworks/base/core/java/android/app/ActivityManagerNative.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static public IActivityManager asInterface(IBinder obj) &#123;</span><br><span class="line">    if (obj &#x3D;&#x3D; null) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">    IActivityManager in &#x3D;</span><br><span class="line">        (IActivityManager)obj.queryLocalInterface(descriptor);</span><br><span class="line">    if (in !&#x3D; null) &#123;</span><br><span class="line">        return in;</span><br><span class="line">    &#125;</span><br><span class="line">    return new ActivityManagerProxy(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>asInterface方法的主要作用就是将IBinder类型的AMS引用封装成AMP，AMP的构造方法如下所示。</p>
+<p><strong>frameworks/base/core/java/android/app/ActivityManagerNative.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class ActivityManagerProxy implements IActivityManager</span><br><span class="line">&#123;</span><br><span class="line">    public ActivityManagerProxy(IBinder remote)</span><br><span class="line">    &#123;</span><br><span class="line">        mRemote &#x3D; remote;</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>AMP的构造方法中将AMS的引用赋值给变量mRemote ，这样在AMP中就可以使用AMS了。<br>其中IActivityManager是一个接口，AMN和AMP都实现了这个接口，用于实现代理模式和Binder通信。<br>再回到Instrumentation的execStartActivity方法，来查看AMP的startActivity方法，AMP是AMN的内部类，代码如下所示。<br><strong>frameworks/base/core/java/android/app/ActivityManagerNative.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public int startActivity(IApplicationThread caller, String callingPackage, Intent intent,</span><br><span class="line">           String resolvedType, IBinder resultTo, String resultWho, int requestCode,</span><br><span class="line">           int startFlags, ProfilerInfo profilerInfo, Bundle options) throws RemoteException &#123;</span><br><span class="line">     ...</span><br><span class="line">       data.writeInt(requestCode);</span><br><span class="line">       data.writeInt(startFlags);</span><br><span class="line">     ...</span><br><span class="line">       mRemote.transact(START_ACTIVITY_TRANSACTION, data, reply, 0);&#x2F;&#x2F;1</span><br><span class="line">       reply.readException();+</span><br><span class="line">       int result &#x3D; reply.readInt();</span><br><span class="line">       reply.recycle();</span><br><span class="line">       data.recycle();</span><br><span class="line">       return result;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>首先会将传入的参数写入到Parcel类型的data中。在注释1处，通过IBinder类型对象mRemote（AMS的引用）向服务端的AMS发送一个START_ACTIVITY_TRANSACTION类型的进程间通信请求。那么服务端AMS就会从Binder线程池中读取我们客户端发来的数据，最终会调用AMN的onTransact方法，如下所示。<br><strong>frameworks/base/core/java/android/app/ActivityManagerNative.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onTransact(int code, Parcel data, Parcel reply, int flags)</span><br><span class="line">        throws RemoteException &#123;</span><br><span class="line">    switch (code) &#123;</span><br><span class="line">    case START_ACTIVITY_TRANSACTION:</span><br><span class="line">    &#123;</span><br><span class="line">    ...</span><br><span class="line">        int result &#x3D; startActivity(app, callingPackage, intent, resolvedType,</span><br><span class="line">                resultTo, resultWho, requestCode, startFlags, profilerInfo, options);</span><br><span class="line">        reply.writeNoException();</span><br><span class="line">        reply.writeInt(result);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>onTransact中会调用AMS的startActivity方法，如下所示。<br><strong>frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public final int startActivity(IApplicationThread caller, String callingPackage,</span><br><span class="line">        Intent intent, String resolvedType, IBinder resultTo, String resultWho, int requestCode,</span><br><span class="line">        int startFlags, ProfilerInfo profilerInfo, Bundle bOptions) &#123;</span><br><span class="line">    return startActivityAsUser(caller, callingPackage, intent, resolvedType, resultTo,</span><br><span class="line">            resultWho, requestCode, startFlags, profilerInfo, bOptions,</span><br><span class="line">            UserHandle.getCallingUserId());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>startActivity方法会最后return startActivityAsUser方法，如下所示。<br><strong>frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public final int startActivityAsUser(IApplicationThread caller, String callingPackage,</span><br><span class="line">        Intent intent, String resolvedType, IBinder resultTo, String resultWho, int requestCode,</span><br><span class="line">        int startFlags, ProfilerInfo profilerInfo, Bundle bOptions, int userId) &#123;</span><br><span class="line">    enforceNotIsolatedCaller(&quot;startActivity&quot;);</span><br><span class="line">    userId &#x3D; mUserController.handleIncomingUser(Binder.getCallingPid(), Binder.getCallingUid(),</span><br><span class="line">            userId, false, ALLOW_FULL_ONLY, &quot;startActivity&quot;, null);</span><br><span class="line">    return mActivityStarter.startActivityMayWait(caller, -1, callingPackage, intent,</span><br><span class="line">            resolvedType, null, null, resultTo, resultWho, requestCode, startFlags,</span><br><span class="line">            profilerInfo, null, null, bOptions, false, userId, null, null);</span><br><span class="line"> &#125;           </span><br></pre></td></tr></table></figure>
+<p>startActivityAsUser方法最后会return ActivityStarter的startActivityMayWait方法，这一调用过程已经脱离了本节要讲的AMS家族，因此这里不做介绍了，具体的调用过程可以查看<a target="_blank" rel="noopener" href="http://liuwangshu.cn/framework/component/1-activity-start-2.html">Android深入四大组件（一）应用程序启动过程（后篇）</a>这篇文章。</p>
+<p>在Activity的启动过程中提到了AMP、AMN和AMS，它们共同组成了AMS家族的主要部分，如下图所示。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-34efe6a00ae6887f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>AMP是AMN的内部类，它们都实现了IActivityManager接口，这样它们就可以实现代理模式，具体来讲是远程代理：AMP和AMN是运行在两个进程的，AMP是Client端，AMN则是Server端，而Server端中具体的功能都是由AMN的子类AMS来实现的，因此，AMP就是AMS在Client端的代理类。AMN又实现了Binder类，这样AMP可以和AMS就可以通过Binder来进行进程间通信。</p>
+<p>ActivityManager通过AMN的getDefault方法得到AMP，通过AMP就可以和AMN进行通信，也就是间接的与AMS进行通信。除了ActivityManager，其他想要与AMS进行通信的类都需要通过AMP，如下图所示。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-b03b714636aa8fa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="http://blog.csdn.net/innost/article/details/47254381">[深入理解Android卷二 全文-第六章]深入理解ActivityManagerService</a><br><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/194a37755fea">Framework源码分析（一）：ActivityManagerService</a><br><a target="_blank" rel="noopener" href="http://www.cnblogs.com/bastard/archive/2012/05/25/2517522.html">ActivityManager与Proxy模式的运用</a></p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2021/09/21/Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89%E8%A7%A3%E6%9E%90init%E8%BF%9B%E7%A8%8B%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" class="styled-border">
+                    ←
+                    Android系统启动流程（一）解析init进程启动过程
+                    
+                </a>
+            
+            
+                <a href="/2021/09/11/Android-Jetpack%E7%AE%80%E4%BB%8B/" class="styled-border">
+                    
+                    Android Jetpack简介
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
