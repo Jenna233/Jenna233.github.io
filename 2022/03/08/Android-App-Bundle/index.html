@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android App Bundle | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]新姿势来啦 - Android App Bundle 啥是 Android App Bundle很好理解：Google 官方的插件化呗。Android App Bundle &#x3D; Apk 动态打包，动态组件化的技术，与 Instant App 不同，AAB 是借助 Split Apk 完成动态加载，使用AAB动态下发方式，可以大幅度减少应用体积，总结下特性，就是2个：  资源选择性加载 动态下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android App Bundle">
+<meta property="og:url" content="https://jenna233.github.io/2022/03/08/Android-App-Bundle/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]新姿势来啦 - Android App Bundle 啥是 Android App Bundle很好理解：Google 官方的插件化呗。Android App Bundle &#x3D; Apk 动态打包，动态组件化的技术，与 Instant App 不同，AAB 是借助 Split Apk 完成动态加载，使用AAB动态下发方式，可以大幅度减少应用体积，总结下特性，就是2个：  资源选择性加载 动态下">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-57594c54602b3e97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-13eef0b9e0585e03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-12c9a24e4f7d008b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-a327f5d05663086d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-67d31c8220f136d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-c7235cbbacd08cdf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-92dea2409638d009.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-77abd2b18170e37a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-deacc900b5582978.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-03-08T06:47:30.000Z">
+<meta property="article:modified_time" content="2022-03-08T06:48:18.545Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-57594c54602b3e97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Android App Bundle</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/3/8 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/61663559">新姿势来啦 - Android App Bundle</a></p>
+<h1 id="啥是-Android-App-Bundle"><a href="#啥是-Android-App-Bundle" class="headerlink" title="啥是 Android App Bundle"></a>啥是 Android App Bundle</h1><p>很好理解：Google 官方的插件化呗。Android App Bundle = Apk 动态打包，动态组件化的技术，与 Instant App 不同，AAB 是借助 Split Apk 完成动态加载，使用AAB动态下发方式，可以大幅度减少应用体积，总结下特性，就是2个：</p>
+<ul>
+<li>资源选择性加载</li>
+<li>动态下发 lib</li>
+</ul>
+<h4 id="资源选择性加载"><a href="#资源选择性加载" class="headerlink" title="资源选择性加载"></a>资源选择性加载</h4><p>怎么理解这个 资源选择性加载 呢，大家先个图：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-57594c54602b3e97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>android 因为要适配各种不同硬件和配置，我们有不同 dp 密度的图片文件，语言文件，不同指令集的 so 等，现在 Android App Bundle 来了可以优化这个问题，当然只限于 GooglePlay，在 google 市场我们下载 apk 时，市场先会检测我们手机的特性，然后选择最合适的资源打成 apk 再发给我们，比如我的手机只需要 arm-v7 的 so，hdpi 的图片，剩下的不会下发我们，这样可以大幅度减少 apk 的体积，尤其是对于 so 来说，一个高德地图，不同的 so 包加起来有小 10M 了，这比我们之前自己干的 apk 优化压缩可强多了，不愧是Google 大大，一出手就是神器，可惜啊，Google 服务国内用不了，不知道后续国内会不会跟进</p>
+<h4 id="动态下发库"><a href="#动态下发库" class="headerlink" title="动态下发库"></a>动态下发库</h4><p>这个可就是太 N 了，插件化实现的目标不就是解决动态性的问题吗，之前看 ios，google 封杀国内的插件化和热修复我还悲观了一阵，但是看到 Android App Bundle 后我们还是有些窃喜的，国内的也努力不是白费的，Google 这不就承认了国人的努力嘛</p>
+<p>App Bundles 将一个 apk 拆分成多个 apk，我们的 apk 一般会被拆分为如下几个部分：</p>
+<ul>
+<li>Base Apk：首次安装的apk，公共代码和资源，所以其他的模块都基于Base Apk；</li>
+<li>Configuration APKs：native libraries 和适配当前手机屏幕分辨率的资源；</li>
+<li>Dynamic feature APKs：不需要在首次安装就加载的模块。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-13eef0b9e0585e03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-12c9a24e4f7d008b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>当然啊注意 AAB 并不是一个插件化框架，它利用的是 Android Framework 提供的 split apks 技术来完成的，而所有安装 split apk 工作均是通过 IPC 交由 google play 完成，而不是国内插件化技术的反射代理 hook， 想了解更多关于split apks的内容，请看 <a href="https://link.zhihu.com/?target=https://links.jianshu.com/go?to=https%253A%252F%252Fdeveloper.android.com%252Fstudio%252Fbuild%252Fconfigure-apk-splits%253Fauthuser%253D2">官方文档</a></p>
+<p>另外一点 Android App Bundle 很像阿里的动态化容器框架 Quinox，Quinox 里每个动态部署的库也叫 Bundle，不说这块是不是有什么 PY 交易在里面呢，Quinox 目前没有开源，应该是阿里插件化 Atlas 的进化，详情请看：<a href="https://link.zhihu.com/?target=https://www.jianshu.com/p/b7ee3538936d">支付宝客户端架构解析：Android 容器化框架初探</a></p>
+<p>需要 Android Studio 升级为 3.2 及其以上版本，以添加对 Dynamic Delivery 的支持，会把 base app 构建出构建成 .aab 文件<br><img src="https://upload-images.jianshu.io/upload_images/15531792-a327f5d05663086d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-67d31c8220f136d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>Android App Bundle 与 APK 不同，App Bundle 纯粹是为了上传文件而设计的，用户无法直接安装和使用它，.aab 只是一个 zip 文件，Google Play 从中生成优化的 APK 并将其提供给设备进行安装。可以考哪考哪 .abb 中的内容：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-c7235cbbacd08cdf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>然后新的可动态部署的库会以 apk 的形式添加进来，具体请看 google 官方号：<a href="https://link.zhihu.com/?target=https://www.jianshu.com/p/57ed50242989">如何获得更小的应用文件尺寸？来了解下 Android App Bundle</a></p>
+<h1 id="如何使用App-Bundle"><a href="#如何使用App-Bundle" class="headerlink" title="如何使用App Bundle"></a>如何使用App Bundle</h1><ol>
+<li><p>将你的Android Studio升级为3.2及其以上版本</p>
+</li>
+<li><p>添加对Dynamic Delivery的支持<br>其实就是一些基础apk需要东西，比如签名，MAIN入口等，详细请阅读：<a href="https://link.zhihu.com/?target=https://developer.android.google.cn/studio/projects/dynamic-delivery">https://developer.android.google.cn</a></p>
+</li>
+<li><p>构建App Bundle<br>当你是3.2以上的studio时候，就可以选择build bundle,来构建app bundle的文件<br>构建出来就是一个.aab文件</p>
+</li>
+<li><p>通过bundletool工具来测试你的.aab文件<br>下载地址：<a href="https://link.zhihu.com/?target=https://github.com/google/bundletool">https://github.com/google/bundletool</a><br>解压出来就是一个jar包，以bundletool-all-0.6.0.jar为例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bundletool-all-0.6.0.jar build-apks --bundle&#x3D;&#x2F;MyApp&#x2F;my_app.aab --output&#x3D;&#x2F;MyApp&#x2F;my_app.apks</span><br></pre></td></tr></table></figure>
+<p>这个命令构建出来的是没有签名的文件，要有签名的，需要如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bundletool build-apks --bundle&#x3D;&#x2F;MyApp&#x2F;my_app.aab --output&#x3D;&#x2F;MyApp&#x2F;my_app.apks</span><br><span class="line">--ks&#x3D;&#x2F;MyApp&#x2F;keystore.jks</span><br><span class="line">--ks-pass&#x3D;file:&#x2F;MyApp&#x2F;keystore.pwd</span><br><span class="line">--ks-key-alias&#x3D;MyKeyAlias</span><br><span class="line">--key-pass&#x3D;file:&#x2F;MyApp&#x2F;key.pwd</span><br></pre></td></tr></table></figure>
+<p>这些参数的说明详见如下:<br><img src="https://upload-images.jianshu.io/upload_images/15531792-92dea2409638d009.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><img src="https://upload-images.jianshu.io/upload_images/15531792-77abd2b18170e37a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>无疑就是一些打包的签名，密码等，还有一些特殊的属性，详细大家可以看英文介绍，使用命令后，出来的是app.apks文件，我们可以解压缩一下，出来就是如下的内容：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-deacc900b5582978.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>从打包出来的东西，更印证了我们前面所说的原理</p>
+</li>
+<li><p>app的签名上传google play</p>
+</li>
+<li><p>将你的包上传到google console</p>
+<h1 id="兼容性问题"><a href="#兼容性问题" class="headerlink" title="兼容性问题"></a>兼容性问题</h1></li>
+</ol>
+<p><strong>Api &lt; 21的手机无法进行模块化</strong>，Google Play会对其进行Multiple Apks操作来进行下发操作。</p>
+<p><strong>Enable on-demand</strong>: 是否启用按需下载，如果不启用，会直接打进Apk</p>
+<p><strong>Fusing</strong>：熔断操作，是否安装到不支持按需下载的设备中</p>
+<p><strong>Module title</strong>:模块标题<br>对于动态组件的一些使用场景</p>
+<p><strong>关于动态模块的一些注意事项</strong><br>当打开on-demand（按需加载）时，必须开启Fusing（熔断操作）才能正常的让Api21以下的手机使用module</p>
+<p>一般情况下，动态模块下发之后需要重启App才能加载成功，但是如果你使用SplitCompat library，就可以立即生效，Access code and resources from downloaded modules</p>
+<p>如果下载的模块太大，需要用户确认，GP要求大于10MB需要用户确认</p>
+<p>国际上可以使用Google Play的Play Core Lib直接从gp后台下载我们上传好的dynamic module.</p>
+<p>module中的AndroidManifest中定义的Activity不能有exported:true因为别的app不知道你何时安装好模块从而会引发问题</p>
+<p>proguard文件在生效的时候会merge base module和所有的dynamic module中的文件，所以在编写proguard的时候要注意这个问题。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2022/03/08/Jenkins%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" class="styled-border">
+                    ←
+                    Jenkins详细教程
+                    
+                </a>
+            
+            
+                <a href="/2022/02/03/Android-%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D/" class="styled-border">
+                    
+                    Android 架构介绍
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Jenkins详细教程 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]Jenkins详细教程        最近花了一段时间研究jenkins这个工具。所以写下这篇文章，算是当做记录吧！ 一、jenkins是什么？Jenkins是一个开源的、提供友好操作界面的持续集成(CI)工具，起源于Hudson（Hudson是商用的），主要用于持续、自动的构建&#x2F;测试软件项目、监控外部任务的运行（这个比较抽象，暂且写上，不做解释）。Jenkins用Java语言编写，可在To">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins详细教程">
+<meta property="og:url" content="https://jenna233.github.io/2022/03/08/Jenkins%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]Jenkins详细教程        最近花了一段时间研究jenkins这个工具。所以写下这篇文章，算是当做记录吧！ 一、jenkins是什么？Jenkins是一个开源的、提供友好操作界面的持续集成(CI)工具，起源于Hudson（Hudson是商用的），主要用于持续、自动的构建&#x2F;测试软件项目、监控外部任务的运行（这个比较抽象，暂且写上，不做解释）。Jenkins用Java语言编写，可在To">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-45bf1cf9a54a670f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-3ad00aefe2112935.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-a820463ba0dd3514.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-55a0678ad9864b0a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-bdd889d714963f41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-4f8e3281cdbc3f57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-866c8e2021c61163.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-e4b034a58d8a919e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-f3a983bebca517e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-c0145a66adb34839.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-c16e5cf9fa1c32f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-80dc3401753c3e01.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-3fabbcd6a0ecc9ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-85b612608a6fe2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-35d8b5b89093116a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-2a5e75ee20caa395.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-97dd8639722f4567.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-0b0ea31bd95405f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-ac0c306a79256a91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-8b722a5a7daece60.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-d88d67727fc65cac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-e7ab3172acd899c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-f7d7f7af245220c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-d8de6d9285672e5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-96cb1a0dc11e136e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-0a7781186ecbbd88.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-389ab0b322311e8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-2eee610a7bd66d7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-07ae2aa24109c10f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-917501f4cf6e57ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-03-08T06:48:53.000Z">
+<meta property="article:modified_time" content="2022-03-08T06:49:27.879Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="架构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-45bf1cf9a54a670f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Jenkins详细教程</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/3/8 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5f671aca2b5a">Jenkins详细教程</a><br>        最近花了一段时间研究jenkins这个工具。所以写下这篇文章，算是当做记录吧！</p>
+<h1 id="一、jenkins是什么？"><a href="#一、jenkins是什么？" class="headerlink" title="一、jenkins是什么？"></a>一、jenkins是什么？</h1><p>Jenkins是一个开源的、提供友好操作界面的持续集成(CI)工具，起源于Hudson（Hudson是商用的），主要用于持续、自动的构建/测试软件项目、监控外部任务的运行（这个比较抽象，暂且写上，不做解释）。Jenkins用Java语言编写，可在Tomcat等流行的servlet容器中运行，也可独立运行。通常与版本管理工具(SCM)、构建工具结合使用。常用的版本控制工具有SVN、GIT，构建工具有Maven、Ant、Gradle。</p>
+<h1 id="二、CI-CD是什么？"><a href="#二、CI-CD是什么？" class="headerlink" title="二、CI/CD是什么？"></a>二、CI/CD是什么？</h1><p> **CI(Continuous integration，中文意思是持续集成)**是一种软件开发时间。持续集成强调开发人员提交了新代码之后，立刻进行构建、（单元）测试。根据测试结果，我们可以确定新代码和原有代码能否正确地集成在一起。借用网络图片对CI加以理解。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-45bf1cf9a54a670f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>**CD(Continuous Delivery， 中文意思持续交付)**是在持续集成的基础上，将集成后的代码部署到更贴近真实运行环境(类生产环境)中。比如，我们完成单元测试后，可以把代码部署到连接数据库的Staging环境中更多的测试。如果代码没有问题，可以继续手动部署到生产环境。下图反应的是CI/CD 的大概工作模式。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-3ad00aefe2112935.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h1 id="三、使用Jenkins进行PHP代码-单元-测试、打包。"><a href="#三、使用Jenkins进行PHP代码-单元-测试、打包。" class="headerlink" title="三、使用Jenkins进行PHP代码(单元)测试、打包。"></a>三、使用Jenkins进行PHP代码(单元)测试、打包。</h1><p> Jenkins是一个强大的CI工具，虽然本身使用Java开发，但也能用来做其他语言开发的项目CI。下面讲解如何使用Jenkins创建一个构建任务。</p>
+<p> 登录Jenkins， 点击左侧的新建，创建新的构建任务。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-a820463ba0dd3514.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>跳转到如下界面。任务名称可以自行设定，但需要全局唯一。输入名称后选择构建一个自由风格的软件项目(其他选项不作介绍)。并点击下方的确定按钮即创建了一个构建任务。之后会自动跳转到该job的配置页面。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-55a0678ad9864b0a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>下图是构建任务设置界面，可以看到上方的几个选项”General”, “源码管理”， “构建触发器”，”构建环境”， “构建”， “构建后操作”。下面逐一介绍。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-bdd889d714963f41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="1-General"><a href="#1-General" class="headerlink" title="1.General"></a>1.General</h4><p>General是构建任务的一些基本配置。名称，描述之类的。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-4f8e3281cdbc3f57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>项目名称</strong>: 是刚才创建构建任务步骤设置的，当然在这里也可以更改。<br><strong>描述</strong>: 对构建任务的描述。  <br><strong>丢弃旧的构建</strong>： 服务器资源是有限的，有时候保存了太多的历史构建，会导致Jenkins速度变慢，并且服务器硬盘资源也会被占满。当然下方的”保持构建天数” 和 保持构建的最大个数是可以自定义的，需要根据实际情况确定一个合理的值。</p>
+<p>其他几个选项在这里不做介绍，有兴趣的可以查看Jenkins”帮助信息”， 会有一个大概的介绍。不过这些”帮助信息”都是英文的。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-866c8e2021c61163.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="2-源码管理"><a href="#2-源码管理" class="headerlink" title="2.源码管理"></a>2.源码管理</h4><p>源码管理就是配置你代码的存放位置。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-e4b034a58d8a919e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br> <br><strong>Git</strong>: 支持主流的github 和gitlab代码仓库。因我们的研发团队使用的是gitlab，所以下面我只会对该项进行介绍。</p>
+<p><strong>Repository URL</strong>：仓库地址</p>
+<p><strong>Credentials</strong>：凭证。可以使用HTTP方式的用户名密码，也可以是RSA文件。 但要通过后面的”ADD”按钮添加凭证。</p>
+<p><strong>Branches to build</strong>：构建的分支。*/master表示master分支，也可以设置为其他分支。</p>
+<p><strong>源码浏览器</strong>：你所使用的代码仓库管理工具，如github, gitlab.  </p>
+<p><strong>URL</strong>：填入上方的仓库地址即可。</p>
+<p><strong>Version</strong>: 8.7   这个是我们gitlab服务器的版本。</p>
+<p><strong>Subversion</strong>：就是SVN，这里不作介绍。</p>
+<h4 id="3-构建触发器"><a href="#3-构建触发器" class="headerlink" title="3.构建触发器"></a>3.构建触发器</h4><p>构建触发器，顾名思义，就是构建任务的触发器。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-f3a983bebca517e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>触发远程构建(例如，使用脚本)</strong>: 该选项会提供一个接口，可以用来在代码层面触发构建。这里不做介绍，后期可能会用到。</p>
+<p><strong>Build after other projects are built</strong>： 该选项意思是”在其他projects构建后构建”。这里不作介绍，后期可能会用到该选项。</p>
+<p><strong>Build periodically</strong>： 周期性的构建。很好理解，就是每隔一段时间进行构建。日程表类似        linux crontab书写格式。如下图的设置，表示每隔30分钟进行一次构建。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-c0145a66adb34839.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Build when a change is pushed to GitLab</strong>：当有更改push到gitlab代码仓库，即触发构建。后面会有一个触发构建的地址，一般被称为webhooks。需要将这个地址配置到gitlab中，webhooks如何配置后面介绍。这个是常用的构建触发器。</p>
+<p><strong>Poll SCM</strong>：该选项是配合上面这个选项使用的。当代码仓库发生改动，jenkins并不知道。需要配置这个选项，周期性的去检查代码仓库是否发生改动。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-c16e5cf9fa1c32f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="4-构建环境"><a href="#4-构建环境" class="headerlink" title="4.构建环境"></a>4.构建环境</h4><p>构建环境就是构建之前的一些准备工作，如指定构建工具(在这里我使用ant)。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-80dc3401753c3e01.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>With Ant</strong>：选择这个工具，并指定ant版本和jdk版本。这两个工具的版本我都事先在服务器上安装，并且在jenkins全局工具中配置好了。</p>
+<p>其他选项不作介绍，同样可以查看”帮助信息” 获得使用帮助。</p>
+<h4 id="5-构建"><a href="#5-构建" class="headerlink" title="5.构建"></a>5.构建</h4><p> 选择下方的增加构建步骤。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-3fabbcd6a0ecc9ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>可以选择的项很多。这里就介绍”Invoke Ant” 和”Execute shell”.</p>
+<p><strong>Excute shell</strong>： 执行shell命令，该工具是针对linux环境的，windows环境也有对应的工            具”Execute Windows batch command”。 在构建之前，可能我们需要执行一些命令，比如压缩包的解压之类的。为了演示，我就简单的执行  “echo $RANDOM” 这样的linux shell下生产随机数命令。</p>
+<p><strong>Invoke Ant</strong>：Ant是一款java项目构建工具，当然也能用来构建php。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-85b612608a6fe2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Ant Version</strong>： 选择Ant版本。这个ant版本是安装在jenkins服务器上的版本，并且需要在jenkins”系统工具”中设置好。</p>
+<p><strong>Targets</strong>：要执行的操作，一行一个操作任务。以上图为例，build是构建，tar是打包。</p>
+<p><strong>Build File</strong>: 是Ant构建的配置文件，如果不指定，则是在项目路径下的workspace目录中的build.xml。build.xml文件具体怎么配置，后面再细讲。</p>
+<p><strong>properties</strong>: 设定一些变量，这些变量可以在build.xml 中被引用。</p>
+<p><strong>Send files or execute commands over SSH</strong>：发送文件到远程主机或执行命令(脚本)</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-35d8b5b89093116a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Name</strong>: SSH Server的名称。SSH Server可以在jenkins-系统设置中配置。</p>
+<p><strong>source files</strong>: 需要发送给远程主机的源文件。</p>
+<p><strong>Remove prefix</strong>: 移除前面的路径。如果不设置这个参数，则远程主机会自动创建构建源 source files 包含的那个路径。</p>
+<p><strong>Remote directory</strong>: 远程主机目录。</p>
+<p><strong>Exec command</strong>：在远程主机上执行的命令，或者执行的脚本。</p>
+<h4 id="6-构建后操作"><a href="#6-构建后操作" class="headerlink" title="6.构建后操作"></a>6.构建后操作</h4><p> 构建后操作，就是对project构建完成后的一些后续操作，比如生成相应的代码测试报告。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-2a5e75ee20caa395.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-97dd8639722f4567.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Publish Clover PHP Coverage Report</strong>：发布代码覆盖率xml格式的文件报告。路径会在”build.xml”文件中定义</p>
+<p><strong>Publish HTML reports</strong>：发布代码覆盖率的HTML报告。  </p>
+<p><strong>Report Crap</strong>: 发布crap报告。</p>
+<p><strong>E-mail Notification</strong>:  邮件通知，构建完成后发邮件到指定的邮箱。</p>
+<h4 id="7-其他相关配置"><a href="#7-其他相关配置" class="headerlink" title="7.其他相关配置"></a>7.其他相关配置</h4><p><strong>SSH Server配置</strong><br>登录jenkins – 系统管理 – 系统设置<br>配置请看下图<br><img src="https://upload-images.jianshu.io/upload_images/15531792-0b0ea31bd95405f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>SSH Servers</strong>: 由于jenkins服务器公钥文件我已经配置好，所以之后新增SSH Servers 只需要配置这一项即可。 </p>
+<p><strong>Name</strong>： 自定义，需要全局唯一。</p>
+<p><strong>HostName</strong>: 主机名，直接用ip地址即可。</p>
+<p><strong>Username</strong>: 新增Server的用户名，这里配置的是root。</p>
+<p><strong>Remote Directory</strong>: 远程目录。jenkins服务器发送文件给新增的server默认是在这个目录。</p>
+<h4 id="Ant-配置文件-“build-xml”"><a href="#Ant-配置文件-“build-xml”" class="headerlink" title="Ant 配置文件 “build.xml”"></a>Ant 配置文件 “build.xml”</h4><p>接下来讲解Ant 构建配置文件”build.xml”。 之所以是build.xml 这是因为官方惯例。就好比任何编程语言的入门都会是打印”Hello world”.  你也可以用其他名称代替”build.xml” .</p>
+<p>下面针对配置文件”build.xml” 关键配置进行说明。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-ac0c306a79256a91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>project name就是项目名称，和jenkins所创建的对应。</p>
+<p>target name=”build” 就是构建的名称，和jenkins构建步骤 那里的targets对应。depends指明构建需要进行的一些操作。</p>
+<p>property 用来设置变量。</p>
+<p>fileset 这一行指明了一个文件夹，用include来指明需要包含的文件，exclude指明不包含的文件，”tar”即是打包这个文件夹中匹配到的文件。</p>
+<p>下面的这些target都是一些实际的操作步骤，比如make_runtime这个”target” 就是创建了一些目录。phpcs就是利用PHP_CodeSniffer这个工具 对PHP代码规范与质量检查工具。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-8b722a5a7daece60.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-d88d67727fc65cac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>最后这个target “tar” 就是打包文件。因为上面的build 并没有包含这个target，所以默认情况下，执行build是不会打包文件的，所以在jenkins project配置界面，Ant构建那一步的targets，我们才会有”build” 和 “tar” 这两个targets。如果build.xml 中 “build”这个target depends中已经包含”tar” , 就不需要在jenkins中增加”tar”了。</p>
+<p>其他一些target 都是利用一些工具对php代码的操作，比如phpunit是进行php单元测试。这一些方面我没有深入的研究，只是进行了一些简单的配置，毕竟不是这方面的专业人士。</p>
+<h4 id="配置-Gitlab-webhooks"><a href="#配置-Gitlab-webhooks" class="headerlink" title="配置 Gitlab webhooks"></a>配置 Gitlab webhooks</h4><p>在gitlab的project页面 打开settings，再打开 web hooks 。点击”ADD WEB HOOK” 添加webhook。把之前jenkins配置中的那个url 添加到这里，添加完成后，点击”TEST HOOK”进行测试，如果显示SUCCESS 则表示添加成功。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-e7ab3172acd899c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-f7d7f7af245220c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-d8de6d9285672e5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-96cb1a0dc11e136e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-0a7781186ecbbd88.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>配置phpunit.xml</p>
+<p>phpunit.xml是phpunit这个工具用来单元测试所需要的配置文件。这个文件的名称同样也是可以自定义的，但是要在”build.xml”中配置好名字就行。默认情况下，用”phpunit.xml”, 则不需要在”build.xml”中配置文件名。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-389ab0b322311e8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>fileset dir 指定单元测试文件所在路径，include指定包含哪些文件，支持通配符匹配。当然也可以用exclude关键字指定不包含的文件。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-2eee610a7bd66d7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h1 id="四、进行jenkins-project-构建"><a href="#四、进行jenkins-project-构建" class="headerlink" title="四、进行jenkins project 构建"></a>四、进行jenkins project 构建</h1><p>第一次配置好jenkins project之后，会自动触发一次构建。此后，每当有commit 提交到master分支（前面设置的是master分支，也可以设置为其他分支），就会触发一次构建。当然也可以在project页面手动触发构建。点击左边的”立即构建” 手动触发构建。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-07ae2aa24109c10f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h1 id="五、构建结果说明"><a href="#五、构建结果说明" class="headerlink" title="五、构建结果说明"></a>五、构建结果说明</h1><h4 id="构建状态"><a href="#构建状态" class="headerlink" title="构建状态"></a>构建状态</h4><ul>
+<li><p>Successful蓝色：构建完成，并且被认为是稳定的。</p>
+</li>
+<li><p>Unstable黄色：构建完成，但被认为是不稳定的。</p>
+</li>
+<li><p>Failed红色：构建失败。</p>
+</li>
+<li><p>Disable灰色：构建已禁用</p>
+</li>
+</ul>
+<h4 id="构建稳定性"><a href="#构建稳定性" class="headerlink" title="构建稳定性"></a>构建稳定性</h4><ul>
+<li>构建稳定性用天气表示：晴、晴转多云、多云、小雨、雷阵雨。天气越好表示构建越稳定，反之亦然。</li>
+</ul>
+<h4 id="构建历史界面"><a href="#构建历史界面" class="headerlink" title="构建历史界面"></a>构建历史界面</h4><p> console output： 输出构建的日志信息</p>
+<h1 id="六、jenkins权限管理"><a href="#六、jenkins权限管理" class="headerlink" title="六、jenkins权限管理"></a><strong>六、jenkins权限管理</strong></h1><p>由于jenkins默认的权限管理体系不支持用户组或角色的配置，因此需要安装第三发插件来支持角色的配置，本文将使用Role Strategy Plugin。基于这个插件的权限管理设置请参考这篇文章:<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://blog.csdn.net/russ44/article/details/52276222">http://blog.csdn.net/russ44/article/details/52276222</a>，这里不作详细介绍。</p>
+<p>至此，就可以用jenkins周而复始的进行CI了，当然jenkins是一个强大的工具，功能绝不仅仅是以上这些，其他方面要是以后用到，我会更新到这篇文章中。有疑问欢迎在下方留言。</p>
+<p>最后，放上一张Jenkins的思维导图<br><img src="https://upload-images.jianshu.io/upload_images/15531792-917501f4cf6e57ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2022/03/08/Android-App-Bundle/" class="styled-border">
+                    
+                    Android App Bundle
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
