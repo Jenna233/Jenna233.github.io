@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Google play store App  签名 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="内容来自官方文档 前言Android 要求所有 APK 在安装到设备上或更新之前都使用证书进行数字签名。android app bundles 是生成app所有需要的资源文件包，包含代码，各种res 等等。 android studio直接生成的apk包含各种系统和语言的文件：比如x86 和arm cpu的so 文件，各种操作系统的文件，各种语言的文件等。 如果将android app bundl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google play store App  签名">
+<meta property="og:url" content="https://jenna233.github.io/2022/03/19/Google-play-store-App-%E7%AD%BE%E5%90%8D/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="内容来自官方文档 前言Android 要求所有 APK 在安装到设备上或更新之前都使用证书进行数字签名。android app bundles 是生成app所有需要的资源文件包，包含代码，各种res 等等。 android studio直接生成的apk包含各种系统和语言的文件：比如x86 和arm cpu的so 文件，各种操作系统的文件，各种语言的文件等。 如果将android app bundl">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-43e446d47afca4c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-03-19T11:51:45.000Z">
+<meta property="article:modified_time" content="2022-03-19T11:52:35.025Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-43e446d47afca4c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Google play store App  签名</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/3/19 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>内容来自<a target="_blank" rel="noopener" href="https://developer.android.com/studio/publish/app-signing#keys_keystores">官方文档</a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Android 要求所有 APK 在安装到设备上或更新之前都使用证书进行数字签名。<br>android app bundles 是生成app所有需要的资源文件包，包含代码，各种res 等等。 android studio直接生成的apk包含各种系统和语言的文件：比如x86 和arm cpu的so 文件，各种操作系统的文件，各种语言的文件等。 如果将android app bundles  提交给google play store，那么apk将在用户下载安装之前由google play store从android app bundle(aab) 中抽取适用于用户设备的资源文件和代码生成。 相比于android studio直接生成的apk文件，aab 生成的apk只包含适用于用户设备的so文件，比如只有arm so文件，只适用于用户设备操作系统和尺码的资源文件等。会比传统的apk小不少。<br>如果将android app bundles 提交给google play store发布，那么， 在生成apk的时候，需要google play store对apk进行签名。</p>
+<p> 使用 Android App Bundles 发布时，您需要先使用上传密钥对应用程序包进行签名，然后再将其上传到 Play 管理中心，其余的工作由 Play App Signing 负责。 对于在 Play 商店（2021 年 8 月之前创建）或其他商店使用 APK 分发的应用，您必须手动签署您的 APK 才能上传。<br>今天讲一下android app bundles 在发布到google play store的过程中的签名。</p>
+<h1 id="Play-应用签名"><a href="#Play-应用签名" class="headerlink" title="Play 应用签名"></a>Play 应用签名</h1><p>借助 Play App Signing，Google 可以为您管理和保护您的应用的签名密钥，并使用它来签署您的 APK 以进行分发。 而且，由于 app bundle 将构建和签名 APK 延迟到 Google Play 商店，因此您需要在上传 app bundle 之前配置 Play App Signing。 这样做可以让您从以下方面受益：</p>
+<ul>
+<li>使用 Android App Bundle 并支持 Google Play 的高级交付模式。 Android App Bundle 使您的应用程序更小，您的发布更简单，并且可以使用功能模块并提供即时体验。</li>
+<li>提高您的签名密钥的安全性，并可以使用单独的上传密钥对您上传到 Google Play 的应用程序包进行签名。</li>
+<li>新安装的一次性密钥升级可让您更改应用签名密钥，以防现有的密钥遭到破坏或需要迁移到加密更强的密钥</li>
+</ul>
+<p>Play App Signing 使用两个密钥：应用签名密钥和上传密钥。 在上传到 Google Play 商店之前，需要保留上传密钥并使用它来签署应用程序。 Google 使用上传证书来验证开发者身份，使用应用签名密钥对 APK 进行签名以进行分发，如图 1 所示。通过使用单独的上传密钥，如果密钥丢失或丢失，可以请求重置上传密钥。<br> 相比之下，对于 2021 年 8 月之前创建的未选择加入 Play 应用签名的应用，如果开发者丢失了应用的签名密钥，将无法更新应用。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-43e446d47afca4c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>开发者的密钥存储的框架与 Google 用来存储它自身的密钥的框架是同一个，并受 Google 密钥管理服务的保护。 可以阅读 Google Cloud 安全白皮书来了解有关 Google 技术基础架构的更多信息。</p>
+<p>当使用 Play App Signing 时，如果丢失了上传密钥，或者它被泄露，可以联系 Google 撤销旧的上传密钥，然后生成一个新的。 由于开发者应用签名密钥受 Google 保护，因此即使更改了上传密钥，也可以继续上传新版本的应用，来作为对原始应用的更新。</p>
+<h1 id="密钥库、密钥和证书"><a href="#密钥库、密钥和证书" class="headerlink" title="密钥库、密钥和证书"></a>密钥库、密钥和证书</h1><p>Java 密钥库（.jks 或 .keystore）是用作证书和私钥存储库的二进制文件。<br><strong>公钥证书</strong>（.der 或 .pem 文件），也称为数字证书或身份证书，包含公钥/私钥对的公钥，以及标识所有者的其他一些元数据（例如，名称和位置）谁持有相应的私钥。<br>以下是我们应该了解的不同类型的key：</p>
+<ul>
+<li><strong>应用签名密钥</strong>：用于对安装在用户设备上的 APK 进行签名的密钥。作为 Android 安全更新模型的一部分，签名密钥在您的应用程序的生命周期内永远不会更改。应用签名密钥是私有的，必须保密。但是，您可以共享使用您的应用签名密钥生成的证书。</li>
+<li><strong>上传密钥</strong>：在您上传应用程序包或 APK 以使用 Google Play 进行应用签名之前，您使用该密钥签署该应用程序包或 APK。您必须对上传密钥保密。但是，您可以共享使用上传密钥生成的证书。您可以通过以下方式之一生成上传密钥：</li>
+<li><ul>
+<li>如果您选择让 Google 为您生成应用签名密钥，那么您用于签署应用以供发布的密钥就是您的上传密钥。</li>
+</ul>
+</li>
+<li><ul>
+<li>如果您在选择加入新应用或现有应用时向 Google 提供应用签名密钥，那么您可以选择在选择加入期间或之后生成新的上传密钥以提高安全性。</li>
+</ul>
+</li>
+<li><ul>
+<li>如果您不生成新的上传密钥，您将继续使用您的应用签名密钥作为上传密钥来签署每个版本。</li>
+</ul>
+</li>
+</ul>
+<p><code>提示：为确保您的密钥安全，最好确保您的应用签名密钥和上传密钥不同。</code></p>
+<p>可以在Android Studio -&gt; Generate Signed Bundle or APK 来为app bundle或者apk 进行签名，根据提示可以用已有的key store来签名，也可以在对话框中新生成一个签名。 如果你的app以前以前没有上架过，那么这个签名的密钥叫做上传密钥。</p>
+<p>如果您已经有上传密钥，请使用它来签署应用程序。 相反，如果您的应用已使用现有应用签名密钥签名并发布到 Google Play 商店，请使用它对您的应用进行签名，并确保对其进行加密并导出， 用作您的应用在Play 上的应用签名。 您可以稍后生成单独的上传密钥并在 Google Play 中注册您的上传密钥的公共证书，以对您的应用程序进行签名和上传后续更新。</p>
+<p>更多信息查看后续官方文档<a target="_blank" rel="noopener" href="https://developer.android.com/studio/publish/app-signing#sign-apk">https://developer.android.com/studio/publish/app-signing#sign-apk</a></p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2022/03/08/Jenkins%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" class="styled-border">
+                    
+                    Jenkins详细教程
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
