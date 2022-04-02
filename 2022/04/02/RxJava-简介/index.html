@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>RxJava 简介 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]RxJava系列1(简介)  RxJava系列1(简介)  RxJava系列2(基本概念及使用介绍)  RxJava系列3(转换操作符)  RxJava系列4(过滤操作符)  RxJava系列5(组合操作符)  RxJava系列6(从微观角度解读RxJava源码)  RxJava系列7(最佳实践)   前言提升开发效率，降低维护成本一直是开发团队永恒不变的宗旨。近一年来国内的技术圈子中越来越">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava 简介">
+<meta property="og:url" content="https://jenna233.github.io/2022/04/02/RxJava-%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]RxJava系列1(简介)  RxJava系列1(简介)  RxJava系列2(基本概念及使用介绍)  RxJava系列3(转换操作符)  RxJava系列4(过滤操作符)  RxJava系列5(组合操作符)  RxJava系列6(从微观角度解读RxJava源码)  RxJava系列7(最佳实践)   前言提升开发效率，降低维护成本一直是开发团队永恒不变的宗旨。近一年来国内的技术圈子中越来越">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-5643ef8aee625a15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-04-02T12:42:53.000Z">
+<meta property="article:modified_time" content="2022-04-02T12:43:19.359Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-5643ef8aee625a15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">RxJava 简介</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/4/2 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/20687178">RxJava系列1(简介)</a></p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/20687178">RxJava系列1(简介)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/20687307">RxJava系列2(基本概念及使用介绍)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21926591">RxJava系列3(转换操作符)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21966621">RxJava系列4(过滤操作符)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/22039934">RxJava系列5(组合操作符)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/22338235">RxJava系列6(从微观角度解读RxJava源码)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/23108381">RxJava系列7(最佳实践)</a></p>
+</li>
+</ul>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>提升开发效率，降低维护成本一直是开发团队永恒不变的宗旨。近一年来国内的技术圈子中越来越多的开始提及Rx，经过一段时间的学习和探索之后我也深深的感受到了RxJava的魅力。它能帮助我们简化代码逻辑，提升代码可读性。这对于开发效率的提升、后期维护成本的降低帮助都是巨大的。个人预测RxJava一定是2016年的一个大趋势，所以也有打算将它引入到公司现有的项目中来，写这一系列的文章主要也是为了团队内部做技术分享。</p>
+<blockquote>
+<p>由于我本人是个Android程序猿，因此这一系列文章中的场景都是基于Android平台的。如果你是个Java Web工程师或者是其它方向的那也没关系，我会尽量用通俗的语言将问题描述清楚。</p>
+</blockquote>
+<h3 id="响应式编程"><a href="#响应式编程" class="headerlink" title="响应式编程"></a>响应式编程</h3><p>在介绍RxJava前，我们先聊聊响应式编程。那么什么是响应式编程呢？响应式编程是一种基于异步数据流概念的编程模式。数据流就像一条河：它可以被观测，被过滤，被操作，或者为新的消费者与另外一条流合并为一条新的流。</p>
+<p>响应式编程的一个关键概念是事件。事件可以被等待，可以触发过程，也可以触发其它事件。事件是唯一的以合适的方式将我们的现实世界映射到我们的软件中：如果屋里太热了我们就打开一扇窗户。同样的，当我们的天气app从服务端获取到新的天气数据后，我们需要更新app上展示天气信息的UI；汽车上的车道偏移系统探测到车辆偏移了正常路线就会提醒驾驶者纠正，就是是响应事件。</p>
+<p>今天，响应式编程最通用的一个场景是UI：我们的移动App必须做出对网络调用、用户触摸输入和系统弹框的响应。在这个世界上，软件之所以是事件驱动并响应的是因为现实生活也是如此。</p>
+<p>本章节中部分概念摘自《RxJava Essentials》一书</p>
+<h3 id="RxJava的来历"><a href="#RxJava的来历" class="headerlink" title="RxJava的来历"></a>RxJava的来历</h3><p>Rx是微软.Net的一个响应式扩展，Rx借助可观测的序列提供一种简单的方式来创建异步的，基于事件驱动的程序。2012年Netflix为了应对不断增长的业务需求开始将.NET Rx迁移到JVM上面。并于13年二月份正式向外展示了RxJava。<br>从语义的角度来看，RxJava就是.NET Rx。从语法的角度来看，Netflix考虑到了对应每个Rx方法,保留了Java代码规范和基本的模式。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-5643ef8aee625a15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="什么是RxJava"><a href="#什么是RxJava" class="headerlink" title="什么是RxJava"></a>什么是RxJava</h3><p>那么到底什么是RxJava呢？我对它的定义是：RxJava本质上是一个异步操作库，是一个能让你用极其简洁的逻辑去处理繁琐复杂任务的异步事件库。</p>
+<h3 id="RxJava好在哪"><a href="#RxJava好在哪" class="headerlink" title="RxJava好在哪"></a>RxJava好在哪</h3><p>Android平台上为已经开发者提供了AsyncTask,Handler等用来做异步操作的类库，那我们为什么还要选择RxJava呢？答案是简洁！RxJava可以用非常简洁的代码逻辑来解决复杂问题；而且即使业务逻辑的越来越复杂，它依然能够保持简洁！再配合上Lambda用简单的几行代码分分钟就解决你负责的业务问题。简直逼格爆表，拿它装逼那是极好的！</p>
+<p>多说无益，上代码！<br>假设我们安居客用户App上有个需求，需要从服务端拉取上海浦东新区塘桥板块的所有小区Community[] communities，每个小区下包含多套房源List<House> houses；我们需要把塘桥板块的所有总价大于500W的房源都展示在App的房源列表页。用于从服务端拉取communities需要发起网络请求，比较耗时，因此需要在后台运行。而这些房源信息需要展示到App的页面上，因此需要在UI线程上执行。(<em>此例子思路来源于扔物线的<a href="https://link.zhihu.com/?target=http://gank.io/post/560e15be2dca930e00da1083">给Android开发者的RxJava详解</a>一文</em>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">new Thread() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            super.run();</span><br><span class="line">            &#x2F;&#x2F;从服务端获取小区列表</span><br><span class="line">            List&lt;Community&gt; communities &#x3D; getCommunitiesFromServer();</span><br><span class="line">            for (Community community : communities) &#123;</span><br><span class="line">                List&lt;House&gt; houses &#x3D; community.houses;</span><br><span class="line">                for (House house : houses) &#123;</span><br><span class="line">                    if (house.price &gt;&#x3D; 5000000) &#123;</span><br><span class="line">                        runOnUiThread(new Runnable() &#123;</span><br><span class="line">                            @Override</span><br><span class="line">                            public void run() &#123;</span><br><span class="line">                                &#x2F;&#x2F;将房子的信息添加到屏幕上</span><br><span class="line">                                addHouseInformationToScreen(house);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.start();</span><br></pre></td></tr></table></figure>
+<p>使用RxJava的写法是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Observable.from(getCommunitiesFromServer())</span><br><span class="line">            .flatMap(new Func1&lt;Community, Observable&lt;House&gt;&gt;() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public Observable&lt;House&gt; call(Community community) &#123;</span><br><span class="line">                    return Observable.from(community.houses);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).filter(new Func1&lt;House, Boolean&gt;() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public Boolean call(House house) &#123;</span><br><span class="line">                    return house.price&gt;&#x3D;5000000;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .subscribe(new Action1&lt;House&gt;() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void call(House house) &#123;</span><br><span class="line">                    &#x2F;&#x2F;将房子的信息添加到屏幕上</span><br><span class="line">                    addHouseInformationToScreen(house);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
+<p>从上面这段代码我们可以看到：虽然代码量看起来变复杂了，但是RxJava的实现是一条链式调用，没有任何的嵌套；整个实现逻辑看起来异常简洁清晰，这对我们的编程实现和后期维护是有巨大帮助的。特别是对于那些回调嵌套的场景。配合Lambda表达式还可以简化成这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Observable.from(getCommunitiesFromServer())</span><br><span class="line">            .flatMap(community -&gt; Observable.from(community.houses))</span><br><span class="line">            .filter(house -&gt; house.price&gt;&#x3D;5000000).subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .subscribe(this::addHouseInformationToScreen);</span><br></pre></td></tr></table></figure>
+<p>简洁！有美感！这才是一个有情怀的程序员应该写出来的代码。</p>
+<p>看完这篇文章大家应该能够理解RxJava为什么会越来越火了。它能极大的提高我们的开发效率和代码的可读性！当然了RxJava的学习曲线也是比较陡的，在后面的文章我会对主要的知识点做详细的介绍，敬请关注！</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2022/04/02/Android-Flow-%E4%B8%8ELive-Data%E5%AF%B9%E6%AF%94/" class="styled-border">
+                    
+                    Android Flow 与Live Data对比
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

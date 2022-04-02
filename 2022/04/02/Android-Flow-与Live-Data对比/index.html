@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android Flow 与Live Data对比 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]官方推荐 Flow 取代 LiveData,有必要吗?更加详细的文章：不做跟风党，LiveData，StateFlow，SharedFlow 的使用场景对比 前言打开Android架构组件页面,我们可以发现一些最新发布的jetpack组件，如Room，DataStore, Paging3,DataBinding 等都支持了FlowGoogle开发者账号最近也发布了几篇使用Flow的文章，比如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Flow 与Live Data对比">
+<meta property="og:url" content="https://jenna233.github.io/2022/04/02/Android-Flow-%E4%B8%8ELive-Data%E5%AF%B9%E6%AF%94/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]官方推荐 Flow 取代 LiveData,有必要吗?更加详细的文章：不做跟风党，LiveData，StateFlow，SharedFlow 的使用场景对比 前言打开Android架构组件页面,我们可以发现一些最新发布的jetpack组件，如Room，DataStore, Paging3,DataBinding 等都支持了FlowGoogle开发者账号最近也发布了几篇使用Flow的文章，比如">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-7d5b177c2528e0db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-2758932a169078f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-4f0ffb3415b74fed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-4467d080de8259ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-836d45c2331610f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-04-02T12:41:46.000Z">
+<meta property="article:modified_time" content="2022-04-02T12:42:20.686Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-7d5b177c2528e0db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Android Flow 与Live Data对比</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/4/2 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://juejin.cn/post/6986265488275800072">官方推荐 Flow 取代 LiveData,有必要吗?</a><br>更加详细的文章：<a target="_blank" rel="noopener" href="https://jishuin.proginn.com/p/763bfbd663b2">不做跟风党，LiveData，StateFlow，SharedFlow 的使用场景对比</a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>打开<a href="https://link.juejin.cn/?target=https://developer.android.com/jetpack" title="https://developer.android.com/jetpack">Android架构组件页面</a>,我们可以发现一些最新发布的<code>jetpack</code>组件，如<code>Room</code>，<code>DataStore</code>, <code>Paging3</code>,<code>DataBinding</code> 等都支持了<code>Flow</code><br><code>Google开发者</code>账号最近也发布了几篇使用<code>Flow</code>的文章，比如：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6979008878029570055" title="https://juejin.cn/post/6979008878029570055">从 LiveData 迁移到 Kotlin 数据流</a><br>看起来官方在大力推荐使用<code>Flow</code>取代<code>LiveData</code>，那么问题来了,有必要吗？<br>我<code>LiveData</code>用得好好的，有必要再学<code>Flow</code>吗?本文主要回答这个问题,具体包括以下内容<br>1.<code>LiveData</code>有什么不足?<br>2.<code>Flow</code>介绍以及为什么会有<code>Flow</code><br>3.<code>SharedFlow</code>与<code>StateFlow</code>的介绍与它们之间的区别</p>
+<p>本文具体目录如下所示：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-7d5b177c2528e0db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h1 id="1-LiveData有什么不足"><a href="#1-LiveData有什么不足" class="headerlink" title="1. LiveData有什么不足?"></a>1. LiveData有什么不足?</h1><p>要了解<code>LiveData</code>的不足，我们先了解下<code>LiveData</code>为什么被引入</p>
+<blockquote>
+<p><code>LiveData</code> 的历史要追溯到 2017 年。彼时，观察者模式有效简化了开发，但诸如 <code>RxJava</code> 一类的库对新手而言有些太过复杂。为此，架构组件团队打造了<code> LiveData</code>: 一个专用于 Android 的具备自主生命周期感知能力的可观察的数据存储器类。<code>LiveData</code> 被有意简化设计，这使得开发者很容易上手；而对于较为复杂的交互数据流场景，建议您使用 <code>RxJava</code>，这样两者结合的优势就发挥出来了</p>
+</blockquote>
+<p>可以看出,<code>LiveData</code>就是一个简单易用的，具备感知生命周期能力的观察者模式<br>它使用起来非常简单，这是它的优点，也是它的不足，因为它面对比较复杂的交互数据流场景时，处理起来比较麻烦</p>
+<h4 id="1-2-LiveData的不足"><a href="#1-2-LiveData的不足" class="headerlink" title="1.2 LiveData的不足"></a>1.2 LiveData的不足</h4><p>我们上文说过<code>LiveData</code>结构简单，但是不够强大，它有以下不足</p>
+<ol>
+<li><code>LiveData</code>只能在主线程更新数据</li>
+<li><code>LiveData</code>的操作符不够强大,在处理复杂数据流时有些捉襟见肘</li>
+</ol>
+<p>关于<code>LiveData</code>只能在主线程更新数据，有的同学可能要问，不是有<code>postValue</code>吗？其实<code>postValue</code>也是需要切换到到主线程的,如下图所示：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-2758932a169078f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>这意味着当我们想要更新<code>LiveData</code>对象时，我们会经常更改线程（工作线程→主线程）,如果在修改<code>LiveData</code>后又要切换回到工作线程那就更麻烦了,同时<code>postValue</code>可能会有丢数据的问题。</p>
+<h1 id="2-Flow介绍"><a href="#2-Flow介绍" class="headerlink" title="2. Flow介绍"></a>2. Flow介绍</h1><p><code>Flow</code> 就是 Kotlin 协程与响应式编程模型结合的产物，你会发现它与 <code>RxJava</code> 非常像，二者之间也有相互转换的 API，使用起来非常方便。</p>
+<h4 id="2-1-为什么引入Flow"><a href="#2-1-为什么引入Flow" class="headerlink" title="2.1 为什么引入Flow"></a>2.1 为什么引入Flow</h4><p>为什么引入<code>Flow</code>，我们可以从<code>Flow</code>解决了什么问题的角度切入</p>
+<ol>
+<li><code>LiveData</code>不支持线程切换，所有数据转换都将在主线程上完成，有时需要频繁更改线程，面对复杂数据流时处理起来比较麻烦</li>
+<li>而<code>RxJava</code>又有些过于麻烦了，有许多让人傻傻分不清的操作符，入门门槛较高，同时需要自己处理生命周期，在生命周期结束时取消订阅</li>
+</ol>
+<p>可以看出，<code>Flow</code>是介于<code>LiveData</code>与<code>RxJava</code>之间的一个解决方案，它有以下特点</p>
+<ul>
+<li><code>Flow</code> 支持线程切换、背压</li>
+<li><code>Flow</code> 入门的门槛很低，没有那么多傻傻分不清楚的操作符</li>
+<li>简单的数据转换与操作符，如 <code>map</code> 等等</li>
+<li>冷数据流，不消费则不生产数据,这一点与<code>LiveData</code>不同：<code>LiveData</code>的发送端并不依赖于接收端。</li>
+<li>属于<code>kotlin</code>协程的一部分，可以很好的与协程基础设施结合</li>
+</ul>
+<p>关于<code>Flow</code>的使用，比较简单，有兴趣的同学可参阅文档：<a href="https://link.juejin.cn/?target=http://www.kotlincn.net/docs/reference/coroutines/flow.html" title="http://www.kotlincn.net/docs/reference/coroutines/flow.html">Flow文档</a></p>
+<h1 id="3-SharedFlow介绍"><a href="#3-SharedFlow介绍" class="headerlink" title="3. SharedFlow介绍"></a>3. SharedFlow介绍</h1><p>我们上面介绍过,<code>Flow 是冷流</code>，什么是冷流？</p>
+<ul>
+<li><code>冷流</code> :只有订阅者订阅时，才开始执行发射数据流的代码。并且冷流和订阅者只能是一对一的关系，当有多个不同的订阅者时，消息是重新完整发送的。也就是说对冷流而言，有多个订阅者的时候，他们各自的事件是独立的。</li>
+<li><code>热流</code>:无论有没有订阅者订阅，事件始终都会发生。当 热流有多个订阅者时，热流与订阅者们的关系是一对多的关系，可以与多个订阅者共享信息。</li>
+</ul>
+<h4 id="3-1-为什么引入SharedFlow"><a href="#3-1-为什么引入SharedFlow" class="headerlink" title="3.1 为什么引入SharedFlow"></a>3.1 为什么引入SharedFlow</h4><p>上面其实已经说得很清楚了，冷流和订阅者只能是一对一的关系，当我们要实现一个流，多个订阅者的需求时(这在开发中是很常见的)，就需要热流了<br>从命名上也很容易理解，SharedFlow即共享的Flow，可以实现一对多关系,SharedFlow是一种热流</p>
+<h4 id="3-2-SharedFlow的使用"><a href="#3-2-SharedFlow的使用" class="headerlink" title="3.2 SharedFlow的使用"></a>3.2 SharedFlow的使用</h4><p>我们来看看SharedFlow的构造函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public fun &lt;T&gt; MutableSharedFlow(</span><br><span class="line">    replay: Int &#x3D; 0,</span><br><span class="line">    extraBufferCapacity: Int &#x3D; 0,</span><br><span class="line">    onBufferOverflow: BufferOverflow &#x3D; BufferOverflow.SUSPEND</span><br><span class="line">): MutableSharedFlow&lt;T&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其主要有3个参数<br>1.<code>replay</code>表示当新的订阅者<code>Collect</code>时，发送几个已经发送过的数据给它，默认为0，即默认新订阅者不会获取以前的数据<br>2.<code>extraBufferCapacity</code>表示减去<code>replay</code>，<code>MutableSharedFlow</code>还缓存多少数据，默认为0<br>3.<code>onBufferOverflow</code>表示缓存策略，即缓冲区满了之后<code>Flow</code>如何处理，默认为挂起<br>简单使用如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;ViewModel</span><br><span class="line">val sharedFlow&#x3D;MutableSharedFlow&lt;String&gt;()</span><br><span class="line"></span><br><span class="line">viewModelScope.launch&#123;</span><br><span class="line">      sharedFlow.emit(&quot;Hello&quot;)</span><br><span class="line">      sharedFlow.emit(&quot;SharedFlow&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Activity</span><br><span class="line">lifecycleScope.launch&#123;</span><br><span class="line">    viewMode.sharedFlow.collect &#123; </span><br><span class="line">       print(it)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-3-将冷流转化为SharedFlow"><a href="#3-3-将冷流转化为SharedFlow" class="headerlink" title="3.3 将冷流转化为SharedFlow"></a>3.3 将冷流转化为SharedFlow</h4><p>普通<code>flow</code>可使用<code>shareIn</code>扩展方法，转化成<code>SharedFlow</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">val sharedFlow by lazy &#123;</span><br><span class="line">    flow&lt;Int&gt; &#123;</span><br><span class="line">    &#x2F;&#x2F;...</span><br><span class="line">    &#125;.shareIn(viewModelScope, WhileSubscribed(500), 0)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>shareIn</code>主要也有三个参数：</p>
+<blockquote>
+<p>@param <code>scope</code> 共享开始时所在的协程作用域范围<br>@param <code>started</code> 控制共享的开始和结束的策略<br>@param <code>replay</code> 状态流的重播个数</p>
+</blockquote>
+<p><code>started</code> 接受以下的三个值:</p>
+<ol>
+<li><code>Lazily</code>: 当首个订阅者出现时开始，在<code>scope</code>指定的作用域被结束时终止。</li>
+<li><code>Eagerly</code>: 立即开始，而在<code>scope</code>指定的作用域被结束时终止。</li>
+<li><code>WhileSubscribed:</code> 这种情况有些复杂，后面会详细讲解</li>
+</ol>
+<p>对于那些只执行一次的操作，您可以使用<code>Lazily</code>或者<code>Eagerly</code>。然而，如果您需要观察其他的流，就应该使用<code>WhileSubscribed</code>来实现细微但又重要的优化工作</p>
+<h4 id="3-4-Whilesubscribed策略"><a href="#3-4-Whilesubscribed策略" class="headerlink" title="3.4 Whilesubscribed策略"></a>3.4 Whilesubscribed策略</h4><p><code>WhileSubscribed</code>策略会在没有收集器的情况下取消上游数据流,通过<code>shareIn</code>运算符创建的<code>SharedFlow</code>会把数据暴露给视图 (<code>View</code>)，同时也会观察来自其他层级或者是上游应用的数据流。<br>让这些流持续活跃可能会引起不必要的资源浪费，例如一直通过从数据库连接、硬件传感器中读取数据等等。当您的应用转而在后台运行时，您应当保持克制并中止这些协程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public fun WhileSubscribed(</span><br><span class="line">   stopTimeoutMillis: Long &#x3D; 0,</span><br><span class="line">   replayExpirationMillis: Long &#x3D; Long.MAX_VALUE</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>如上所示，它支持两个参数：</p>
+<ol>
+<li><code>stopTimeoutMillis</code> 控制一个以毫秒为单位的延迟值，指的是最后一个订阅者结束订阅与停止上游流的时间差。默认值是 0 (立即停止).这个值非常有用，因为您可能并不想因为视图有几秒钟不再监听就结束上游流。这种情况非常常见——比如当用户旋转设备时，原来的视图会先被销毁，然后数秒钟内重建。</li>
+<li><code>replayExpirationMillis</code>表示数据重播的过时时间，如果用户离开应用太久，此时您不想让用户看到陈旧的数据，你可以用到这个参数</li>
+</ol>
+<h1 id="4-StateFlow介绍"><a href="#4-StateFlow介绍" class="headerlink" title="4. StateFlow介绍"></a>4. StateFlow介绍</h1><h4 id="4-1-为什么引入StateFlow"><a href="#4-1-为什么引入StateFlow" class="headerlink" title="4.1 为什么引入StateFlow"></a>4.1 为什么引入StateFlow</h4><p>我们前面刚刚看了<code>SharedFlow</code>，为什么又冒出个<code>StateFlow</code>?<br><code>StateFlow</code> 是 <code>SharedFlow</code> 的一个比较特殊的变种，<code>StateFlow</code>与 <code>LiveData</code> 是最接近的，因为:</p>
+<ol>
+<li>它始终是有值的。</li>
+<li>它的值是唯一的。</li>
+<li>它允许被多个观察者共用 (因此是共享的数据流)。</li>
+<li>它永远只会把最新的值重现给订阅者，这与活跃观察者的数量是无关的。</li>
+</ol>
+<p>可以看出，<code>StateFlow</code>与<code>LiveData</code>是比较接近的，可以获取当前的值，可以想像之所以引入<code>StateFlow</code>就是为了替换<code>LiveData</code></p>
+<ol>
+<li><code>StateFlow</code>继承于<code>SharedFlow</code>,是<code>SharedFlow</code>的一个特殊变种</li>
+<li><code>StateFlow</code>与<code>LiveData</code>比较相近，相信之所以推出就是为了替换<code>LiveData</code></li>
+</ol>
+<h4 id="4-2-StateFlow的简单使用"><a href="#4-2-StateFlow的简单使用" class="headerlink" title="4.2 StateFlow的简单使用"></a>4.2 StateFlow的简单使用</h4><p>我们先来看看构造函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public fun &lt;T&gt; MutableStateFlow(value: T): MutableStateFlow&lt;T&gt; &#x3D; StateFlowImpl(value ?: NULL)</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>StateFlow</code>构造函数较为简单，只需要传入一个默认值</li>
+<li><code>StateFlow</code>本质上是一个<code>replay</code>为1，并且没有缓冲区的<code>SharedFlow</code>,因此第一次订阅时会先获得默认值</li>
+<li><code>StateFlow</code>仅在值已更新，并且值发生了变化时才会返回，即如果更新后的值没有变化，也没会回调<code>Collect</code>方法，这点与<code>LiveData</code>不同</li>
+</ol>
+<p>与<code>SharedFlow</code>类似，我们也可以用<code>stateIn</code>将普通流转化成<code>StateFlow</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">val result: StateFlow&lt;Result&lt;UiState&gt;&gt; &#x3D; someFlow</span><br><span class="line">    .stateIn(</span><br><span class="line">        scope &#x3D; viewModelScope, </span><br><span class="line">        started &#x3D; WhileSubscribed(5000), </span><br><span class="line">        initialValue &#x3D; Result.Loading</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<p>与<code>shareIn</code>类似，唯一不同的时需要传入一个默认值<br>同时之所以<code>WhileSubscribed</code>中传入了5000，是为了实现等待5秒后仍然没有订阅者存在就终止协程的功能，这个方法有以下功能</p>
+<ul>
+<li>用户将您的应用转至后台运行，5 秒钟后所有来自其他层的数据更新会停止，这样可以节省电量。</li>
+<li>最新的数据仍然会被缓存，所以当用户切换回应用时，视图立即就可以得到数据进行渲染。</li>
+<li>订阅将被重启，新数据会填充进来，当数据可用时更新视图。</li>
+<li>在屏幕旋转时，因为重新订阅的时间在5s内，因此上游流不会中止</li>
+</ul>
+<h4 id="4-3-在页面中观察StateFlow"><a href="#4-3-在页面中观察StateFlow" class="headerlink" title="4.3 在页面中观察StateFlow"></a>4.3 在页面中观察StateFlow</h4><p>与<code>LiveData</code>类似，我们也需要经常在页面中观察<code>StateFlow</code><br>观察<code>StateFlow</code>需要在协程中，因此我们需要协程构建器，一般我们会使用下面几种</p>
+<ol>
+<li><code>lifecycleScope.launch</code> : 立即启动协程，并且在本 <code>Activity</code>或<code>Fragment</code> 销毁时结束协程。</li>
+<li><code>LaunchWhenStarted</code> 和 <code>LaunchWhenResumed</code>,它会在<code>lifecycleOwner</code>进入X状态之前一直等待，又在离开X状态时挂起协程<br><img src="https://upload-images.jianshu.io/upload_images/15531792-4f0ffb3415b74fed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ol>
+<p>如上图所示：<br>1.使用<code>launch</code>是不安全的，在应用在后台时也会接收数据更新，可能会导致应用崩溃<br>2.使用<code>launchWhenStarted</code>或<code>launchWhenResumed</code>会好一些，在后台时不会接收数据更新，但是，上游数据流会在应用后台运行期间保持活跃，因此可能浪费一定的资源</p>
+<p>这么说来，我们使用<code>WhileSubscribed</code>进行的配置岂不是无效了吗？订阅者一直存在，只有页面关闭时才会取消订阅<br><strong>官方推荐<code>repeatOnLifecycle</code>来构建协程</strong><br>在某个特定的状态满足时启动协程，并且在生命周期所有者退出该状态时停止协程,如下图所示。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-4467d080de8259ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>比如在某个Fragment的代码中:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">onCreateView(...) &#123;</span><br><span class="line">    viewLifecycleOwner.lifecycleScope.launch &#123;</span><br><span class="line">        viewLifecycleOwner.lifecycle.repeatOnLifecycle(STARTED) &#123;</span><br><span class="line">            myViewModel.myUiState.collect &#123; ... &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当这个<code>Fragment</code>处于<code>STARTED</code>状态时会开始收集流，并且在<code>RESUMED</code>状态时保持收集，最终在<code>Fragment</code>进入<code>STOPPED</code>状态时结束收集过程。<br>结合使用<code>repeatOnLifecycle API</code>和<code>WhileSubscribed</code>,可以帮助您的应用妥善利用设备资源的同时，发挥最佳性能</p>
+<h4 id="4-4-页面中观察Flow的最佳方式"><a href="#4-4-页面中观察Flow的最佳方式" class="headerlink" title="4.4 页面中观察Flow的最佳方式"></a>4.4 页面中观察Flow的最佳方式</h4><p>通过<code>ViewModel</code>暴露数据，并在页面中获取的最佳方式是:</p>
+<ul>
+<li>✔️ 使用带超时参数的 <code>WhileSubscribed</code> 策略暴露 <code>Flow</code>。<a href="https://link.juejin.cn/?target=https://gist.github.com/JoseAlcerreca/4eb0be817d8f94880dab279d1c27a4af" title="https://gist.github.com/JoseAlcerreca/4eb0be817d8f94880dab279d1c27a4af">示例 1</a></li>
+<li>✔️ 使用 <code>repeatOnLifecycle</code> 来收集数据更新。<a href="https://link.juejin.cn/?target=https://gist.github.com/JoseAlcerreca/6e2620b5615425a516635744ba59892e" title="https://gist.github.com/JoseAlcerreca/6e2620b5615425a516635744ba59892e">示例 2</a><br><img src="https://upload-images.jianshu.io/upload_images/15531792-836d45c2331610f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+<p>最佳实践如上图所示，如果采用其他方式，上游数据流会被一直保持活跃，导致资源浪费<br>当然，如果您并不需要使用到<code>Kotlin Flow</code>的强大功能，就用<code>LiveData</code>好了 :)</p>
+<h1 id="5-StateFlow与SharedFlow有什么区别？"><a href="#5-StateFlow与SharedFlow有什么区别？" class="headerlink" title="5 StateFlow与SharedFlow有什么区别？"></a>5 StateFlow与SharedFlow有什么区别？</h1><p>从上文其实可以看出，<code>StateFlow</code>与<code>SharedFlow</code>其实是挺像的，让人有些傻傻分不清，有时候也挺难选择该用哪个的<br>我们总结一下，它们的区别如下:</p>
+<ol>
+<li><code>SharedFlow</code>配置更为灵活，支持配置<code>replay</code>,缓冲区大小等，<code>StateFlow</code>是<code>SharedFlow</code>的特化版本，<code>replay</code>固定为1，缓冲区大小默认为0</li>
+<li><code>StateFlow</code>与<code>LiveData</code>类似，支持通过<code>myFlow.value</code>获取当前状态，如果有这个需求，必须使用<code>StateFlow</code></li>
+<li><code>SharedFlow</code>支持发出和收集重复值，而<code>StateFlow</code>当<code>value</code>重复时，不会回调<code>collect</code><br>对于新的订阅者，<code>StateFlow</code>只会重播当前最新值，<code>SharedFlow</code>可配置重播元素个数（默认为0，即不重播）</li>
+</ol>
+<p>可以看出,<code>StateFlow</code>为我们做了一些默认的配置，在<code>SharedFlow</code>上添加了一些默认约束，这些配置可能并不符合我们的要求</p>
+<ol>
+<li>它忽略重复的值，并且是不可配置的。这会带来一些问题，比如当往<code>List</code>中添加元素并更新时，<code>StateFlow</code>会认为是重复的值并忽略</li>
+<li>它需要一个初始值，并且在开始订阅时会回调初始值，这有可能不是我们想要的</li>
+<li>它默认是粘性的，新用户订阅会获得当前的最新值，而且是不可配置的,而<code>SharedFlow</code>可以修改<code>replay</code></li>
+</ol>
+<p><code>StateFlow</code>施加在<code>SharedFlow</code>上的约束可能不是最适合您，如果不需要访问<code>myFlow.value</code>，并且享受<code>SharedFlow</code>的灵活性，可以选择考虑使用<code>SharedFlow</code></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>简单往往意味着不够强大，而强大又常常意味着复杂,两者往往不能兼得，软件开发过程中常常面临这种取舍。<br><code>LiveData</code>的简单并不是它的缺点，而是它的特点。<code>StateFlow</code>与<code>SharedFlow</code>更加强大，但是学习成本也显著的更高.<br>我们应该根据自己的需求合理选择组件的使用</p>
+<ol>
+<li>如果你的数据流比较简单，不需要进行线程切换与复杂的数据变换，<code>LiveData</code>对你来说相信已经足够了</li>
+<li>如果你的数据流比较复杂，需要切换线程等操作，不需要发送重复值，需要获取<code>myFlow.value</code>，<code>StateFlow</code>对你来说是个好的选择</li>
+<li>如果你的数据流比较复杂，同时不需要获取<code>myFlow.value</code>，需要配置新用户订阅重播无素的个数，或者需要发送重复的值，可以考虑使用<code>SharedFlow</code></li>
+</ol>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6854573211930066951" title="https://juejin.cn/post/6854573211930066951">Google 推荐在 MVVM 架构中使用 Kotlin Flow</a><br><a href="https://link.juejin.cn/?target=https://alexzh.com/migrate-from-livedata-to-stateflow-and-sharedflow/" title="https://alexzh.com/migrate-from-livedata-to-stateflow-and-sharedflow/">Migrate from LiveData to StateFlow and SharedFlow</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6979008878029570055" title="https://juejin.cn/post/6979008878029570055">从 LiveData 迁移到 Kotlin 数据流</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6979793981928374308#heading-9" title="https://juejin.cn/post/6979793981928374308#heading-9">关于kotlin中的Collections、Sequence、Channel和Flow (二)</a></p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2022/04/02/RxJava-%E7%AE%80%E4%BB%8B/" class="styled-border">
+                    ←
+                    RxJava 简介
+                    
+                </a>
+            
+            
+                <a href="/2022/03/19/Google-play-store-App-%E7%AD%BE%E5%90%8D/" class="styled-border">
+                    
+                    Google play store App  签名
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
