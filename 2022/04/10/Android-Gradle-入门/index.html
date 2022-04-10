@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android Gradle 入门 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]Android中Gradle入门详解 1.什么是gradleGradle 是新一代的自动化构建工具，它是一个独立的项目，跟 AS、Android 无关，官方网站：https:&#x2F;&#x2F;gradle.org&#x2F; , 类似 Ant、Maven这类构建工具都是基于 xml 来进行描述的，很臃肿，而 Gradle 采用的是一种叫做 Groovy 的语言，语法跟 Java 语法很像，但是是一种动态语言，而且在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Gradle 入门">
+<meta property="og:url" content="https://jenna233.github.io/2022/04/10/Android-Gradle-%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]Android中Gradle入门详解 1.什么是gradleGradle 是新一代的自动化构建工具，它是一个独立的项目，跟 AS、Android 无关，官方网站：https:&#x2F;&#x2F;gradle.org&#x2F; , 类似 Ant、Maven这类构建工具都是基于 xml 来进行描述的，很臃肿，而 Gradle 采用的是一种叫做 Groovy 的语言，语法跟 Java 语法很像，但是是一种动态语言，而且在">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-0e1e156b4ff93fd2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-5c8ed4c64853d9f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-2b1b6a7aaab1314e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-04-10T10:15:45.000Z">
+<meta property="article:modified_time" content="2022-04-10T10:16:18.636Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-0e1e156b4ff93fd2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Android Gradle 入门</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/4/10 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/719ee08f7bbe">Android中Gradle入门详解</a></p>
+<h2 id="1-什么是gradle"><a href="#1-什么是gradle" class="headerlink" title="1.什么是gradle"></a>1.什么是gradle</h2><p>Gradle 是新一代的自动化构建工具，它是一个独立的项目，跟 AS、Android 无关，官方网站：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://gradle.org/">https://gradle.org/</a> , 类似 Ant、Maven这类构建工具都是基于 xml 来进行描述的，很臃肿，而 Gradle 采用的是一种叫做 Groovy 的语言，语法跟 Java 语法很像，但是是一种动态语言，而且在 Java 基础上做了不少改进，用起来更加简洁、灵活，而且 Gradle 完全兼容 Maven、Ivy，这点基本上宣布了 Maven、Ivy 可以被抛弃了，Gradle 的推出主要以 Java 应用为主，当然目前还支持 Android、C、C++。</p>
+<h2 id="2-Gradle-与-Android-Studio-的关系"><a href="#2-Gradle-与-Android-Studio-的关系" class="headerlink" title="2. Gradle 与 Android Studio 的关系"></a>2. Gradle 与 Android Studio 的关系</h2><p>上面也提到，Gradle 跟 Android Studio 其实没有关系，但是 Gradle 官方还是很看重 Android 开发的，Google 在推出 AS 的时候选中了 Gradle 作为构建工具，为了支持 Gradle 能在 AS 上使用，Google 做了个 AS 的插件叫 Android Gradle Plugin ，所以我们能在 AS 上使用 Gradle 完全是因为这个插件的原因。在项目的根目录有个 build.gradle 文件，里面有这么一句代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classpath &#39;com.android.tools.build:gradle:2.1.2&#39;</span><br></pre></td></tr></table></figure>
+<p>这个就是依赖 gradle 插件的代码，后面的版本号代表的是 android gradle plugin 的版本，而不是 Gradle 的版本，这个是 Google 定的，跟 Gradle 官方没关系。</p>
+<h2 id="3-Gradle-Wrapper"><a href="#3-Gradle-Wrapper" class="headerlink" title="3. Gradle Wrapper"></a>3. Gradle Wrapper</h2><p>现在默认新建一个项目，然后点击 AS 上的运行，默认就会直接帮你安装 Gradle ，我们不需要额外的安装 Gradle 了，但是其实这个 Gradle 不是真正的 Gradle ，他叫 Gradle Wrapper ，意为 Gradle 的包装，什么意思呢？假设我们本地有多个项目，一个是比较老的项目，还用着 Gradle 1.0 的版本，一个是比较新的项目用了 Gradle 2.0 的版本，但是你两个项目肯定都想要同时运行的，如果你只装了 Gradle 1.0 的话那肯定不行，所以为了解决这个问题，Google 推出了 Gradle Wrapper 的概念，就是他在你每个项目都配置了一个指定版本的 Gradle ，你可以理解为每个 Android 项目本地都有一个小型的 Gradle ，通过这个每个项目你可以支持用不同的 Gradle 版本来构建项目。</p>
+<h2 id="4-Gradle两个基本概念：项目和任务"><a href="#4-Gradle两个基本概念：项目和任务" class="headerlink" title="4. Gradle两个基本概念：项目和任务"></a>4. Gradle两个基本概念：项目和任务</h2><p>每个 build.gradle 构建脚本文件代表一个项目 project：<br>任务 task 定义在构建脚本里:</p>
+<p>每次构建至少包括一个项目，每个项目里又至少包括一个任务。</p>
+<p>在编译过程中， Gradle 会根据 build 相关文件，聚合所有的project和task，执行task 中的 action。因为 build.gradle文件中的task非常多，先执行哪个后执行那个需要一种逻辑来保证。这种逻辑就是依赖逻辑，几乎所有的Task 都需要依赖其他 task 来执行，没有被依赖的task 会首先被执行。所以到最后所有的 Task 会构成一个 有向无环图（DAG Directed Acyclic Graph）的数据结构。</p>
+<h2 id="5-构建生命周期"><a href="#5-构建生命周期" class="headerlink" title="5. 构建生命周期"></a>5. 构建生命周期</h2><p>一个 Gradle 构建通常包括下面三个阶段：</p>
+<ol>
+<li>初始化<br>项目实例会在这时被创建，如果这个项目里有多个 module，或者依赖多个 library，并且它们都有对应的 build.gradle 文件，就会创建多个项目实例</li>
+<li>配置<br>在这个阶段构建脚本被执行，并且为每个项目实例创建和配置任务</li>
+<li>执行<br>在这个阶段 Gradle 将根据构建脚本的配置决定哪些任务会被执行</li>
+</ol>
+<h2 id="6-初识Gradle文件"><a href="#6-初识Gradle文件" class="headerlink" title="6. 初识Gradle文件"></a>6. 初识Gradle文件</h2><p>我们用 Android Studio 新创建一个项目时，会自动生成 3 个 Gradle 文件：</p>
+<h4 id="setting-gradle"><a href="#setting-gradle" class="headerlink" title="setting.gradle"></a>setting.gradle</h4><p>setting.gradle 文件在 初始化过程中被执行，构建器通过 setting.gradle 文件中的内容了解哪些模块将被 build，下面的内容表明当前项目中除了 app 模块还有另外一个叫做 “shixinlibrary” 的依赖模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include ‘:app’, ‘:shixinlibrary’</span><br></pre></td></tr></table></figure>
+<p>注意：单模块项目不一定需要有 setting 文件，但一旦有多个模块，必须要有 setting 文件，同时也要写明所有要构建的模块，否则 gradle 不会 build 不包括的模块。</p>
+<h4 id="主目录下的-build-gradle"><a href="#主目录下的-build-gradle" class="headerlink" title="主目录下的 build.gradle"></a>主目录下的 build.gradle</h4><p>看 gradle 文件中的注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Top-level build file where you can configuration options common to all sub-projects&#x2F;modules.</span><br></pre></td></tr></table></figure>
+<p>主目录下的 build.gradle 文件是最顶层的构建文件，这里配置所有模块通用的配置信息。</p>
+<p>默认的顶层 build.gradle 文件中包括两个代码块 (buildscript 和 allprojects):</p>
+<p><strong>buildscript</strong><br>从名字就可以看出来，buildscript 是所有项目的构建脚本配置，主要包括依赖的仓库和依赖的 gradle 版本。</p>
+<p>下图中 repositories 代码块将 jcenter 配置为一个仓库，JCenter 是一个很有名的 Maven 仓库。确定了依赖的仓库后，我们就可以在 dependencies 代码块中添加依赖的、在 jcenter 仓库中的包了。</p>
+<p>如果仓库有密码，也可以同时传入用户名和密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">        mavenCentral()</span><br><span class="line">        maven &#123; </span><br><span class="line">            url &quot;https:&#x2F;&#x2F;dl.bintray.com&#x2F;thelasterstar&#x2F;maven&#x2F;&quot;</span><br><span class="line">            credentials &#123;</span><br><span class="line">                username &#39;user&#39;</span><br><span class="line">                password &#39;secretpassword&#39;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>dependencies 代码块用于配置构建过程中的依赖包，注意，这里是用于构建过程，因此你不能将你的应用模块中需要依赖的库添加到这里。</p>
+<p>默认情况下唯一被用于构建过程中的依赖包是 Gradle for Android 的插件。我们还可以添加一些其他用于构建的插件，比如 retrolambda, apt, freeline 等等。</p>
+<p><strong>allprojects</strong><br>allprojects 代码块用来声明将被用于所有模块的属性，注意是所有模块。常见的就是配置仓库地址（jcenter, 自定义 maven 仓库等），你还可以在 allprojects 中创建 tasks，这些 tasks 最终会运用到所有模块中，</p>
+<blockquote>
+<p>官方建议尽量少添加用于所有模块的属性，因为这意味着强耦合，一旦没有构建主项目，你的子模块很有可能因为缺少所有模块的属性导致构建失败。</p>
+</blockquote>
+<h4 id="模块下的-build-gradle"><a href="#模块下的-build-gradle" class="headerlink" title="模块下的 build.gradle"></a>模块下的 build.gradle</h4><p>模块下的 build.gradle 文件只应用于当前模块，你可以覆盖主目录下的 build.gradle 的内容。</p>
+<p>上图中主要分三个模块：apply plugin , android, dependencies。<br><strong>apply plugin</strong><br>apply plugin 声明了接下来要用到哪些插件的内容，上图表明使用了 androd 插件，这里之所以能用 android 插件，是因为主目录中声明了 Gradle for Android 的依赖，这里才能使用。</p>
+<p>因此当我们需要使用其他插件，比如 retrolambda 时，首先需要在主目录 build.gradle 文件中添加依赖，然后在模块 build.gradle 中声明使用 retrolambda 插件。</p>
+<p>备注：默认的 android 插件是由 Google 官方维护的，为我们提供了构建、测试、打包 Android 应用的能力。除此之外我们还可以自定义插件。在逐渐加深对 Gradle 的了解后，我们将尝试自己写个 Gradle 插件。</p>
+<p><strong>android</strong><br>在声明了 android 插件后，我们就可以使用 android 插件提供的内容进行构建配置。<br>android 构建配置中必须要有的是两个版本：</p>
+<ul>
+<li>compileSdkVersion : 编译应用的 Android API 版本</li>
+<li>buildToolsVersion : 构建工具版本 (android studio3.0上已经不需要了)</li>
+</ul>
+<p>defaultConfig 代码块用于配置应用的默认属性，可以覆盖 AndroidManifest.xml 中的属性，比如：</p>
+<ul>
+<li>applicationId : 覆盖了 AndroidManifest 中的 package name</li>
+<li>minSdkVersion : 覆盖了 AndroidManifest 中的属性，配置运行应用的最小 API</li>
+<li>targetSdkVersion : 一样，用于通知系统当前应用已经被这个版本测试过，和之前的 compileSdkVersion 没有关系</li>
+<li>versionCode : 一样，应用的版本号</li>
+<li>versionName : 版本名称</li>
+<li>defaultConfig 还可以添加签名，占位符等等，这里只列这些。</li>
+<li>buildTypes 用来定义如何构建和打包不同类型的应用，常见的就是测试和生产。</li>
+<li>android 中还可以配置其他信息，比如 签名、渠道等，你可以在 Project Structure 面板中直观的查看，添加，也可以使用代码添加</li>
+</ul>
+<p><strong>dependencies</strong><br>上图中可以看到 依赖配置 在 android 代码块的外边，事实上依赖配置是 Gradle 配置的基础功能，也就是说除了 Android，其他类型的项目（比如 JavaEE ）也可以这么用。</p>
+<p>我们可以在依赖配置中，添加要使用的库，当然也可以添加本地的 jar 包。</p>
+<h2 id="7-Android项目中的Gradle实践"><a href="#7-Android项目中的Gradle实践" class="headerlink" title="7.Android项目中的Gradle实践"></a>7.Android项目中的Gradle实践</h2><h4 id="版本的统一管理"><a href="#版本的统一管理" class="headerlink" title="版本的统一管理"></a>版本的统一管理</h4><p>当我们的工程中有许多module的时候，分开管理编译版本，minsdk将会是一件很麻烦的事，因为一个library的改动，可能会影响到其他module。这时我们就需要对所有的版本进行统一的管理：</p>
+<p>我们可以把一些需要用的字段都放在project的build.gradle（注意是project的不是module的）中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ext &#123;   </span><br><span class="line"> compileSdk &#x3D; 21    </span><br><span class="line"> minSdk &#x3D; 11    </span><br><span class="line"> targetSdk &#x3D; 23    </span><br><span class="line"> support &#x3D; &quot;23.1.1&quot;   </span><br><span class="line"> buildTools &#x3D; &quot;21.0.1&quot;   </span><br><span class="line"> buildstyle &#x3D;&quot;debug&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，在module的build.gradle中可以进行读取：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">defaultConfig &#123;   </span><br><span class="line"> applicationId &quot;android.com.testgradle&quot;    </span><br><span class="line"> minSdkVersion rootProject.ext.minSdk    </span><br><span class="line"> targetSdkVersion rootProject.ext.targetSdk    </span><br><span class="line"> versionCode 1   </span><br><span class="line"> versionName &quot;1.0&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="多版本打包（-Build-Variant）"><a href="#多版本打包（-Build-Variant）" class="headerlink" title="多版本打包（ Build Variant）"></a>多版本打包（ Build Variant）</h4><p><strong>BuildType</strong><br>默认情况下，Android plugin会自动的构建release和debug两个版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">buildTypes &#123;</span><br><span class="line">    release &#123;</span><br><span class="line">        minifyEnabled true</span><br><span class="line">        proguardFiles getDefaultProguardFile(&#39;proguard-android.txt&#39;), &#39;proguard-rules.pro&#39;</span><br><span class="line">    &#125;</span><br><span class="line">    debug &#123;</span><br><span class="line">        minifyEnabled false</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; release版本中设置了开启混淆，并且定义了混淆文件的位置</span><br></pre></td></tr></table></figure>
+<p>Android plugin允许自定义这两个示例，并且可以创建其他的buildType，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">buildTypes &#123;</span><br><span class="line">    debug &#123;</span><br><span class="line">        minifyEnabled false</span><br><span class="line">        applicationIdSuffix &quot;.debug&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    custom.initWith(buildTypes.debug)</span><br><span class="line">    custom &#123;</span><br><span class="line">        applicationIdSuffix &quot;.custom&quot;</span><br><span class="line">        versionNameSuffix &quot;-customs&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述配置进行了一下设置：</p>
+<ul>
+<li>对默认的debug构建类型进行了修改，关闭了混淆配置，添加applicationId后缀</li>
+<li>以debug为基础创建一个叫custom的构建类型（相当于继承了debug版本），在custom的构建类型中修改applicationId后缀，并添加了versionName的后缀。</li>
+</ul>
+<p><strong>Source sets</strong><br>gradle通过一个叫SourceSets的概念来寻找和关联要编译的源码文件，每当创建一个新的build type 的时候，gradle 默认都会创建一个新的source set。我们可以建立与main文件夹同级的文件夹，根据编译类型的不同我们可以选择对某些源码和资源文件直接进行替换。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-0e1e156b4ff93fd2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>对于每一个BuildType，Android plugin都会创建一个对应的sourceSet，默认位置为：src/BuildTypeName<br>所以新建BuildType的名字不能是main、androidTest和test这三个已经被用的名字</p>
+<p>BuildType的代码/资源会以以下方式进行合并</p>
+<ul>
+<li>manifest会被合并到app的manifest文件中</li>
+<li>res目录下的资源文件会替换main里的资源文件</li>
+<li>java目录下的文件会被添加到main里的java目录中，所以不能和main里的类重名（含包名）</li>
+</ul>
+<p>除此之外，不同编译类型的项目，我们的依赖都可以不同，比如，如果我需要在staging和debug两个版本中使用不同的log框架，我们这样配置：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-5c8ed4c64853d9f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Product flavors</strong><br>Product flavors 默认不引用，我们可以手动添加，同Build type一样，每一个Product flavors 版本也都有属于自己的Source sets，也可以差异化设置构建属性。</p>
+<p>当同时设置了<strong>BuildType</strong>和<strong>Product flavors</strong>后，二者会组合构建，最多可以生成m×n个版本的apk包。对于二者SourceSets，重复的res文件覆盖原则buildType&gt;Product flavors</p>
+<p>在一些情况下，一个应用可能需要基于多个标准来创建多个版本。<br>例如，有个 app 需要一个免费版本和一个付费的版本，并且需要在不同的 app 发布平台发布。这个 app 需要 2 个付费版和 2 个特定发布平台，因此就需要生成 4 个APK（不算 Build Types 生成的 Variant 版本）。</p>
+<p>然而，这款 app 中，为 2 个发布平台构建的付费版本源代码都是相同，因此创建 4 个 flavor 来实现不是一个好办法。 如果使用两个 flavor 维度，两两组合，构建所有可能的 Variant 组合才是最好的。</p>
+<p>这个功能的实现就是使用 Flavor Dimensions 。每一个 Dimensions 代表一个维度，并且 flavor 都被分配到一个指定的 Dimensions 中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">...</span><br><span class="line">flavorDimensions &#39;price&#39;, &#39;store&#39;</span><br><span class="line"></span><br><span class="line">productFlavors &#123;</span><br><span class="line">    google &#123;</span><br><span class="line">        dimension &#39;store&#39;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    amazon &#123;</span><br><span class="line">        dimension &#39;store&#39;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    free &#123;</span><br><span class="line">        dimension &#39;price&#39;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    paid &#123;</span><br><span class="line">        dimension &#39;price&#39;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;* 注：</span><br><span class="line">dimension参数在gradle2.0之后替换掉了flavorDimension参数，所以很多文章里依然使用的类似于如下写法：</span><br><span class="line">google &#123;</span><br><span class="line">        flavorDimension &#39;store&#39;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">flavorDimension参数现已失效</span><br><span class="line">*&#x2F;</span><br></pre></td></tr></table></figure>
+<p>andorid.flavorDimensions 数组按照先后排序定义了可能使用的 Dimensions 。每一个 Product Flavor 都被分配到一个 Dimensions 中。</p>
+<p>上面的例子中将 Product Flavor 分为两组（即两个维度），分别为 price 维度 [free, paid] 和 store 维度 [google, amazon] ，再加上默认的 Build Type 有 [debug, release] ，这将会组合生成以下的 Build Variant：</p>
+<ul>
+<li>free-google-debug</li>
+<li>free-google-release</li>
+<li>free-amazon-debug</li>
+<li>free-amazon-release</li>
+<li>paid-google-debug</li>
+<li>paid-google-release</li>
+<li>paid-amazon-debug</li>
+<li>paid-amazon-release</li>
+</ul>
+<p>每一个 Variant 版本的配置由几个 Product Flavor 对象决定：</p>
+<ul>
+<li>一个来自 price 组中的对象</li>
+<li>一个来自 store 组中的对象</li>
+</ul>
+<p>android.flavorDimensions 中定义的 Dimensions 排序非常重要（Variant 命名和优先级等）。</p>
+<p>flavorDimensions 中的排序决定了哪一个 flavor 覆盖哪一个，这对于资源来说非常重要，因为一个 flavor 中的值会替换定义在低优先级的 flavor 中的值。</p>
+<p>flavorDimensions 使用最高的优先级定义，因此在上面例子中的优先级为：</p>
+<blockquote>
+<p>price &gt; store &gt; defaultConfig</p>
+</blockquote>
+<h4 id="android-studio-3-0的一些变化"><a href="#android-studio-3-0的一些变化" class="headerlink" title="android studio 3.0的一些变化"></a>android studio 3.0的一些变化</h4><p>不需要再指定buildToolsVersion了，会根据compileSdkVersion自动匹配合适的版本。</p>
+<p>compile标签依然可用，但是已经过时，替代标签为api和implementation<br>api标签==compile<br><img src="https://upload-images.jianshu.io/upload_images/15531792-2b1b6a7aaab1314e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>在java文件中，选中你要转换的代码，然后在顶部选择Code——&gt;Convert Java File to Kotlin File进行转换就好了，转换之后，这就是一个Kotlin文件了。</p>
+<p>Android Monitor分离为logcat和Android Profiler<br>支持java1.8，支持lamda表达式，并提示转换<br>新的文件资源管理器</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2022/04/02/RxJava-%E7%AE%80%E4%BB%8B/" class="styled-border">
+                    
+                    RxJava 简介
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
