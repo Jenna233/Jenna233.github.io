@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>webpack 中，hash、chunkhash、contenthash 的区别是什么？ | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]webpack 中，hash、chunkhash、contenthash 的区别是什么？Webpack 有非常多的概念，很多名词长得都差不多。我把这些分散在文档和教程里的内容总结起来，写了一份 webpack 中的易混淆知识点，目前看是全网独一份，大家可以加个收藏，方便以后检索和学习。 全集链接 ?? webpack 易混淆知识点 首先来个背景介绍，哈希一般是结合 CDN 缓存来使用的。如果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack 中，hash、chunkhash、contenthash 的区别是什么？">
+<meta property="og:url" content="https://jenna233.github.io/2022/05/03/webpack-%E4%B8%AD%EF%BC%8Chash%E3%80%81chunkhash%E3%80%81contenthash-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]webpack 中，hash、chunkhash、contenthash 的区别是什么？Webpack 有非常多的概念，很多名词长得都差不多。我把这些分散在文档和教程里的内容总结起来，写了一份 webpack 中的易混淆知识点，目前看是全网独一份，大家可以加个收藏，方便以后检索和学习。 全集链接 ?? webpack 易混淆知识点 首先来个背景介绍，哈希一般是结合 CDN 缓存来使用的。如果">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-bb5b247537653773.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-3a80907ce97b2e8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-9a3240fa9f2a69fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-6810ecb7c427c002.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-f05919f63d56b4a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-d818fe7730fb163b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-05-03T04:07:15.000Z">
+<meta property="article:modified_time" content="2022-05-03T04:07:47.961Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="React &amp; JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-bb5b247537653773.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">webpack 中，hash、chunkhash、contenthash 的区别是什么？</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/5/3 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/React-JS/" rel="tag">React & JS</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://www.1024sou.com/article/289015.html">webpack 中，hash、chunkhash、contenthash 的区别是什么？</a><br>Webpack 有非常多的概念，很多名词长得都差不多。我把这些分散在文档和教程里的内容总结起来，写了一份 webpack 中的易混淆知识点，目前看是全网独一份，大家可以加个收藏，方便以后检索和学习。</p>
+<p>全集链接 ?? webpack 易混淆知识点</p>
+<p>首先来个背景介绍，哈希一般是结合 CDN 缓存来使用的。如果文件内容改变的话，那么对应文件哈希值也会改变，对应的 HTML 引用的 URL 地址也会改变，触发 CDN 服务器从源服务器上拉取对应数据，进而更新本地缓存。</p>
+<h1 id="1-hash"><a href="#1-hash" class="headerlink" title="1 hash"></a>1 hash</h1><p>hash 计算是跟整个项目的构建相关，我们做一个简单的 demo。</p>
+<p>沿用案例 1 的 demo 代码，文件目录如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src&#x2F;</span><br><span class="line">├── index.css</span><br><span class="line">├── index.html</span><br><span class="line">├── index.js</span><br><span class="line">└── utils.js</span><br></pre></td></tr></table></figure>
+<p>webpack 的核心配置如下（省略了一些 module 配置信息）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        index: &quot;..&#x2F;src&#x2F;index.js&quot;,</span><br><span class="line">        utils: &#39;..&#x2F;src&#x2F;utils.js&#39;,</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: &quot;[name].[hash].js&quot;,  &#x2F;&#x2F; 改为 hash</span><br><span class="line">    &#125;,</span><br><span class="line">    </span><br><span class="line">    ......</span><br><span class="line">    </span><br><span class="line">    plugins: [</span><br><span class="line">        new MiniCssExtractPlugin(&#123;</span><br><span class="line">            filename: &#39;index.[hash].css&#39; &#x2F;&#x2F; 改为 hash</span><br><span class="line">        &#125;),</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>生成的文件名如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-bb5b247537653773.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>我们可以发现，生成文件的 hash 和项目的构建 hash 都是一模一样的。</p>
+<h1 id="2-chunkhash"><a href="#2-chunkhash" class="headerlink" title="2 chunkhash"></a>2 chunkhash</h1><p>因为 hash 是项目构建的哈希值，项目中如果有些变动，hash 一定会变，比如说我改动了 utils.js 的代码，index.js 里的代码虽然没有改变，但是大家都是用的同一份 hash。hash 一变，缓存一定失效了，这样子是没办法实现 CDN 和浏览器缓存的。</p>
+<p>chunkhash 就是解决这个问题的，它根据不同的入口文件(Entry)进行依赖文件解析、构建对应的 chunk，生成对应的哈希值。</p>
+<p>我们再举个例子，我们对 utils.js 里文件进行改动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 增加 cube() 求立方函数</span><br><span class="line">export function cube(x) &#123;</span><br><span class="line">    return x * x * x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后把 webpack 里的所有 hash 改为 chunkhash：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        index: &quot;..&#x2F;src&#x2F;index.js&quot;,</span><br><span class="line">        utils: &#39;..&#x2F;src&#x2F;utils.js&#39;,</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: &quot;[name].[chunkhash].js&quot;, &#x2F;&#x2F; 改为 chunkhash</span><br><span class="line">    &#125;,</span><br><span class="line">          </span><br><span class="line">    ......</span><br><span class="line">    </span><br><span class="line">    plugins: [</span><br><span class="line">        new MiniCssExtractPlugin(&#123;</span><br><span class="line">            filename: &#39;index.[chunkhash].css&#39; &#x2F;&#x2F; &#x2F;&#x2F; 改为 chunkhash</span><br><span class="line">        &#125;),</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>构建结果如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-3a80907ce97b2e8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>我们可以看出，chunk 0 的 hash 都是一样的，chunk 1 的 hash 和上面的不一样。</p>
+<p>假设我又把 utils.js 里的 cube() 函数去掉，再打包：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-9a3240fa9f2a69fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>对比可以发现，只有 chunk 1 的 hash 发生变化，chunk 0 的 hash 还是原来的。</p>
+<h1 id="3-contenthash"><a href="#3-contenthash" class="headerlink" title="3 contenthash"></a>3 contenthash</h1><p>我们更近一步，index.js 和 index.css 同为一个 chunk，如果 index.js 内容发生变化，但是 index.css 没有变化，打包后他们的 hash 都发生变化，这对 css 文件来说是一种浪费。如何解决这个问题呢？</p>
+<p>contenthash 将根据资源内容创建出唯一 hash，也就是说文件内容不变，hash 就不变。</p>
+<p>我们修改一下 webpack 的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        index: &quot;..&#x2F;src&#x2F;index.js&quot;,</span><br><span class="line">        utils: &#39;..&#x2F;src&#x2F;utils.js&#39;,</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: &quot;[name].[chunkhash].js&quot;,</span><br><span class="line">    &#125;,</span><br><span class="line">      </span><br><span class="line">    ......</span><br><span class="line">    </span><br><span class="line">    plugins: [</span><br><span class="line">        new MiniCssExtractPlugin(&#123;</span><br><span class="line">            filename: &#39;index.[contenthash].css&#39; &#x2F;&#x2F; 这里改为 contenthash</span><br><span class="line">        &#125;),</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们对 index.js 文件做了 3 次修改（就是改了改 log 函数的输出内容，过于简单就先不写了），然后分别构建，结果截图如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-6810ecb7c427c002.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-f05919f63d56b4a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-d818fe7730fb163b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>我们可以发现，css 文件的 hash 都没有发生改变。</p>
+<h1 id="4-一句话总结："><a href="#4-一句话总结：" class="headerlink" title="4 一句话总结："></a>4 一句话总结：</h1><ul>
+<li><p>hash 计算与整个项目的构建相关；</p>
+</li>
+<li><p>chunkhash 计算与同一 chunk 内容相关；</p>
+</li>
+<li><p>contenthash 计算与文件内容本身相关。</p>
+</li>
+</ul>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2022/05/03/webpack-%E6%8E%A2%E7%B4%A2-entry-%E5%92%8Coutput%E8%AF%A6%E8%A7%A3/" class="styled-border">
+                    ←
+                    webpack 探索-entry 和output详解
+                    
+                </a>
+            
+            
+                <a href="/2022/05/03/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90Log4j-%E6%BC%8F%E6%B4%9E/" class="styled-border">
+                    
+                    深入分析Log4j 漏洞
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>webpack 探索-entry 和output详解 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]webpack 探索-entry 和output详解 本文主要讲entry和output相关内容。 一 简介 entry用来指定Webpack的打包入口。 二 为什么需要entry？这个需要从Webpack打包机制上说明，大家都知道，Webpack的打包的核心原理：一切皆模块。而到底打包那些东西，这些东西之间的依赖关系是什么样的，都源于模块依赖图中的依赖树，而这个树的根节点就是这个entry">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack 探索-entry 和output详解">
+<meta property="og:url" content="https://jenna233.github.io/2022/05/03/webpack-%E6%8E%A2%E7%B4%A2-entry-%E5%92%8Coutput%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]webpack 探索-entry 和output详解 本文主要讲entry和output相关内容。 一 简介 entry用来指定Webpack的打包入口。 二 为什么需要entry？这个需要从Webpack打包机制上说明，大家都知道，Webpack的打包的核心原理：一切皆模块。而到底打包那些东西，这些东西之间的依赖关系是什么样的，都源于模块依赖图中的依赖树，而这个树的根节点就是这个entry">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-e2404a58a0e1e2e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-05-03T04:08:02.000Z">
+<meta property="article:modified_time" content="2022-05-03T04:08:21.108Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="React &amp; JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-e2404a58a0e1e2e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">webpack 探索-entry 和output详解</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/5/3 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/React-JS/" rel="tag">React & JS</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhaoweikai/p/10944988.html">webpack 探索-entry 和output详解</a></p>
+<p>本文主要讲entry和output相关内容。</p>
+<h1 id="一-简介"><a href="#一-简介" class="headerlink" title="一 简介 "></a>一 简介 </h1><p>entry用来指定Webpack的打包入口。</p>
+<h1 id="二-为什么需要entry？"><a href="#二-为什么需要entry？" class="headerlink" title="二 为什么需要entry？"></a>二 为什么需要entry？</h1><p>这个需要从Webpack打包机制上说明，大家都知道，Webpack的打包的核心原理：一切皆模块。而到底打包那些东西，这些东西之间的依赖关系是什么样的，都源于模块依赖图中的依赖树，而这个树的根节点就是这个entry。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-e2404a58a0e1e2e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>上图中入口就是左上角的.js文件。</p>
+<h1 id="三-entry语法"><a href="#三-entry语法" class="headerlink" title="三 entry语法"></a>三 entry语法</h1><p>这部分详细可以参考Webpack官网，这里这是笔者试炼时做的笔记。</p>
+<h4 id="3-1-单入口"><a href="#3-1-单入口" class="headerlink" title="3.1 单入口"></a>3.1 单入口</h4><p>単入口有两种写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#39;use stract&#39;;</span><br><span class="line"></span><br><span class="line">const path &#x3D; require(&#39;path&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">    &#x2F;&#x2F; entry: &#39;.&#x2F;src&#x2F;index.js&#39;, &#x2F;&#x2F; 第一种写法</span><br><span class="line">    entry: &#123; &#x2F;&#x2F; 第二种写法</span><br><span class="line">        index : &#39;.&#x2F;src&#x2F;index.js&#39;,</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.join(__dirname, &#39;dist&#39;),</span><br><span class="line">        &#x2F;&#x2F; filename: &quot;bundle.js&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    mode: &quot;development&quot;, &#x2F;&#x2F;&quot;production&quot;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>注意，如果没有配置output的filename，上边构建出来的dist中文件名是index.js。</p>
+<h4 id="3-2-多入口"><a href="#3-2-多入口" class="headerlink" title="3.2 多入口"></a>3.2 多入口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#39;use stract&#39;;</span><br><span class="line"></span><br><span class="line">const path &#x3D; require(&#39;path&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        index : &#39;.&#x2F;src&#x2F;index.js&#39;,</span><br><span class="line">        hello: &#39;.&#x2F;src&#x2F;helloworld.js&#39;</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.join(__dirname, &#39;dist&#39;),</span><br><span class="line">        &#x2F;&#x2F; filename: &quot;bundle.js&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    mode: &quot;development&quot;, &#x2F;&#x2F;&quot;production&quot;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>注意：上述多入口模式下，打出来的包有两个文件：index.js和hello.js，就是对应entry对象的key。而打包出来的这两个文件，是两个完全独立的包，里边各自包含了Webpack组织包的各种方法，也就是说这两个包是没有任何关系的两个包。</p>
+<h1 id="四-output语法"><a href="#四-output语法" class="headerlink" title="四 output语法"></a>四 output语法</h1><p>output用来告诉Webpack如何将编译后的文件输出到磁盘中。</p>
+<p>在 webpack 中配置 output 属性的最低要求是，将它的值设置为一个对象，包括以下两点：</p>
+<ul>
+<li>filename： 用于输出文件的文件名。</li>
+<li>path：目标输出目录 path 的绝对路径，这个绝对路径指相对于磁盘的（例如：当前工程在D盘，如果设置path为’/dist’，打包的文件将会放在‘D:\dist’目录下），一般情况都使用path.join(__dirname, ‘dist’)方式设置路径，确保工程在任何目录下都能正常放置到当前工程的dist文件夹中。<h4 id="4-1-单入口时output写法"><a href="#4-1-单入口时output写法" class="headerlink" title="4.1 单入口时output写法"></a>4.1 单入口时output写法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#39;use stract&#39;;</span><br><span class="line"></span><br><span class="line">const path &#x3D; require(&#39;path&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">     entry: &#39;.&#x2F;src&#x2F;index.js&#39;, &#x2F;&#x2F; 第一种写法</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.join(__dirname, &#39;dist&#39;),</span><br><span class="line">        filename: &quot;bundle.js&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    mode: &quot;development&quot;, &#x2F;&#x2F;&quot;production&quot;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+注意：如何filename不设置，打包后的dist目录下，是main.js。即单入口情况下，filename的默认值是‘main.js’。</li>
+</ul>
+<h4 id="4-2-多入口时output写法"><a href="#4-2-多入口时output写法" class="headerlink" title="4.2 多入口时output写法"></a>4.2 多入口时output写法</h4><p>这时filename的值采用占位符写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#39;use stract&#39;;</span><br><span class="line"></span><br><span class="line">const path &#x3D; require(&#39;path&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">    entry: &#123; &#x2F;&#x2F; 第二种写法</span><br><span class="line">        index : &#39;.&#x2F;src&#x2F;index.js&#39;,</span><br><span class="line">        hello: &#39;.&#x2F;src&#x2F;helloworld.js&#39;</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.join(__dirname, &#39;dist&#39;),</span><br><span class="line">        filename: &quot;[name].js&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    mode: &quot;development&quot;, &#x2F;&#x2F;&quot;production&quot;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>此时，打包出来的dist目录下，有两个文件index.js和hello.js。两个都是独立的文件。</p>
+<p>注意1：上边占位符[name]中name是固定的，不能随意写成其它值。</p>
+<p>注意2：这种多入口设置output方法，实际filename是可以不设置的，不设置情况下打包后dist目录和当前设置时一致的。即多入口情况下，filename的默认值是’[name].js’。</p>
+<h4 id="4-3-CDN-和资源-hash-的复杂用法"><a href="#4-3-CDN-和资源-hash-的复杂用法" class="headerlink" title="4.3  CDN 和资源 hash 的复杂用法"></a>4.3  CDN 和资源 hash 的复杂用法</h4><p>具体参考Webpack官网，目前笔者还没用到，后续用到后再详细分析说明。、</p>
+<p><a target="_blank" rel="noopener" href="https://www.webpackjs.com/concepts/output/">https://www.webpackjs.com/concepts/output/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">  path: &quot;&#x2F;home&#x2F;proj&#x2F;cdn&#x2F;assets&#x2F;[hash]&quot;,</span><br><span class="line">  publicPath: &quot;http:&#x2F;&#x2F;cdn.example.com&#x2F;assets&#x2F;[hash]&#x2F;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2022/05/03/webpack-%E4%B8%AD%EF%BC%8Chash%E3%80%81chunkhash%E3%80%81contenthash-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" class="styled-border">
+                    
+                    webpack 中，hash、chunkhash、contenthash 的区别是什么？
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

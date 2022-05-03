@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>什么是CVE？ | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转][RedHat]什么是 CVE? 概述CVE 是通用漏洞披露（Common Vulnerabilities and Exposures）的英文缩写，列出了已公开披露的各种计算机安全缺陷。人们提到 CVE，指的都是已分配 CVE ID 编号的安全缺陷。 供应商和研究人员发布的安全公告几乎总会提到至少一个 CVE ID。CVE 可以帮助 IT 专业人员协调自己的工作，轻松地确定漏洞的优先级并加以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="什么是CVE？">
+<meta property="og:url" content="https://jenna233.github.io/2022/05/03/%E4%BB%80%E4%B9%88%E6%98%AFCVE%EF%BC%9F/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转][RedHat]什么是 CVE? 概述CVE 是通用漏洞披露（Common Vulnerabilities and Exposures）的英文缩写，列出了已公开披露的各种计算机安全缺陷。人们提到 CVE，指的都是已分配 CVE ID 编号的安全缺陷。 供应商和研究人员发布的安全公告几乎总会提到至少一个 CVE ID。CVE 可以帮助 IT 专业人员协调自己的工作，轻松地确定漏洞的优先级并加以">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-05-03T04:05:28.000Z">
+<meta property="article:modified_time" content="2022-05-03T04:06:15.405Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="安全">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">什么是CVE？</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/5/3 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://www.redhat.com/zh/topics/security/what-is-cve">[RedHat]什么是 CVE?</a></p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>CVE 是通用漏洞披露（Common Vulnerabilities and Exposures）的英文缩写，列出了已公开披露的各种计算机安全缺陷。人们提到 CVE，指的都是已分配 CVE ID 编号的安全缺陷。</p>
+<p>供应商和研究人员发布的安全公告几乎总会提到至少一个 CVE ID。CVE 可以帮助 IT 专业人员协调自己的工作，轻松地确定漏洞的优先级并加以处理，从而提高计算机系统的安全性。</p>
+<h1 id="CVE-系统的工作原理"><a href="#CVE-系统的工作原理" class="headerlink" title="CVE 系统的工作原理"></a>CVE 系统的工作原理</h1><p>CVE 由 <a target="_blank" rel="noopener" href="https://cve.mitre.org/">MITRE corporation</a> 监管，由美国国土安全部下属的网络安全和基础设施安全局提供资金。</p>
+<p>CVE 条目非常简短。条目中既没有技术数据，也不包含与风险、影响和修复有关的信息。这些详细信息会收录在其他数据库中，包括<a target="_blank" rel="noopener" href="https://nvd.nist.gov/">美国国家漏洞数据库（NVD）</a>、<a target="_blank" rel="noopener" href="https://www.kb.cert.org/vuls/">CERT/CC 漏洞注释数据库</a>以及由供应商和其他组织维护的各种列表。通过 CVE ID，用户就能跨上述不同系统来简便地识别同一个安全缺陷。</p>
+<h4 id="关于-CVE-识别号"><a href="#关于-CVE-识别号" class="headerlink" title="关于 CVE 识别号"></a>关于 CVE 识别号</h4><p>CVE 识别号由 CVE 编号管理机构（CNA）分配。全球目前<a target="_blank" rel="noopener" href="https://cve.mitre.org/cve/request_id.html">约有 100 个 CNA</a>，包括各大 IT 供应商以及安全公司和研究组织。MITRE 也可以直接发布 CVE。</p>
+<p>MITRE 向每个 CNA 发放了一个 CVE 编号池，用于在发现新问题时将编号连接至新问题。每年，都有数以千计的 <a target="_blank" rel="noopener" href="https://www.cvedetails.com/browse-by-date.php">CVE ID</a> 发放出来。单个复杂产品（如操作系统）可能会累积数百个 CVE。</p>
+<p>任何人都可以从任何地方进行 CVE 报告。无论是供应商、研究人员或是机敏的用户，都有可能发现缺陷，并促使他人予以关注。很多供应商都会提供<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bug_bounty_program">错误报告奖励</a>，以鼓励相关人员负责任地披露各种安全缺陷。如果您发现了<a target="_blank" rel="noopener" href="https://www.redhat.com/zh/topics/open-source/what-is-open-source-software">开源软件</a>存在漏洞，您应该将其<a target="_blank" rel="noopener" href="https://opensource.com/article/19/3/bug-reporting">提交至相关社区</a>。</p>
+<p>再通过种种渠道，该缺陷的相关信息最终会传至 CNA。CNA 进而会为这些信息分配 CVE ID，然后编写简短描述并附上参考资料。然后，CVE 条目就会被发布 CVE 网站上。</p>
+<p><code>通常会在公开安全公告之前分配 CVE ID。供应商一般会对安全缺陷保密，直至相关修复已完成开发和测试。这样可以降低未修补漏洞被攻击的风险。</code></p>
+<p>公布时，CVE 条目中会包含 CVE ID（格式为“cve-2019-1234567”）、安全漏洞的简短描述和相关的参考资料（可能包括漏洞报告和公告的链接）。</p>
+<h4 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h4><p>CVE对每一个漏洞都赋予一个专属的编号，格式如下：</p>
+<ul>
+<li>CVE-YYYY-NNNN</li>
+</ul>
+<p>CVE为固定的前缀字，YYYY为<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%A5%BF%E5%85%83%E7%BA%AA%E5%B9%B4" title="西元纪年">西元纪年</a>，NNNN为流水编号。NNNN原则上为四位数字，不足四位时前面补0。从2014年开始，必要时可编到五位数或更多位数。由于CVE有很多个编号机构，每个编号机构使用的号段并不相同，因此NNNN可能并不连续。</p>
+<p>以2014年发现的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E" title="心脏出血漏洞">心脏出血漏洞</a>为例，其编号为CVE-2014-0160。</p>
+<h1 id="什么样的缺陷才算-CVE？"><a href="#什么样的缺陷才算-CVE？" class="headerlink" title="什么样的缺陷才算 CVE？"></a>什么样的缺陷才算 CVE？</h1><p>只有满足一系列特定条件的缺陷才会分配 CVE ID。这些缺陷必须满足以下条件：</p>
+<ol>
+<li><p>可以单独修复。<br>该缺陷可以独立于所有其他错误进行修复。</p>
+</li>
+<li><p>已得到相关供应商的确认或已记录在案。<br>软件或硬件供应商已确认错误，并承认其会对安全性造成负面影响。或者，报告者本应共享一份相关漏洞报告，表明错误会造成负面影响，且有悖于受影响系统的安全策略。</p>
+</li>
+<li><p>会影响某个代码库。<br>如果缺陷会对多个产品造成影响，则会获得单独的 CVE。对于共享的库、协议或标准，只有在使用共享代码会容易受到攻击时，该缺陷才会获得单个 CVE。否则，每个受影响的代码库或产品都会获得一个唯一的 CVE。</p>
+</li>
+</ol>
+<p>采编自 <a target="_blank" rel="noopener" href="https://cve.mitre.org/cve/cna/rules.html#Section_4_1_qualifications">https://cve.mitre.org/cve/cna/rules.html#Section_4_1_qualifications</a></p>
+<h1 id="什么是通用漏洞评分系统？"><a href="#什么是通用漏洞评分系统？" class="headerlink" title="什么是通用漏洞评分系统？"></a>什么是通用漏洞评分系统？</h1><p>漏洞的严重性可以通过多种方式来评估。其中的一种就是使用<a target="_blank" rel="noopener" href="https://www.first.org/cvss/">通用漏洞评分系统（CVSS）</a>，这是一组用于为漏洞分配数值以评估其严重性的开放标准。NVD、CERT 等机构会使用 CVSS 评分来评估漏洞的影响。评分范围为 0.0 到 10.0，数值越大代表漏洞越严重。许多安全供应商也都创建了自己的评分系统。</p>
+<h5 id="三大核心要点"><a href="#三大核心要点" class="headerlink" title="三大核心要点"></a><strong>三大核心要点</strong></h5><p><strong>了解自己的部署情况。</strong>存在 CVE 并不意味着您的特定环境和部署正面临风险。请务必查看各个 CVE，并验证 CVE 是否适用于（或部分适用于）您的特有环境中所用的操作系统、应用、模块和配置，确定 CVE 是否适用于您的环境。</p>
+<p><strong>开展漏洞管理。</strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Vulnerability_management">漏洞管理</a>是一个可重复的过程，用于识别、分类、确定优先级、补救和解决漏洞。您要清楚自己的组织会如何遭遇风险，才能正确地为有待解决的所有重要漏洞确定优先级。</p>
+<p><strong>做好沟通准备。</strong>CVE 将会影响到您所在组织使用的系统，不仅漏洞本身，还因为修复漏洞可能会需要停机。您应及时与您的内部客户进行沟通和协调，并将漏洞的相关信息分享给您所在组织中的任意中央风险管理职能部门。</p>
+<h3 id="红帽如何处理-CVE"><a href="#红帽如何处理-CVE" class="headerlink" title="红帽如何处理 CVE"></a>红帽如何处理 CVE</h3><p>作为<a target="_blank" rel="noopener" href="https://www.redhat.com/zh/topics/open-source/what-is-open-source">开源</a>软件的主要贡献者，红帽一直致力于推动安全社区的发展。红帽是 <a target="_blank" rel="noopener" href="https://cve.mitre.org/cve/cna.html">CVE 编号管理机构</a>（CNA）之一，使用 CVE ID 来跟踪安全漏洞。红帽安全部门维护了一个开放且经常更新的<a target="_blank" rel="noopener" href="https://access.redhat.com/security/security-updates/#/cve">安全更新数据库</a>，您可以按 CVE 编号查看这个数据库。</p>
+<h1 id="什么是红帽安全数据-API？"><a href="#什么是红帽安全数据-API？" class="headerlink" title="什么是红帽安全数据 API？"></a>什么是红帽安全数据 API？</h1><p>红帽产品安全部在其<a target="_blank" rel="noopener" href="https://www.redhat.com/security/data/metrics/">安全数据页面</a>提供对原始安全数据的访问权限，并以机器可读格式提供安全数据 API。</p>
+<p>除了红帽生成的安全报告和指标外，客户也可使用这些原始数据针对自己的独特情况生成自用指标。</p>
+<p>安全数据 API 提供的数据包括 OVAL（开放漏洞和评估语言）定义、通用漏洞报告框架（CVRF）文件和 CVE 数据。数据通过 XML 或 JSON 格式提供。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2022/05/03/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90Log4j-%E6%BC%8F%E6%B4%9E/" class="styled-border">
+                    ←
+                    深入分析Log4j 漏洞
+                    
+                </a>
+            
+            
+                <a href="/2022/04/23/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%87%A0%E4%B8%AA%E5%8E%9F%E5%88%99/" class="styled-border">
+                    
+                    软件设计的几个原则
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

