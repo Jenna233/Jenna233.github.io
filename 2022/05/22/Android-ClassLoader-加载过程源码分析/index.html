@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android ClassLoader 加载过程源码分析 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]Android ClassLoader 加载过程源码分析 详细分析 ClassLoader 加载原理ClassLoader 的继承关系如下：  这里我们主要分析一下 BaseDexClassLoader.findClass()和 ClassLoader.loadClass()两个函数在系统中是怎么进行查找 class 的过程。 我们看一下系统加载类ClassLoader.loadClass(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android ClassLoader 加载过程源码分析">
+<meta property="og:url" content="https://jenna233.github.io/2022/05/22/Android-ClassLoader-%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]Android ClassLoader 加载过程源码分析 详细分析 ClassLoader 加载原理ClassLoader 的继承关系如下：  这里我们主要分析一下 BaseDexClassLoader.findClass()和 ClassLoader.loadClass()两个函数在系统中是怎么进行查找 class 的过程。 我们看一下系统加载类ClassLoader.loadClass(">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-a63dd4d829899994.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-173e82f9a9fce7de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-a6ed94f6180c403d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-1c73f823cccac179.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-05-22T06:09:20.000Z">
+<meta property="article:modified_time" content="2022-05-22T06:09:51.603Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-a63dd4d829899994.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Android ClassLoader 加载过程源码分析</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/5/22 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/rczbnbwtff_qyjrqieyl">Android ClassLoader 加载过程源码分析</a><br><img src="https://upload-images.jianshu.io/upload_images/15531792-a63dd4d829899994.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="详细分析-ClassLoader-加载原理"><a href="#详细分析-ClassLoader-加载原理" class="headerlink" title="详细分析 ClassLoader 加载原理"></a>详细分析 ClassLoader 加载原理</h2><p>ClassLoader 的继承关系如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-173e82f9a9fce7de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>这里我们主要分析一下 <code>BaseDexClassLoader.findClass()</code>和 <code>ClassLoader.loadClass()</code>两个函数在系统中是怎么进行查找 class 的过程。</p>
+<p>我们看一下系统加载类<code>ClassLoader.loadClass()</code>函数实现代码，在<code>ClassLoader.java</code>中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">protected Class&lt;?&gt; loadClass(String name, boolean resolve)</span><br><span class="line">    throws ClassNotFoundException</span><br><span class="line">&#123;</span><br><span class="line">        &#x2F;&#x2F; 首先 检测是否已经加载过</span><br><span class="line">        Class&lt;?&gt; c &#x3D; findLoadedClass(name);</span><br><span class="line">        if (c &#x3D;&#x3D; null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                if (parent !&#x3D; null) &#123;</span><br><span class="line">                    &#x2F;&#x2F;去调用父类的loadClass</span><br><span class="line">                    c &#x3D; parent.loadClass(name, false);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    c &#x3D; findBootstrapClassOrNull(name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">                &#x2F;&#x2F; ClassNotFoundException thrown if class not found</span><br><span class="line">                &#x2F;&#x2F; from the non-null parent class loader</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (c &#x3D;&#x3D; null) &#123;</span><br><span class="line">                &#x2F;&#x2F;未找到的情况下，使用findClass在当前dex查找</span><br><span class="line">                c &#x3D; findClass(name);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException &#123;</span><br><span class="line">    throw new ClassNotFoundException(name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li><p>1， <code>loadClass()</code>先调用<code>findLoadedClass()</code>来判断当前类是否已加载;</p>
+</li>
+<li><p>2， 未查找到递归去父类中查找是否加载到缓存；</p>
+</li>
+<li><p>3， 均未缓存，去<code>BootClassLoader</code>中查找；</p>
+</li>
+<li><p>4， 以上未发现，自顶级父类依次向下查找，调用<code>findClass()</code>查找当前 dex。</p>
+</li>
+</ul>
+<h2 id="findLoadedClass-函数分析"><a href="#findLoadedClass-函数分析" class="headerlink" title="findLoadedClass 函数分析"></a>findLoadedClass 函数分析</h2><blockquote>
+<p>下图为<code>findLoadedClass()</code>的调用流程；根据调用流程图配合源代码进行详细的分析原理。</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-a6ed94f6180c403d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<blockquote>
+<p>下面介绍对应的源代码实现部分:</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">protected final Class&lt;?&gt; findLoadedClass(String name) &#123;</span><br><span class="line">    ClassLoader loader;</span><br><span class="line">    if (this &#x3D;&#x3D; BootClassLoader.getInstance())</span><br><span class="line">        loader &#x3D; null;</span><br><span class="line">    else</span><br><span class="line">        loader &#x3D; this;</span><br><span class="line">    return VMClassLoader.findLoadedClass(loader, name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>函数最终统一调用<code>VMClassLoader.findLoadedClass()</code>进行查找类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">native static Class findLoadedClass(ClassLoader cl, String name);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>实现在<code>java_lang_VMClassLoader.cc</code>文件中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">static jclass VMClassLoader_findLoadedClass(JNIEnv* env, jclass, jobject javaLoader,jstring javaName) &#123;</span><br><span class="line">  ....</span><br><span class="line">  ObjPtr&lt;mirror::ClassLoader&gt; loader &#x3D; soa.Decode&lt;mirror::ClassLoader&gt;(javaLoader);</span><br><span class="line">  ClassLinker* cl &#x3D; Runtime::Current()-&gt;GetClassLinker();</span><br><span class="line"></span><br><span class="line">  ObjPtr&lt;mirror::Class&gt; c &#x3D; VMClassLoader::LookupClass(cl,</span><br><span class="line">                                                       soa.Self(),</span><br><span class="line">                                                       descriptor.c_str(),</span><br><span class="line">                                                       descriptor_hash,</span><br><span class="line">                                                       loader);</span><br><span class="line">  if (c !&#x3D; nullptr &amp;&amp; c-&gt;IsResolved()) &#123;</span><br><span class="line">    return soa.AddLocalReference&lt;jclass&gt;(c);</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">  if (loader !&#x3D; nullptr) &#123;</span><br><span class="line">    &#x2F;&#x2F; Try the common case.</span><br><span class="line">    StackHandleScope&lt;1&gt; hs(soa.Self());</span><br><span class="line">    c &#x3D; VMClassLoader::FindClassInPathClassLoader(cl,</span><br><span class="line">                                                  soa,</span><br><span class="line">                                                  soa.Self(),</span><br><span class="line">                                                  descriptor.c_str(),</span><br><span class="line">                                                  descriptor_hash,</span><br><span class="line">                                                  hs.NewHandle(loader));</span><br><span class="line">    if (c !&#x3D; nullptr) &#123;</span><br><span class="line">      return soa.AddLocalReference&lt;jclass&gt;(c);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return nullptr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  static mirror::Class* LookupClass(ClassLinker* cl,</span><br><span class="line">                                    Thread* self,</span><br><span class="line">                                    const char* descriptor,</span><br><span class="line">                                    size_t hash,</span><br><span class="line">                                    ObjPtr&lt;mirror::ClassLoader&gt; class_loader)</span><br><span class="line">      REQUIRES(!Locks::classlinker_classes_lock_)</span><br><span class="line">      REQUIRES_SHARED(Locks::mutator_lock_) &#123;</span><br><span class="line">    return cl-&gt;LookupClass(self, descriptor, hash, class_loader);</span><br><span class="line">  &#125;</span><br><span class="line">  static ObjPtr&lt;mirror::Class&gt; FindClassInPathClassLoader(ClassLinker* cl,</span><br><span class="line">                                                          ScopedObjectAccessAlreadyRunnable&amp; soa,</span><br><span class="line">                                                          Thread* self,</span><br><span class="line">                                                          const char* descriptor,</span><br><span class="line">                                                          size_t hash,</span><br><span class="line">                                                          Handle&lt;mirror::ClassLoader&gt; class_loader)</span><br><span class="line">      REQUIRES_SHARED(Locks::mutator_lock_) &#123;</span><br><span class="line">    ObjPtr&lt;mirror::Class&gt; result;</span><br><span class="line">    if (cl-&gt;FindClassInBaseDexClassLoader(soa, self, descriptor, hash, class_loader, &amp;result)) &#123;</span><br><span class="line">      return result;</span><br><span class="line">    &#125;</span><br><span class="line">    return nullptr;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>上述代码<code>findLoadedClass()</code>分为两步；</p>
+<ul>
+<li><p>1，通过<code>class_linker_-&amp;gt;Lookupclass()</code>进行查找加载类；</p>
+</li>
+<li><p>2，如果没找到再通过<code>class_linker_-&amp;gt;FindClassInPathClassLoader()</code>进行查找。</p>
+</li>
+</ul>
+<blockquote>
+<p><code>class_linker_</code>在虚拟机的启动<code>startVM()</code>函数的时候进行的初始化。</p>
+<p><code>Runtime::class_linker_</code>在<code>Runtime::Init()</code>函数的时候做的初始化。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if (UNLIKELY(IsAotCompiler())) &#123;</span><br><span class="line">  class_linker_ &#x3D; new AotClassLinker(intern_table_);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  class_linker_ &#x3D; new ClassLinker(intern_table_);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>继续来分析<code>ClassLinker::LookupClass()</code>函数的具体实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mirror::Class* ClassLinker::LookupClass(Thread* self,</span><br><span class="line">                                        const char* descriptor,</span><br><span class="line">                                        size_t hash,</span><br><span class="line">                                        ObjPtr&lt;mirror::ClassLoader&gt; class_loader) &#123;</span><br><span class="line">  ReaderMutexLock mu(self, *Locks::classlinker_classes_lock_);</span><br><span class="line">  ClassTable* const class_table &#x3D; ClassTableForClassLoader(class_loader);</span><br><span class="line">  if (class_table !&#x3D; nullptr) &#123;</span><br><span class="line">    ObjPtr&lt;mirror::Class&gt; result &#x3D; class_table-&gt;Lookup(descriptor, hash);</span><br><span class="line">    if (result !&#x3D; nullptr) &#123;</span><br><span class="line">      return result.Ptr();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return nullptr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><code>LookupClass()</code>函数通过<code>class_loader</code>是否为<code>nullptr</code>，<code>nullptr</code>使用<code>boot_class_table_</code>来获取<code>class_table</code>, 否则获取当前<code>ClassLoader</code>的<code>ClassTable</code>。 <code>class_table</code>存放当前已经加载过的 class，其实可以理解为 class cache。如何进行 dex 解析和 aot 等加载系统类和解析映射到内存中的不在此处展开分析。可以了解 art 虚拟机启动进行详细分析。</p>
+<h2 id="findClass-函数分析"><a href="#findClass-函数分析" class="headerlink" title="findClass()函数分析"></a>findClass()函数分析</h2><p>下图是 findClass 的调用流程；根据调用流程图配合下面的代码进行详细的分析了解：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-1c73f823cccac179.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<blockquote>
+<p>下面我们介绍对应的源代码实现部分。</p>
+</blockquote>
+<p><code>findClass()</code>函数在<code>BaseDexClassLoader.java</code>实现, 该函数主要做的事情就是在当前 dex 中查找类。如果类在当前 dex 中即返回。</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">   protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException &#123;</span><br><span class="line">       List&lt;Throwable&gt; suppressedExceptions &#x3D; new ArrayList&lt;Throwable&gt;();</span><br><span class="line">       Class c &#x3D; pathList.findClass(name, suppressedExceptions);</span><br><span class="line">       if (c &#x3D;&#x3D; null) &#123;</span><br><span class="line">           ...</span><br><span class="line">           throw cnfe;</span><br><span class="line">       &#125;</span><br><span class="line">       return c;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><code>pathList</code>类型为<code>DexPathList</code>用来保存<code>dexfile</code>文件的句柄等 dex 的操作。<code>pathList.findClass()</code>实现在当前 dex 中查找类, <code>pathList</code>在<code>new DexClassLoader()</code>构造时初始化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public BaseDexClassLoader(String dexPath, File optimizedDirectory,</span><br><span class="line">          String librarySearchPath, ClassLoader parent) &#123;</span><br><span class="line">      ...</span><br><span class="line">      this.pathList &#x3D; new DexPathList(this, dexPath, librarySearchPath, null);</span><br><span class="line">      ...</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><code>DexPathList.java</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public DexPathList(ClassLoader definingContext, String dexPath,</span><br><span class="line">            String librarySearchPath, File optimizedDirectory) &#123;</span><br><span class="line"></span><br><span class="line">        ...</span><br><span class="line">        this.definingContext &#x3D; definingContext;</span><br><span class="line">        ArrayList&lt;IOException&gt; suppressedExceptions &#x3D; new ArrayList&lt;IOException&gt;();</span><br><span class="line">        &#x2F;&#x2F; save dexPath for BaseDexClassLoader</span><br><span class="line">        this.dexElements &#x3D; makeDexElements(splitDexPath(dexPath), optimizedDirectory,</span><br><span class="line">                                           suppressedExceptions, definingContext);</span><br><span class="line"></span><br><span class="line">        this.nativeLibraryDirectories &#x3D; splitPaths(librarySearchPath, false);</span><br><span class="line">        this.systemNativeLibraryDirectories &#x3D;</span><br><span class="line">                splitPaths(System.getProperty(&quot;java.library.path&quot;), true);</span><br><span class="line">        List&lt;File&gt; allNativeLibraryDirectories &#x3D; new ArrayList&lt;&gt;(nativeLibraryDirectories);</span><br><span class="line">        allNativeLibraryDirectories.addAll(systemNativeLibraryDirectories);</span><br><span class="line"></span><br><span class="line">        this.nativeLibraryPathElements &#x3D; makePathElements(allNativeLibraryDirectories);</span><br><span class="line"></span><br><span class="line">        if (suppressedExceptions.size() &gt; 0) &#123;</span><br><span class="line">            this.dexElementsSuppressedExceptions &#x3D;</span><br><span class="line">                suppressedExceptions.toArray(new IOException[suppressedExceptions.size()]);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            dexElementsSuppressedExceptions &#x3D; null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><code>dexElements</code>数组保存 dexfile 文件句柄。具体实现在<code>makeDexElements()</code>函数中调用<code>loadDexFile()</code>函数加载 dex。该函数实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DexFile.java</span><br><span class="line">private static DexFile loadDexFile(File file, File optimizedDirectory, ClassLoader loader, Element[] elements) throws IOException &#123;</span><br><span class="line">        if (optimizedDirectory &#x3D;&#x3D; null) &#123;</span><br><span class="line">            return new DexFile(file, loader, elements);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            String optimizedPath &#x3D; optimizedPathFor(file, optimizedDirectory);</span><br><span class="line">            return DexFile.loadDex(file.getPath(), optimizedPath, 0, loader, elements);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><code>DexFile.loadDex()</code>进行解析加载 dex 文件。关键代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private DexFile(String sourceName, String outputName, int flags, ClassLoader loader, DexPathList.Element[] elements) throws IOException &#123;</span><br><span class="line">    ...</span><br><span class="line">    mCookie &#x3D; openDexFile(sourceName, outputName, flags, loader, elements);</span><br><span class="line">    mInternalCookie &#x3D; mCookie;</span><br><span class="line">    mFileName &#x3D; sourceName;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static Object openDexFile(String sourceName, String outputName, int flags, ClassLoader loader, DexPathList.Element[] elements) throws IOException &#123;</span><br><span class="line">    &#x2F;&#x2F; Use absolute paths to enable the use of relative paths when testing on host.</span><br><span class="line">    return openDexFileNative(new File(sourceName).getAbsolutePath(),</span><br><span class="line">                              (outputName &#x3D;&#x3D; null)</span><br><span class="line">                              ? null</span><br><span class="line">                              : new File(outputName).getAbsolutePath(),</span><br><span class="line">                              flags,loader,elements);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static native Object openDexFileNative(String sourceName, String outputName, int flags, ClassLoader loader, DexPathList.Element[] elements);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>最终打开<code>dexfile</code>是通过<code>native</code>方法实现，并且返回<code>mCookie</code>, <code>mCookie</code>类型是<code>int</code>用来标识<code>dex</code>的唯一性。 <code>openDexFileNative()</code>实现代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#96;dalvik_system_DexFile.cc&#96;</span><br><span class="line">static jobject DexFile_openDexFileNative(JNIEnv* env,</span><br><span class="line">                                         jclass,</span><br><span class="line">                                         jstring javaSourceName,</span><br><span class="line">                                         jstring javaOutputName,</span><br><span class="line">                                         jint flags ATTRIBUTE_UNUSED,</span><br><span class="line">                                         jobject class_loader,</span><br><span class="line">                                         jobjectArray dex_elements)</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  Runtime* const runtime &#x3D; Runtime::Current();</span><br><span class="line">  ClassLinker* linker &#x3D; runtime-&gt;GetClassLinker();</span><br><span class="line">  </span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  dex_files &#x3D; runtime-&gt;GetOatFileManager().OpenDexFilesFromOat(sourceName.c_str(), class_loader, dex_elements, &#x2F;*out*&#x2F; &amp;oat_file, &#x2F;*out*&#x2F; &amp;error_msgs);</span><br><span class="line">  ....</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>上述代码通过<code>aotManager</code>打开并返回<code>mCookie</code>，进一步的打开实现不在此处展开。即上述已经填充<code>elements[]</code>,下面开始展开<code>pathList.findClass()</code>函数的查找方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;BaseDexClassLoader.java</span><br><span class="line">public Class&lt;?&gt; findClass(String name, List&lt;Throwable&gt; suppressed) &#123;</span><br><span class="line">    for (Element element : dexElements) &#123;</span><br><span class="line">        Class&lt;?&gt; clazz &#x3D; element.findClass(name, definingContext, suppressed);</span><br><span class="line">        if (clazz !&#x3D; null) &#123;</span><br><span class="line">            return clazz;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (dexElementsSuppressedExceptions !&#x3D; null) &#123;</span><br><span class="line">        suppressed.addAll(Arrays.asList(dexElementsSuppressedExceptions));</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><code>findClass()</code>会遍历<code>elements[]</code>, 每个<code>element</code>保存了 dex 的<code>DexFile</code>句柄，然后调用<code>loadClassBinaryName()</code>函数进行当前 dex 查找类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;DexPathList.java</span><br><span class="line">  public Class&lt;?&gt; findClass(String name, ClassLoader definingContext,</span><br><span class="line">          List&lt;Throwable&gt; suppressed) &#123;</span><br><span class="line">      return dexFile !&#x3D; null ? dexFile.loadClassBinaryName(name, definingContext, suppressed): null;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public Class loadClassBinaryName(String name, ClassLoader loader, List&lt;Throwable&gt; suppressed) &#123;</span><br><span class="line">    return defineClass(name, loader, mCookie, this, suppressed);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static Class defineClass(String name, ClassLoader loader, Object cookie, DexFile dexFile, List&lt;Throwable&gt; suppressed) &#123;</span><br><span class="line">    Class result &#x3D; null;</span><br><span class="line">    try &#123;</span><br><span class="line">        result &#x3D; defineClassNative(name, loader, cookie, dexFile);</span><br><span class="line">    &#125; catch (NoClassDefFoundError e) &#123;</span><br><span class="line">        if (suppressed !&#x3D; null) &#123;</span><br><span class="line">            suppressed.add(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">        if (suppressed !&#x3D; null) &#123;</span><br><span class="line">            suppressed.add(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>真正去 dex 或者内存中查找类的函数在<code>native</code>中<code>defineClassNative()</code>实现， 我们来分析一下真正的实现过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">private static native Class defineClassNative(String name, ClassLoader loader, Object cookie, DexFile dexFile)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;dalvik_system_DexFile.cc</span><br><span class="line">static jclass DexFile_defineClassNative(JNIEnv* env,</span><br><span class="line">                                        jclass,</span><br><span class="line">                                        jstring javaName,</span><br><span class="line">                                        jobject javaLoader,</span><br><span class="line">                                        jobject cookie,</span><br><span class="line">                                        jobject dexFile) &#123;</span><br><span class="line">  std::vector&lt;const DexFile*&gt; dex_files;</span><br><span class="line">  const OatFile* oat_file;</span><br><span class="line">  if (!ConvertJavaArrayToDexFiles(env, cookie, &#x2F;*out*&#x2F; dex_files, &#x2F;*out*&#x2F; oat_file)) &#123;</span><br><span class="line">    ...</span><br><span class="line">    return nullptr;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ScopedUtfChars class_name(env, javaName);</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  const std::string descriptor(DotToDescriptor(class_name.c_str()));</span><br><span class="line">  const size_t hash(ComputeModifiedUtf8Hash(descriptor.c_str()));</span><br><span class="line">  for (auto&amp; dex_file : dex_files) &#123;</span><br><span class="line">      ...</span><br><span class="line">      ClassLinker* class_linker &#x3D; Runtime::Current()-&gt;GetClassLinker();</span><br><span class="line">      ObjPtr&lt;mirror::Class&gt; result &#x3D; class_linker-&gt;DefineClass(soa.Self(),</span><br><span class="line">                                                               descriptor.c_str(), </span><br><span class="line">                                                               hash,</span><br><span class="line">                                                               class_loader,</span><br><span class="line">                                                               *dex_file,</span><br><span class="line">                                                               *dex_class_def);</span><br><span class="line">      &#x2F;&#x2F; Add the used dex file. This only required for the DexFile.loadClass API since normal</span><br><span class="line">      &#x2F;&#x2F; class loaders already keep their dex files live.</span><br><span class="line">      class_linker-&gt;InsertDexFileInToClassLoader(soa.Decode&lt;mirror::Object&gt;(dexFile),</span><br><span class="line">                                                 class_loader.Get());</span><br><span class="line">      ....</span><br><span class="line">        return soa.AddLocalReference&lt;jclass&gt;(result);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">  return nullptr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>通过<code>Runtime</code>拿到当前的<code>ClassLinker</code>对象，然后通过<code>class_linker-&amp;gt;DefineClass()</code>在当前 dex 中进行查找类。然后把找到的类通过<code>class_linker-&amp;gt;InsertDexFileInToClassLoader()</code>插入到 class_table 中进行缓存，返回查找到的类。这里不进一步展开分析。</p>
+<blockquote>
+<p>Android ClassLoader 加载过程的源代码分析到此已经分析得差不多了，如果想深入地了解具体原理，可以自己看源代码的实现。本文就介绍到这里。初次写技术分享的文章，如有错误请指正，感谢！</p>
+</blockquote>
+<p><strong>本文转载自公众号 360 技术（ID：qihoo_tech）</strong>。</p>
+<p><strong>原文链接</strong>：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/31MGkrTTjiHfXffUDydONg"><strong>https://mp.weixin.qq.com/s/31MGkrTTjiHfXffUDydONg</strong></a></p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2022/05/22/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/" class="styled-border">
+                    
+                    双亲委派模型与自定义类加载器
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

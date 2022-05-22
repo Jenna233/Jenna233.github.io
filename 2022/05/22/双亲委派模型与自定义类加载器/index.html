@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>双亲委派模型与自定义类加载器 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]双亲委派模型与自定义类加载器 其实，双亲委派模型并不复杂。自定义类加载器也不难！随便从网上搜一下就能搜出一大把结果，然后copy一下就能用。但是，如果每次想自定义类加载器就必须搜一遍别人的文章，然后复制，这样显然不行。可是自定义类加载器又不经常用，时间久了容易忘记。相信你经常会记不太清loadClass、findClass、defineClass这些函数我到底应该重写哪一个？它们主要是做什么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="双亲委派模型与自定义类加载器">
+<meta property="og:url" content="https://jenna233.github.io/2022/05/22/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]双亲委派模型与自定义类加载器 其实，双亲委派模型并不复杂。自定义类加载器也不难！随便从网上搜一下就能搜出一大把结果，然后copy一下就能用。但是，如果每次想自定义类加载器就必须搜一遍别人的文章，然后复制，这样显然不行。可是自定义类加载器又不经常用，时间久了容易忘记。相信你经常会记不太清loadClass、findClass、defineClass这些函数我到底应该重写哪一个？它们主要是做什么">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2154124-d2f7f6206935de2b?imageMogr2/auto-orient/strip%7CimageView2/2/w/818/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2154124-d5859f8e79069128?imageMogr2/auto-orient/strip%7CimageView2/2/w/598/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2154124-fcf13f3f446a60f1?imageMogr2/auto-orient/strip%7CimageView2/2/w/602/format/webp">
+<meta property="article:published_time" content="2022-05-22T06:08:11.000Z">
+<meta property="article:modified_time" content="2022-05-22T06:09:02.340Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2154124-d2f7f6206935de2b?imageMogr2/auto-orient/strip%7CimageView2/2/w/818/format/webp">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">双亲委派模型与自定义类加载器</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/5/22 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/acc7595f1b9d">双亲委派模型与自定义类加载器</a></p>
+<p>其实，双亲委派模型并不复杂。自定义类加载器也不难！随便从网上搜一下就能搜出一大把结果，然后<code>copy</code>一下就能用。但是，如果每次想自定义类加载器就必须搜一遍别人的文章，然后复制，这样显然不行。可是自定义类加载器又不经常用，时间久了容易忘记。相信你经常会记不太清<code>loadClass</code>、<code>findClass</code>、<code>defineClass</code>这些函数我到底应该重写哪一个？它们主要是做什么的？本文大致分析了各个函数的流程，目的就是让你看完之后，难以忘记！或者说，延长你对自定义类加载器的记忆时间！随时随地想自定义就自定义！</p>
+<h1 id="1-双亲委派模型"><a href="#1-双亲委派模型" class="headerlink" title="1. 双亲委派模型"></a>1. 双亲委派模型</h1><p>关于双亲委派模型，网上的资料有很多。我这里只简单的描述一下，就当是复习。</p>
+<h2 id="1-1-什么是双亲委派模型？"><a href="#1-1-什么是双亲委派模型？" class="headerlink" title="1.1 什么是双亲委派模型？"></a>1.1 什么是双亲委派模型？</h2><p>首先，先要知道什么是类加载器。简单说，类加载器就是根据指定全限定名称将<code>class</code>文件加载到<code>JVM</code>内存，转为<code>Class</code>对象。如果站在<code>JVM</code>的角度来看，只存在两种类加载器:</p>
+<blockquote>
+<ul>
+<li>启动类加载器（<code>Bootstrap ClassLoader</code>）：由<code>C++</code>语言实现（针对<code>HotSpot</code>）,负责将存放在<code>&lt;JAVA_HOME&gt;\lib</code>目录或<code>-Xbootclasspath</code>参数指定的路径中的类库加载到内存中。</li>
+</ul>
+<ul>
+<li>其他类加载器：由<code>Java</code>语言实现，继承自抽象类<code>ClassLoader</code>。如：</li>
+</ul>
+<ul>
+<li>扩展类加载器（<code>Extension ClassLoader</code>）：负责加载<code>&lt;JAVA_HOME&gt;\lib\ext</code>目录或<code>java.ext.dirs</code>系统变量指定的路径中的所有类库。</li>
+</ul>
+<ul>
+<li>应用程序类加载器（<code>Application ClassLoader</code>）。负责加载用户类路径（<code>classpath</code>）上的指定类库，我们可以直接使用这个类加载器。一般情况，如果我们没有自定义类加载器默认就是用这个加载器。</li>
+</ul>
+</blockquote>
+<p>双亲委派模型工作过程是：如果一个类加载器收到类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器完成。每个类加载器都是如此，只有当父加载器在自己的搜索范围内找不到指定的类时（即<code>ClassNotFoundException</code>），子加载器才会尝试自己去加载。</p>
+<p><img src="//upload-images.jianshu.io/upload_images/2154124-d2f7f6206935de2b?imageMogr2/auto-orient/strip%7CimageView2/2/w/818/format/webp" alt="image"></p>
+<h2 id="1-2-为什么需要双亲委派模型？"><a href="#1-2-为什么需要双亲委派模型？" class="headerlink" title="1.2 为什么需要双亲委派模型？"></a>1.2 为什么需要双亲委派模型？</h2><p>为什么需要双亲委派模型呢？假设没有双亲委派模型，试想一个场景：</p>
+<blockquote>
+<p>黑客自定义一个<code>java.lang.String</code>类，该<code>String</code>类具有系统的<code>String</code>类一样的功能，只是在某个函数稍作修改。比如<code>equals</code>函数，这个函数经常使用，如果在这这个函数中，黑客加入一些“病毒代码”。并且通过自定义类加载器加入到<code>JVM</code>中。此时，如果没有双亲委派模型，那么<code>JVM</code>就可能误以为黑客自定义的<code>java.lang.String</code>类是系统的<code>String</code>类，导致“病毒代码”被执行。</p>
+</blockquote>
+<p>而有了双亲委派模型，黑客自定义的<code>java.lang.String</code>类永远都不会被加载进内存。因为首先是最顶端的类加载器加载系统的<code>java.lang.String</code>类，最终自定义的类加载器无法加载<code>java.lang.String</code>类。</p>
+<p>或许你会想，我在自定义的类加载器里面强制加载自定义的<code>java.lang.String</code>类，不去通过调用父加载器不就好了吗?确实，这样是可行。但是，在<code>JVM</code>中，判断一个对象是否是某个类型时，如果该对象的实际类型与待比较的类型的类加载器不同，那么会返回false。</p>
+<p>举个简单例子：</p>
+<blockquote>
+<p><code>ClassLoader1</code>、<code>ClassLoader2</code>都加载<code>java.lang.String</code>类，对应Class1、Class2对象。那么<code>Class1</code>对象不属于<code>ClassLoad2</code>对象加载的<code>java.lang.String</code>类型。</p>
+</blockquote>
+<h2 id="1-3-如何实现双亲委派模型？"><a href="#1-3-如何实现双亲委派模型？" class="headerlink" title="1.3 如何实现双亲委派模型？"></a>1.3 如何实现双亲委派模型？</h2><p>双亲委派模型的原理很简单，实现也简单。每次通过先委托父类加载器加载，当父类加载器无法加载时，再自己加载。其实<code>ClassLoader</code>类默认的<code>loadClass</code>方法已经帮我们写好了，我们无需去写。</p>
+<h1 id="2-自定义类加载器"><a href="#2-自定义类加载器" class="headerlink" title="2. 自定义类加载器"></a>2. 自定义类加载器</h1><h1 id="2-1几个重要函数"><a href="#2-1几个重要函数" class="headerlink" title="2. 1几个重要函数"></a>2. 1几个重要函数</h1><h3 id="2-1-1-loadClass"><a href="#2-1-1-loadClass" class="headerlink" title="2.1.1 loadClass"></a>2.1.1 loadClass</h3><p><code>loadClass</code>默认实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public Class&lt;?&gt; loadClass(String name) throws ClassNotFoundException &#123;</span><br><span class="line">        return loadClass(name, false);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>再看看<code>loadClass(String name, boolean resolve)</code>函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">protected Class&lt;?&gt; loadClass(String name, boolean resolve)</span><br><span class="line">    throws ClassNotFoundException</span><br><span class="line">&#123;</span><br><span class="line">    synchronized (getClassLoadingLock(name)) &#123;</span><br><span class="line">        &#x2F;&#x2F; First, check if the class has already been loaded</span><br><span class="line">        Class c &#x3D; findLoadedClass(name);</span><br><span class="line">        if (c &#x3D;&#x3D; null) &#123;</span><br><span class="line">            long t0 &#x3D; System.nanoTime();</span><br><span class="line">            try &#123;</span><br><span class="line">                if (parent !&#x3D; null) &#123;</span><br><span class="line">                    c &#x3D; parent.loadClass(name, false);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    c &#x3D; findBootstrapClassOrNull(name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">                &#x2F;&#x2F; ClassNotFoundException thrown if class not found</span><br><span class="line">                &#x2F;&#x2F; from the non-null parent class loader</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (c &#x3D;&#x3D; null) &#123;</span><br><span class="line">                &#x2F;&#x2F; If still not found, then invoke findClass in order</span><br><span class="line">                &#x2F;&#x2F; to find the class.</span><br><span class="line">                long t1 &#x3D; System.nanoTime();</span><br><span class="line">                c &#x3D; findClass(name);</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F; this is the defining class loader; record the stats</span><br><span class="line">                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);</span><br><span class="line">                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);</span><br><span class="line">                sun.misc.PerfCounter.getFindClasses().increment();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (resolve) &#123;</span><br><span class="line">            resolveClass(c);</span><br><span class="line">        &#125;</span><br><span class="line">        return c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>从上面代码可以明显看出，<code>loadClass(String, boolean)</code>函数即实现了双亲委派模型！整个大致过程如下：</p>
+<blockquote>
+<ol>
+<li>首先，检查一下指定名称的类是否已经加载过，如果加载过了，就不需要再加载，直接返回。</li>
+<li>如果此类没有加载过，那么，再判断一下是否有父加载器；如果有父加载器，则由父加载器加载（即调用<code>parent.loadClass(name, false);</code>）.或者是调用<code>bootstrap</code>类加载器来加载。</li>
+<li>如果父加载器及<code>bootstrap</code>类加载器都没有找到指定的类，那么调用当前类加载器的<code>findClass</code>方法来完成类加载。</li>
+</ol>
+</blockquote>
+<p><strong>话句话说，如果自定义类加载器，就必须重写<code>findClass</code>方法！</strong></p>
+<h3 id="2-1-1-find-Class"><a href="#2-1-1-find-Class" class="headerlink" title="2.1.1 find Class"></a>2.1.1 find Class</h3><p><code>findClass</code>的默认实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException &#123;</span><br><span class="line">        throw new ClassNotFoundException(name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看出，抽象类<code>ClassLoader</code>的<code>findClass</code>函数默认是抛出异常的。而前面我们知道，<code>loadClass</code>在父加载器无法加载类的时候，就会调用我们自定义的类加载器中的<code>findeClass</code>函数，因此我们必须要在<code>loadClass</code>这个函数里面实现将一个指定类名称转换为<code>Class</code>对象.</p>
+<p>如果是是读取一个指定的名称的类为字节数组的话，这很好办。但是如何将字节数组转为<code>Class</code>对象呢？很简单，**<code>Java</code>提供了<code>defineClass</code>方法，通过这个方法，就可以把一个字节数组转为Class对象啦~**</p>
+<h3 id="2-1-1-defineClass"><a href="#2-1-1-defineClass" class="headerlink" title="2.1.1 defineClass"></a>2.1.1 defineClass</h3><p><code>defineClass</code>主要的功能是：</p>
+<blockquote>
+<p>将一个字节数组转为<code>Class</code>对象，这个字节数组是<code>class</code>文件读取后最终的字节数组。如，假设<code>class</code>文件是加密过的，则需要解密后作为形参传入<code>defineClass</code>函数。</p>
+</blockquote>
+<p><code>defineClass</code>默认实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">protected final Class&lt;?&gt; defineClass(String name, byte[] b, int off, int len)</span><br><span class="line">        throws ClassFormatError  &#123;</span><br><span class="line">        return defineClass(name, b, off, len, null);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-函数调用过程"><a href="#2-2-函数调用过程" class="headerlink" title="2.2 函数调用过程"></a>2.2 函数调用过程</h2><p>上一节所提的函数调用过程如下：</p>
+<p><img src="//upload-images.jianshu.io/upload_images/2154124-d5859f8e79069128?imageMogr2/auto-orient/strip%7CimageView2/2/w/598/format/webp" alt="image"></p>
+<h2 id="2-3-简单示例"><a href="#2-3-简单示例" class="headerlink" title="2.3 简单示例"></a>2.3 简单示例</h2><p>首先，我们定义一个待加载的普通<code>Java</code>类:<code>Test.java</code>。放在<code>com.huachao.cl</code>包下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package com.huachao.cl;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line">    public void hello() &#123;</span><br><span class="line">        System.out.println(&quot;恩，是的，我是由 &quot; + getClass().getClassLoader().getClass()</span><br><span class="line">                + &quot; 加载进来的&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<blockquote>
+<p>如果你是直接在当前项目里面创建，待<code>Test.java</code>编译后，请把<code>Test.class</code>文件拷贝走，再将<code>Test.java</code>删除。因为如果<code>Test.class</code>存放在当前项目中，根据双亲委派模型可知，会通过<code>sun.misc.Launcher$AppClassLoader</code> 类加载器加载。为了让我们自定义的类加载器加载，我们把Test.class文件放入到其他目录。</p>
+</blockquote>
+<p>在本例中，我们Test.class文件存放的目录如下：</p>
+<p><img src="//upload-images.jianshu.io/upload_images/2154124-fcf13f3f446a60f1?imageMogr2/auto-orient/strip%7CimageView2/2/w/602/format/webp" alt="image"></p>
+<p>接下来就是自定义我们的类加载器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class Main &#123;</span><br><span class="line">    static class MyClassLoader extends ClassLoader &#123;</span><br><span class="line">        private String classPath;</span><br><span class="line"></span><br><span class="line">        public MyClassLoader(String classPath) &#123;</span><br><span class="line">            this.classPath &#x3D; classPath;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private byte[] loadByte(String name) throws Exception &#123;</span><br><span class="line">            name &#x3D; name.replaceAll(&quot;\\.&quot;, &quot;&#x2F;&quot;);</span><br><span class="line">            FileInputStream fis &#x3D; new FileInputStream(classPath + &quot;&#x2F;&quot; + name</span><br><span class="line">                    + &quot;.class&quot;);</span><br><span class="line">            int len &#x3D; fis.available();</span><br><span class="line">            byte[] data &#x3D; new byte[len];</span><br><span class="line">            fis.read(data);</span><br><span class="line">            fis.close();</span><br><span class="line">            return data;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                byte[] data &#x3D; loadByte(name);</span><br><span class="line">                return defineClass(name, data, 0, data.length);</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">                throw new ClassNotFoundException();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    public static void main(String args[]) throws Exception &#123;</span><br><span class="line">        MyClassLoader classLoader &#x3D; new MyClassLoader(&quot;D:&#x2F;test&quot;);</span><br><span class="line">        Class clazz &#x3D; classLoader.loadClass(&quot;com.huachao.cl.Test&quot;);</span><br><span class="line">        Object obj &#x3D; clazz.newInstance();</span><br><span class="line">        Method helloMethod &#x3D; clazz.getDeclaredMethod(&quot;hello&quot;, null);</span><br><span class="line">        helloMethod.invoke(obj, null);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最后运行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">恩，是的，我是由 class Main$MyClassLoader 加载进来的</span><br></pre></td></tr></table></figure>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2022/05/22/Android-ClassLoader-%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="styled-border">
+                    ←
+                    Android ClassLoader 加载过程源码分析
+                    
+                </a>
+            
+            
+                <a href="/2022/05/22/Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E5%8F%8A%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/" class="styled-border">
+                    
+                    Java类加载机制及类加载机制详解
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
