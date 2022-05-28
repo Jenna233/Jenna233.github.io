@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>前端核心工具：yarn、npm、cnpm三者如何优雅的在一起使用 ？ | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]前端核心工具：yarn、npm、cnpm三者如何优雅的在一起使用 ？ 一位用不好包管理器的前端，是一个入门级前端，一个用不好webpack的前端，是一个初级前端 三个包管理器是可以一起用的，只要你够胆大心细，就没任何问题！  推荐两篇文章  手写优化版React脚手架 手写Vue的脚手架 前端性能优化不完全手册  在javeScript编写中,我们尽量不要定义全局变量，封装函数尽量不要有副作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端核心工具：yarn、npm、cnpm三者如何优雅的在一起使用 ？">
+<meta property="og:url" content="https://jenna233.github.io/2022/05/28/%E5%89%8D%E7%AB%AF%E6%A0%B8%E5%BF%83%E5%B7%A5%E5%85%B7%EF%BC%9Ayarn%E3%80%81npm%E3%80%81cnpm%E4%B8%89%E8%80%85%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E5%9C%A8%E4%B8%80%E8%B5%B7%E4%BD%BF%E7%94%A8-%EF%BC%9F/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]前端核心工具：yarn、npm、cnpm三者如何优雅的在一起使用 ？ 一位用不好包管理器的前端，是一个入门级前端，一个用不好webpack的前端，是一个初级前端 三个包管理器是可以一起用的，只要你够胆大心细，就没任何问题！  推荐两篇文章  手写优化版React脚手架 手写Vue的脚手架 前端性能优化不完全手册  在javeScript编写中,我们尽量不要定义全局变量，封装函数尽量不要有副作">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-ff0e925fc4221fd1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-33c913323dd0f552.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-936a9fcbd4f35058.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-4060ca3cfed0f963.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2022-05-28T08:02:52.000Z">
+<meta property="article:modified_time" content="2022-05-28T08:03:41.258Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="React &amp; JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-ff0e925fc4221fd1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">前端核心工具：yarn、npm、cnpm三者如何优雅的在一起使用 ？</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/5/28 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/React-JS/" rel="tag">React & JS</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019299845">前端核心工具：yarn、npm、cnpm三者如何优雅的在一起使用 ？</a></p>
+<p>一位用不好包管理器的前端，是一个入门级前端，一个用不好<code>webpack</code>的前端，是一个初级前端</p>
+<p>三个包管理器是可以一起用的，只要你够胆大心细，就没任何问题！</p>
+<ul>
+<li><p>推荐两篇文章</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019126657">手写优化版React脚手架</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019207033">手写Vue的脚手架</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018827395">前端性能优化不完全手册</a></li>
+</ul>
+<p>在<code>javeScript</code>编写中,我们尽量不要定义全局变量，封装函数尽量不要有副作用,因为全部变量的查询时间会比局部变量的查询慢,更是考虑在<code>Node</code>的环境中无法被垃圾回收的问题</p>
+</li>
+</ul>
+<h3 id="老规矩-先看原理"><a href="#老规矩-先看原理" class="headerlink" title="老规矩 先看原理"></a>老规矩 先看原理</h3><h4 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h4><ul>
+<li><code>npm</code> 是 <code>Node.js</code> 能够如此成功的主要原因之一。<code>npm</code> 团队做了很多的工作，以确保 <code>npm</code> 保持向后兼容，并在不同的环境中保持一致。</li>
+<li><code>npm</code>是围绕着 语义版本控制（semver）的思想而设计。</li>
+<li>给定一个版本号：主版本号.次版本号.补丁版本号， 以下这三种情况需要增加相应的版本号：</li>
+<li>主版本号： 当API发生改变，并与之前的版本不兼容的时候</li>
+<li>次版本号： 当增加了功能，但是向后兼容的时候</li>
+<li>补丁版本号：当做了向后兼容的缺陷修复的时候</li>
+<li><code>npm 2</code> 会安装每一个包所依赖的所有依赖项。如果我们有这么一个项目，它依赖项目A，项目A依赖项目B，项目B依赖项目C，那么依赖树将如下所示：</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-ff0e925fc4221fd1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>这个结构可能会很长。这对于基于Unix的操作系统来说只不过是一个小烦恼，但对于Windows来说却是个破坏性的东西，因为有很多程序无法处理超过260个字符的文件路径名。</li>
+<li><code>npm 3</code>采用了扁平依赖关系树来解决这个问题，所以我们的3个项目结构现在看起来如下所示：</li>
+</ul>
+<p>存了已经下载的每个版本的压缩包。本地缓存的内容可以通过<code>npm cache ls</code>命令进行查看。本地缓存的设计有助于减少安装时间。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-33c913323dd0f552.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>这样，一个原来很长的文件路径名就从<code>./node_modules/package-A/node_modules/package-B/node-modules/some-file-name-in-package-c.js</code>变成了<code>/node_modules/some-file-name-in-package-c.js</code>。</li>
+<li>这种方法的缺点是，<code>npm</code>必须首先遍历所有的项目依赖关系，然后再决定如何生成扁平的<code>node_modules</code>目录结构。<code>npm</code>必须为所有使用到的模块构建一个完整的依赖关系树，这是一个耗时的操作，是<code>npm</code>安装速度慢的一个很重要的原因。</li>
+<li>想当然的以为每次运行<code>npm install</code>命令时，<code>NPM</code>都得从互联网上下载所有内容。</li>
+<li>但是，<code>npm</code>是有本地缓存的，它保存了已经下载的每个版本的压缩包。本地缓存的内容可以通过<code>npm cache ls</code>命令进行查看。本地缓存的设计有助于减少安装时间。</li>
+</ul>
+<h4 id="cnpm"><a href="#cnpm" class="headerlink" title="cnpm"></a>cnpm</h4><p><code>cnpm</code>跟<code>npm</code>用法完全一致，只是在执行命令时将<code>npm</code>改为<code>cnpm</code>。<br><code>npm</code>安装插件是从国外服务器下载，受网络影响大，可能出现异常，如果<code>npm</code>的服务器在中国就好了，于是淘宝团队干了这事。来自官网：“这是一个完整 <code>npmjs.org</code> 镜像，你可以用此代替官方版本(只读)，同步频率目前为 10分钟 一次以保证尽量与官方服务同步。”<br>官方地址：<code>http://npm.taobao.org</code><br>安装： <code>npm install -g cnpm --registry=https://registry.npm.taobao.org</code></p>
+<h4 id="Yarn"><a href="#Yarn" class="headerlink" title="Yarn"></a>Yarn</h4><ul>
+<li><code>Yarn</code>一开始的主要目标是解决上一节中描述的由于语义版本控制而导致的<code>npm</code>安装的不确定性问题。虽然可以使用<code>npm shrinkwrap</code>来实现可预测的依赖关系树，但它并不是默认选项，而是取决于所有的开发人员知道并且启用这个选项。</li>
+<li><code>Yarn</code>采取了不同的做法。每个<code>yarn</code>安装都会生成一个类似于<code>npm-shrinkwrap.json</code>的<code>yarn.lock</code>文件，而且它是默认创建的。除了常规信息之外，<code>yarn.lock</code>文件还包含要安装的内容的校验和，以确保使用的库的版本相同。</li>
+<li><code>yarn</code>是经过重新设计的崭新的<code>npm</code>客户端，它能让开发人员并行处理所有必须的操作，并添加了一些其他改进。</li>
+<li>运行速度得到了显著的提升，整个安装时间也变得更少</li>
+<li>像<code>npm</code>一样，<code>yarn</code>使用本地缓存。与<code>npm</code>不同的是，<code>yarn</code>无需互联网连接就能安装本地缓存的依赖项，它提供了离线模式。</li>
+<li>允许合并项目中使用到的所有的包的许可证</li>
+<li>通常情况下不建议通过<code>npm</code>进行安装。<code>npm</code>安装是非确定性的，程序包没有签名，并且<code>npm</code>除了做了基本的<code>SHA1</code>哈希之外不执行任何完整性检查，这给安装系统程序带来了安全风险。(作者曾经在一个上百个依赖包的项目中使用<code>npm</code>丢包过，代价非常大，泪水不自觉掉下来)<blockquote>
+<p>首先看一次非常失败的包下载 竟然是从全局读取的资源(不配置<code>webpack</code>别名是因为就这一个路径这么长)</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/15531792-936a9fcbd4f35058.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<blockquote>
+<p>首先我们从原理入手 ，我们使用 <code>npm init</code>, <code>yarn init</code> ,<code>cnpm init</code> 的时候 发生了什么 ？</p>
+</blockquote>
+<ul>
+<li>生成<code>package.json</code>文件</li>
+<li><code>json</code>文件内部声明初始的版本信息、作者信息等，如果你是需要上传到<code>npm</code>上作为命令行工具，应该配置<code>bin</code>等声明入口字段<blockquote>
+<p>那么当我们使用<code>npm i</code> , <code>yarn add</code> ,<code>cnpm i</code> 操作时候会发生什么 ？</p>
+</blockquote>
+</li>
+<li>首先会根据你的命令行后缀是否加了<code> -g</code> 或者<code>global</code>判断，下载的包是放在全局的环境，还是当前<code>package.json</code>文件对应的<code>node_module</code>文件夹目录下(这点尤其重要，有人出BUG，就是因为在用<code>npm </code>, <code>cnpm</code>时候没有注明添加的是全局依赖还是本地依赖，导致json文件上没有对应的包名，项目永远起不来)</li>
+<li>然后根据你的指令<code>--save </code>或者<code>-D</code>、<code>--save -dev</code>判断是开发依赖还是线上依赖，其实这点在<code>yarn</code>上没有问题，因为<code>yarn</code>有自己的一套检查包完整性的机制，不会丢包，还会自动判断添加依赖，出<code>bug</code>一般是<code>cnpm</code>和<code>npm</code>，没有明确<code>-g</code>或者<code>--save</code>，<code>npm</code>只有检查程序员签名的机制，没有检查包完整性的机制，也不会自动添加依赖到<code>json</code>文件，那么就会出现丢包的假象，所以建议主要使用<code>yarn</code></li>
+</ul>
+<h4 id="yarn和npm对比"><a href="#yarn和npm对比" class="headerlink" title="yarn和npm对比"></a><code>yarn</code>和<code>npm</code>对比</h4><p><img src="https://upload-images.jianshu.io/upload_images/15531792-4060ca3cfed0f963.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="npm的缺点汇总："><a href="#npm的缺点汇总：" class="headerlink" title="npm的缺点汇总："></a><code>npm</code>的缺点汇总：</h5><ul>
+<li>同一个项目，安装的时候无法保持一致性。由于<code>package.json</code>文件中版本号的特点，下面三个版本号在安装的时候代表不同的含义。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;5.0.3&quot;,</span><br><span class="line">&quot;~5.0.3&quot;,</span><br><span class="line">&quot;^5.0.3&quot;</span><br></pre></td></tr></table></figure></li>
+<li>“5.0.3”表示安装指定的5.0.3版本，“～5.0.3”表示安装5.0.X中最新的版本，“^5.0.3”表示安装5.X.X中最新的版本。这就麻烦了，常常会出现同一个项目，有的同事是OK的，有的同事会由于安装的版本不一致出现bug。</li>
+<li>安装的时候，包会在同一时间下载和安装，中途某个时候，一个包抛出了一个错误，但是<code>npm</code>会继续下载和安装包。因为<code>npm</code>会把所有的日志输出到终端，有关错误包的错误信息就会在一大堆<code>npm</code>打印的警告中丢失掉，并且你甚至永远不会注意到实际发生的错误。</li>
+</ul>
+<h5 id="yarn的优点"><a href="#yarn的优点" class="headerlink" title="yarn的优点"></a><code>yarn</code>的优点</h5><ul>
+<li><p>速度快 。速度快主要来自以下两个方面：</p>
+</li>
+<li><p>并行安装：无论 <code>npm</code> 还是 <code>Yarn</code> 在执行包的安装时，都会执行一系列任务。<code>npm</code> 是按照队列执行每个 <code>package</code>，也就是说必须要等到当前 <code>package</code> 安装完成之后，才能继续后面的安装。而 <code>Yarn</code> 是并行执行所有任务，提高了性能。</p>
+</li>
+<li><p>离线模式：<code>如果之前已经安装过一个软件包，用Yarn再次安装时之间从缓存中获取，就不用像npm那样再从网络下载了。</code></p>
+</li>
+<li><p>安装版本统一：为了防止拉取到不同的版本，<code>Yarn</code> 有一个锁定文件 (lock file) 记录了被确切安装上的模块的版本号。每次只要新增了一个模块，<code>Yarn</code> 就会创建（或更新）<code>yarn.lock</code> 这个文件。这么做就保证了，每一次拉取同一个项目依赖时，使用的都是一样的模块版本。<code>npm</code> 其实也有办法实现处处使用相同版本的 <code>packages</code>，但需要开发者执行 <code>npm shrinkwrap</code> 命令。这个命令将会生成一个锁定文件，在执行 <code>npm install</code> 的时候，该锁定文件会先被读取，和 <code>Yarn</code> 读取 <code>yarn.lock</code> 文件一个道理。<code>npm</code> 和 <code>Yarn</code> 两者的不同之处在于，<code>Yarn</code> 默认会生成这样的锁定文件，而 <code>npm</code> 要通过 <code>shrinkwrap </code>命令生成 <code>npm-shrinkwrap.json</code> 文件，只有当这个文件存在的时候，<code>packages</code> 版本信息才会被记录和更新。</p>
+</li>
+<li><p>更简洁的输出：<code>npm</code> 的输出信息比较冗长。在执行 <code>npm install &lt;package&gt;</code> 的时候，命令行里会不断地打印出所有被安装上的依赖。相比之下，<code>Yarn</code> 简洁太多：默认情况下，结合了 <code>emoji</code>直观且直接地打印出必要的信息，也提供了一些命令供开发者查询额外的安装信息。</p>
+</li>
+<li><p>多注册来源处理：所有的依赖包，不管他被不同的库间接关联引用多少次，安装这个包时，只会从一个注册来源去装，要么是 <code>npm</code> 要么是 <code>bower</code>, 防止出现混乱不一致。</p>
+</li>
+<li><p>更好的语义化： <code>yarn</code>改变了一些<code>npm</code>命令的名称，比如 <code>yarn add/remove</code>，感觉上比 <code>npm</code> 原本的 <code>install/uninstall</code> 要更清晰。</p>
+</li>
+</ul>
+<blockquote>
+<p>那不是标题党？ 说了<code>yarn</code>这么多优点，我们为什么还要<code>npm</code>呢？</p>
+</blockquote>
+<h5 id="你不用npm-publish-，你怎么上传包到npm-你不用cnpm，是下载不了一些包的"><a href="#你不用npm-publish-，你怎么上传包到npm-你不用cnpm，是下载不了一些包的" class="headerlink" title="你不用npm publish ，你怎么上传包到npm? 你不用cnpm，是下载不了一些包的"></a>你不用<code>npm publish</code> ，你怎么上传包到<code>npm</code>? 你不用<code>cnpm</code>，是下载不了一些包的</h5><blockquote>
+<p>搞清楚三者下载包（依赖）的本质结果：</p>
+</blockquote>
+<ul>
+<li>首先向对应的<code>node_module</code>文件夹下面下载包（如果你非要下到全局，那么再见）</li>
+<li>再然后是<code>json</code>文件中添加对应的依赖字段,确定是线上依赖还是开发依赖</li>
+<li>只要做到这两者 你就下包成功</li>
+<li>总结就是 只要结果 过程管你是啥</li>
+</ul>
+<blockquote>
+<p>使用<code>yarn</code>下载过的包，再使用<code>npm cnpm</code>下载 会重复下载，删除之前的包</p>
+</blockquote>
+<ul>
+<li><code>puppeteer</code>这个包所依赖的<code>mini</code>版谷歌浏览器使用<code>cnpm</code>下载就可以完美解决</li>
+<li><code>prerender-spa-plugin</code>这个包依赖上面的木偶戏 <code>puppeteer</code>这个包，也可以用<code>cnpm</code>下载</li>
+<li>混合使用包管理器切记，不要重复下载依赖，<code>npm cnpm</code>下载依赖，一定要添加注明是什么依赖，是否全局安装</li>
+<li><code>yarn</code>和<code>npm i</code>两者，选择前者，原因在上面有提到，总体来说，<code>yarn</code>是不二选择，但是其他两者也不可缺少，比如<code>electron</code>这个依赖，使用<code>cnpm</code>就可以完美一键安装</li>
+</ul>
+<blockquote>
+<p>只要胆大心细，就可以把三者用得如鱼得水，不然就会被按在地上摩擦，实践过程踩坑也是正常 觉得写得好别忘了关注我的专栏，给个赞再走~</p>
+</blockquote>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2022/05/22/Android-ClassLoader-%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="styled-border">
+                    
+                    Android ClassLoader 加载过程源码分析
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
