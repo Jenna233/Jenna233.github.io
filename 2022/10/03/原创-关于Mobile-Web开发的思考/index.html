@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>关于Mobile Web开发的思考 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="作为一名移动开发者，见证了公司的移动产品架构，从纯web 网页到native，再到hybrid的过程。hybrid 指app里一部分用native的代码实现，一部分用webview加载web 网页实现。越来越多的公司对移动app采用hybrid的开发模式，一是可以和pc端共享代码，节省资源，二是web部分有更新不用再次发布app就能实现。 对于hybrid app里的web开发，不是简单的把pc端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Mobile Web开发的思考">
+<meta property="og:url" content="https://jenna233.github.io/2022/10/03/%E5%8E%9F%E5%88%9B-%E5%85%B3%E4%BA%8EMobile-Web%E5%BC%80%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="作为一名移动开发者，见证了公司的移动产品架构，从纯web 网页到native，再到hybrid的过程。hybrid 指app里一部分用native的代码实现，一部分用webview加载web 网页实现。越来越多的公司对移动app采用hybrid的开发模式，一是可以和pc端共享代码，节省资源，二是web部分有更新不用再次发布app就能实现。 对于hybrid app里的web开发，不是简单的把pc端">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-10-03T08:14:56.000Z">
+<meta property="article:modified_time" content="2022-10-03T08:15:52.578Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="架构">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">关于Mobile Web开发的思考</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2022/10/3 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>作为一名移动开发者，见证了公司的移动产品架构，从纯web 网页到native，再到hybrid的过程。hybrid 指app里一部分用native的代码实现，一部分用webview加载web 网页实现。越来越多的公司对移动app采用hybrid的开发模式，一是可以和pc端共享代码，节省资源，二是web部分有更新不用再次发布app就能实现。</p>
+<p>对于hybrid app里的web开发，不是简单的把pc端的代码直接拿过来给hybrid app用。PC和mobile的设备有区别，这就需要我们在为二者实现web端时关注的重点不同。以下是我对mobile web开发的一点思考。</p>
+<h1 id="1-界面布局，-css设置"><a href="#1-界面布局，-css设置" class="headerlink" title="1. 界面布局， css设置"></a>1. 界面布局， css设置</h1><p>mobile设备屏幕较小，这就意味着我们不能用pc端设置界面的思维来设计mobile的界面。mobile屏幕上只能放有限的内容，而且内容大小要易于手指操作，比如点击，滑动等等。如果要适配多种mobile 设备，那就需要界面设计师设计出能在一定范围内动态调整的界面。除此之外，mobile设备可以旋转，对于竖屏和横屏的界面，可能得设计出两套展示方案。</p>
+<h1 id="2-用户操作"><a href="#2-用户操作" class="headerlink" title="2. 用户操作"></a>2. 用户操作</h1><p>pc端的用户操作是通过鼠标完成： 单击， 双击，右键等，对应web的处理事件是pointer event。而mobile的操作是通过手指完成：点击，长按，滑动等，对应的web处理事件是touch event。 这二者之间有可以共用的部分： 比如pc端的单击操作，在mobile端通过手指点击也能触发。 而对于mobile端的滑动手势，需要mobile端去额外处理。<br>综上所述，mobile web需要处理手势操作。</p>
+<h1 id="3-性能"><a href="#3-性能" class="headerlink" title="3. 性能"></a>3. 性能</h1><p>pc 端和mobile端不同，除了屏幕大小以外， 还包括内存，处理器的区别。在pc端一个应用程序可以占用很多的内存，有的web app甚至能达到1-2G左右的内存。但在mobile端，一个app如果占用1-2G的内存是不可取的，容易导致mobile 设备卡顿，app被系统杀掉等。因此，对于mobile web，需要对性能进行优化，使用懒加载技术，严格限制内存使用，</p>
+<p> web app是先请求静态资源比如js， css 文件，然后再执行js代码来加载数据渲染网页。在mobile中， app的启动速度对于用户体验十分重要，hybrid app中的web部分，如果静态资源过大，或导致加载速度过慢。这就需要我们启动的js ， css 文件尽量缩小，加快mobile web的启动速度。即使我们把静态资源绑定在app中发布，也可能遇到服务器升级，而用户未及时升级app的情况。</p>
+<h1 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h1><p>对于mobile web的开发，我们需要从界面， 用户操作，性能等方面进行考虑。欢迎留言探讨。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2022/10/03/Mobile%20Web%20Development-When,%20Why,%20and%20How/" class="styled-border">
+                    ←
+                    转
+                    
+                </a>
+            
+            
+                <a href="/2022/09/25/Gradle%E4%BE%9D%E8%B5%96%E4%B9%8B%E2%80%98%E4%BA%94%E7%A7%8D%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE%E2%80%99/" class="styled-border">
+                    
+                    Gradle依赖之‘五种依赖配置’
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
