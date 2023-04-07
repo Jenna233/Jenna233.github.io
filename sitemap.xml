@@ -768,14 +768,14 @@
   </url>
   
   <url>
-    <loc>https://jenna233.github.io/tags/Git/</loc>
+    <loc>https://jenna233.github.io/tags/Google/</loc>
     <lastmod>2023-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://jenna233.github.io/tags/Google/</loc>
+    <loc>https://jenna233.github.io/tags/Git/</loc>
     <lastmod>2023-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -803,13 +803,6 @@
   </url>
   
   <url>
-    <loc>https://jenna233.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2023-04-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://jenna233.github.io/tags/React-JS/</loc>
     <lastmod>2023-04-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -824,14 +817,14 @@
   </url>
   
   <url>
-    <loc>https://jenna233.github.io/tags/React/</loc>
+    <loc>https://jenna233.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2023-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://jenna233.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
+    <loc>https://jenna233.github.io/tags/React/</loc>
     <lastmod>2023-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -853,6 +846,13 @@
   
   <url>
     <loc>https://jenna233.github.io/tags/Java-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2023-04-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jenna233.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
     <lastmod>2023-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
