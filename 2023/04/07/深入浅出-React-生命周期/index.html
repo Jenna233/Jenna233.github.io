@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>深入浅出 React -- 生命周期 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]深入浅出 React – 生命周期这里通过对 React15 和 React16 两个版本的生命周期进行对比总结，来建立系统而完善的生命周期知识体系. 生命周期背后的设计思想React 设计的两个核心概念：“组件” 和 “虚拟 DOM” 虚拟 DOM当组件初始化时，通过调用生命周期中的 render 方法，生成虚拟 DOM；再通过调用 ReactDOM.render 方法，将虚拟 DOM 转">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入浅出 React -- 生命周期">
+<meta property="og:url" content="https://jenna233.github.io/2023/04/07/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA-React-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]深入浅出 React – 生命周期这里通过对 React15 和 React16 两个版本的生命周期进行对比总结，来建立系统而完善的生命周期知识体系. 生命周期背后的设计思想React 设计的两个核心概念：“组件” 和 “虚拟 DOM” 虚拟 DOM当组件初始化时，通过调用生命周期中的 render 方法，生成虚拟 DOM；再通过调用 ReactDOM.render 方法，将虚拟 DOM 转">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-d8135157f8c54e09.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-b59d20d9452ce35c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-abeb1ef4f13b2211.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-57657b484fefd006.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-6c543cf535ed8878.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-42090d46eee62fec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-6cc2b797e68472af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-e4166579fdeb8f55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2023-04-07T12:30:34.000Z">
+<meta property="article:modified_time" content="2023-04-07T12:31:11.071Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="React &amp; JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-d8135157f8c54e09.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">深入浅出 React -- 生命周期</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2023/4/7 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/React-JS/" rel="tag">React & JS</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/333822652">深入浅出 React – 生命周期</a><br>这里通过对 React15 和 React16 两个版本的生命周期进行对比总结，来建立系统而完善的生命周期知识体系.</p>
+<h1 id="生命周期背后的设计思想"><a href="#生命周期背后的设计思想" class="headerlink" title="生命周期背后的设计思想"></a>生命周期背后的设计思想</h1><p>React 设计的两个核心概念：“组件” 和 “虚拟 DOM”</p>
+<h3 id="虚拟-DOM"><a href="#虚拟-DOM" class="headerlink" title="虚拟 DOM"></a>虚拟 DOM</h3><p>当组件初始化时，通过调用生命周期中的 render 方法，生成虚拟 DOM；再通过调用 <code>ReactDOM.render</code> 方法，将虚拟 DOM 转换为真实 DOM。</p>
+<p>当组件更新时，会再次调用生命周期中的 render 方法，生成新的虚拟 DOM；然后通过 diff 算法定位两次虚拟 DOM 的差异，对发生变化的真实 DOM 做定向更新。</p>
+<h3 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h3><p>在一个 React 项目中，几乎所有的内容都可以抽离为各种各样的组件，每个组件既是 “封闭” 的，也是 “开放” 的。</p>
+<p>所谓 “封闭”，是针对<strong>组件数据改变到组件实际发生更新</strong>的过程。在组件自身的渲染过程中，每个组件都只会处理它自身内部的渲染逻辑。在没有数据交流的情况下，组件之间互不干扰。</p>
+<p>所谓 “开放”，是针对组件间<strong>通信</strong>的。React 允许开发者基于<strong>单向数据流</strong>的原则来完成组件之间的通信。组件之间的通信可能使通信组件的渲染结果产生影响。所以说组件之间是相互开放的，可以相互影响的。</p>
+<p>React 组件的 “开放” 与 “封闭” 特性，使得 React 的组件具备高可重用性和可维护性。</p>
+<h3 id="生命周期方法"><a href="#生命周期方法" class="headerlink" title="生命周期方法"></a>生命周期方法</h3><p>生命周期的 render 方法将<strong>虚拟 DOM</strong>和<strong>组件</strong>两者结合到了一起。</p>
+<p>虚拟 DOM 的生成依赖 render，而组件的渲染过程也离不开 render。所以可以将 render 方法比作组件的<strong>“灵魂”</strong>。</p>
+<p>render 之外的生命周期方法可以理解为组件的<strong>“躯干”</strong>。</p>
+<p>我们可以省略 render 之外的任何生命周期方法内容的编写，但是 render 函数不能省略；但是 render 之外的生命周期方法的编写，通常是为 render 服务；“灵魂” 和 “躯干” 共同构成了 React 组件完整的生命时间轴。</p>
+<h1 id="React15-生命周期"><a href="#React15-生命周期" class="headerlink" title="React15 生命周期"></a>React15 生命周期</h1><p>在 React15 中，需要关注以下生命周期方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">constructor()</span><br><span class="line">componentWillReceiveProps()</span><br><span class="line">shouldComponentUpdate()</span><br><span class="line">componentWillMount()</span><br><span class="line">componentWillUpdate()</span><br><span class="line">componentDidUpdate()</span><br><span class="line">componentDidMount()</span><br><span class="line">render()</span><br><span class="line">componentWillUnmount()</span><br></pre></td></tr></table></figure>
+<p>这些生命周期方法的关系：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-d8135157f8c54e09.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="lifecycle"></p>
+<p>下面的示例可以验证：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line">import React from &quot;react&quot;</span><br><span class="line">import ReactDOM from &quot;react-dom&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 代码源自 “深入浅出搞定 React -- 修言”</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义子组件</span><br><span class="line">class LifeCycle extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    console.log(&quot;进入constructor&quot;)</span><br><span class="line"></span><br><span class="line">    super(props)</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; state 可以在 constructor 里初始化</span><br><span class="line">    this.state &#x3D; &#123; text: &quot;子组件的文本&quot; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F; 初始化渲染时调用</span><br><span class="line">  componentWillMount() &#123;</span><br><span class="line">    console.log(&quot;componentWillMount方法执行&quot;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 初始化渲染时调用</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    console.log(&quot;componentDidMount方法执行&quot;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 父组件修改组件的props时会调用</span><br><span class="line">  componentWillReceiveProps(nextProps) &#123;</span><br><span class="line">    console.log(&quot;componentWillReceiveProps方法执行&quot;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 组件更新时调用</span><br><span class="line">  shouldComponentUpdate(nextProps, nextState) &#123;</span><br><span class="line">    console.log(&quot;shouldComponentUpdate方法执行&quot;)</span><br><span class="line">    return true</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 组件更新时调用</span><br><span class="line">  componentWillUpdate(nextProps, nextState) &#123;</span><br><span class="line">    console.log(&quot;componentWillUpdate方法执行&quot;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 组件更新后调用</span><br><span class="line">  componentDidUpdate(nextProps, nextState) &#123;</span><br><span class="line">    console.log(&quot;componentDidUpdate方法执行&quot;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 组件卸载时调用</span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    console.log(&quot;子组件的componentWillUnmount方法执行&quot;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 点击按钮，修改子组件文本内容的方法</span><br><span class="line">  changeText &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      text: &quot;修改后的子组件文本&quot;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    console.log(&quot;render方法执行&quot;)</span><br><span class="line">    return (</span><br><span class="line">      &lt;div className&#x3D;&quot;container&quot;&gt;</span><br><span class="line">        &lt;button onClick&#x3D;&#123;this.changeText&#125; className&#x3D;&quot;changeText&quot;&gt;</span><br><span class="line">          修改子组件文本内容</span><br><span class="line">        &lt;&#x2F;button&gt;</span><br><span class="line">        &lt;p className&#x3D;&quot;textContent&quot;&gt;&#123;this.state.text&#125;&lt;&#x2F;p&gt;</span><br><span class="line">        &lt;p className&#x3D;&quot;fatherContent&quot;&gt;&#123;this.props.text&#125;&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义 LifeCycle 组件的父组件</span><br><span class="line">class LifeCycleContainer extends React.Component &#123;</span><br><span class="line">  &#x2F;&#x2F; state 也可以像这样用属性声明的形式初始化</span><br><span class="line">  state &#x3D; &#123;</span><br><span class="line">    text: &quot;父组件的文本&quot;,</span><br><span class="line">    hideChild: false</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 点击按钮，修改父组件文本的方法</span><br><span class="line">  changeText &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      text: &quot;修改后的父组件文本&quot;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> &#x2F;&#x2F; 点击按钮，隐藏（卸载）LifeCycle 组件的方法</span><br><span class="line">  hideChild &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      hideChild: true</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div className&#x3D;&quot;fatherContainer&quot;&gt;</span><br><span class="line">        &lt;button onClick&#x3D;&#123;this.changeText&#125; className&#x3D;&quot;changeText&quot;&gt;</span><br><span class="line">          修改父组件文本内容</span><br><span class="line">        &lt;&#x2F;button&gt;</span><br><span class="line">        &lt;button onClick&#x3D;&#123;this.hideChild&#125; className&#x3D;&quot;hideChild&quot;&gt;</span><br><span class="line">          隐藏子组件</span><br><span class="line">        &lt;&#x2F;button&gt;</span><br><span class="line">        &#123;this.state.hideChild ? null : &lt;LifeCycle text&#x3D;&#123;this.state.text&#125; &#x2F;&gt;&#125;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;LifeCycleContainer &#x2F;&gt;, document.getElementById(&quot;root&quot;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="挂载阶段"><a href="#挂载阶段" class="headerlink" title="挂载阶段"></a>挂载阶段</h3><p>组件挂载在一个 React 组件的生命周期中只会发生一次，在这个过程中，组件被初始化，最后被渲染到真实 DOM；</p>
+<p>挂载阶段，一个 React 组件所经历的生命周期：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-b59d20d9452ce35c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="load"></p>
+<ul>
+<li><code>constructor() </code>：对 this.state 初始化。</li>
+<li><code>componentWillMount()</code> ：在 <code>render</code> 方法前被触发。</li>
+<li><code> render()</code> ：生成需要渲染的内容并返回，不会操作真实 DOM。真实 DOM 的渲染由 ReactDOM.render 完成。</li>
+<li><code>componentDidMount()</code> ：在渲染结束后被触发，此时可以访问真实 DOM 。在这个生命周期中也可以做类似于异步请求、数据初始化的操作。</li>
+</ul>
+<h3 id="更新阶段"><a href="#更新阶段" class="headerlink" title="更新阶段"></a>更新阶段</h3><p>更新阶段，一个 React 组件所经历的生命周期：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-abeb1ef4f13b2211.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="update"></p>
+<h4 id="componentWillReceiveProps"><a href="#componentWillReceiveProps" class="headerlink" title="componentWillReceiveProps"></a>componentWillReceiveProps</h4><p>从图中可以看出，由父组件触发的更新和由组件自身触发的更新对比，多出了一个生命周期方法：<code>componentWillReceiveProps(nextProps)</code>。</p>
+<p><code>nextProps</code> 表示新 <code>props</code> 内容，而现有的 <code>props</code> 可以通过 <code>this.props</code> 获取，从而对比 <code>props</code> 的变化。</p>
+<blockquote>
+<p>如果父组件导致组件重新渲染，即使 props 没有更改，也会调用此方法（componentWillReceiveProps）。如果只想处理更改，请确保进行当前值与变更值的比较。</p>
+</blockquote>
+<p><strong>componentWillReceiveProps 并不是由 props 的变化触发的，而是由父组件的更新触发的</strong></p>
+<h4 id="shouldComponentUpdate"><a href="#shouldComponentUpdate" class="headerlink" title="shouldComponentUpdate"></a>shouldComponentUpdate</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate(nextProps, nextState)</span><br></pre></td></tr></table></figure>
+<p>由于 <code>render</code> 方法会进行虚拟 DOM 的构建和对比，比较耗时。为了避免不必要的 <code>render</code> 调用，React 提供了 <code>shouldComponentUpdate</code> 生命周期方法。</p>
+<p>根据 <code>shouldComponentUpdate()</code> 的返回值，判断 React 组件的输出是否受当前 state 或 props 更改的影响。默认行为是 state 每次发生变化组件都会重新渲染。大部分情况下，你应该遵循默认行为。</p>
+<p>此方法仅作为**<a href="https://link.zhihu.com/?target=https://zh-hans.reactjs.org/docs/optimizing-performance.html">性能优化的方式</a><strong>而存在。不要企图依靠此方法来“阻止”渲染，因为这可能会产生 bug。你应该考虑使用内置的 **<a href="https://link.zhihu.com/?target=https://zh-hans.reactjs.org/docs/react-api.html%23reactpurecomponent">PureComponent</a></strong> 组件，而不是手动编写 <code>shouldComponentUpdate()</code>。<code>PureComponent</code> 会对 props 和 state 进行浅层比较，并减少了跳过必要更新的可能性。</p>
+<h4 id="componentWillUpdate-和-componentDidUpdate"><a href="#componentWillUpdate-和-componentDidUpdate" class="headerlink" title="componentWillUpdate 和 componentDidUpdate"></a>componentWillUpdate 和 componentDidUpdate</h4><p> <code>componentWillUpdate</code> 在 <code>render</code> 前触发，和 <code>componentWillMount </code>类似，可以在里面做一些与真实 DOM 不相关的操作。<br><code>componentDidUpdate</code> 在组件更新完成后触发，和 <code>componentDidMount</code> 类似，可以在里面处理 DOM 操作；作为子组件更新完毕通知父组件的标志。</p>
+<h3 id="卸载阶段"><a href="#卸载阶段" class="headerlink" title="卸载阶段"></a>卸载阶段</h3><p>组件销毁，只有 <code>componentWillUnmount()</code> 生命周期，可以在里面做一些释放内存，清理定时器等操作。</p>
+<h1 id="React16-生命周期"><a href="#React16-生命周期" class="headerlink" title="React16 生命周期"></a>React16 生命周期</h1><p><strong><a href="https://link.zhihu.com/?target=https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">React 16.3</a></strong> 生命周期：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-57657b484fefd006.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="React16"></p>
+<p>示例代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line">import React from &quot;react&quot;</span><br><span class="line">import ReactDOM from &quot;react-dom&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 代码源自 “深入浅出搞定 React -- 修言”</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义子组件</span><br><span class="line">class LifeCycle extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    console.log(&quot;进入constructor&quot;)</span><br><span class="line"></span><br><span class="line">    super(props)</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; state 可以在 constructor 里初始化</span><br><span class="line">    this.state &#x3D; &#123; text: &quot;子组件的文本&quot; &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 初始化&#x2F;更新时调用</span><br><span class="line">  static getDerivedStateFromProps(props, state) &#123;</span><br><span class="line">    console.log(&quot;getDerivedStateFromProps方法执行&quot;)</span><br><span class="line">    return &#123;</span><br><span class="line">      fatherText: props.text</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 初始化渲染时调用</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    console.log(&quot;componentDidMount方法执行&quot;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 组件更新时调用</span><br><span class="line">  shouldComponentUpdate(prevProps, nextState) &#123;</span><br><span class="line">    console.log(&quot;shouldComponentUpdate方法执行&quot;)</span><br><span class="line">    return true</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 组件更新时调用</span><br><span class="line">  getSnapshotBeforeUpdate(prevProps, prevState) &#123;</span><br><span class="line">    console.log(&quot;getSnapshotBeforeUpdate方法执行&quot;)</span><br><span class="line">    return &quot;haha&quot;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 组件更新后调用</span><br><span class="line">  componentDidUpdate(nextProps, nextState, valueFromSnapshot) &#123;</span><br><span class="line">    console.log(&quot;componentDidUpdate方法执行&quot;)</span><br><span class="line">    console.log(&quot;从 getSnapshotBeforeUpdate 获取到的值是&quot;, valueFromSnapshot)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 组件卸载时调用</span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    console.log(&quot;子组件的componentWillUnmount方法执行&quot;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 点击按钮，修改子组件文本内容的方法</span><br><span class="line">  changeText &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      text: &quot;修改后的子组件文本&quot;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    console.log(&quot;render方法执行&quot;);</span><br><span class="line">    return (</span><br><span class="line">      &lt;div className&#x3D;&quot;container&quot;&gt;</span><br><span class="line">        &lt;button onClick&#x3D;&#123;this.changeText&#125; className&#x3D;&quot;changeText&quot;&gt;</span><br><span class="line">          修改子组件文本内容</span><br><span class="line">        &lt;&#x2F;button&gt;</span><br><span class="line">        &lt;p className&#x3D;&quot;textContent&quot;&gt;&#123;this.state.text&#125;&lt;&#x2F;p&gt;</span><br><span class="line">        &lt;p className&#x3D;&quot;fatherContent&quot;&gt;&#123;this.props.text&#125;&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义 LifeCycle 组件的父组件</span><br><span class="line">class LifeCycleContainer extends React.Component &#123;</span><br><span class="line">  &#x2F;&#x2F; state 也可以像这样用属性声明的形式初始化</span><br><span class="line">  state &#x3D; &#123;</span><br><span class="line">    text: &quot;父组件的文本&quot;,</span><br><span class="line">    hideChild: false</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 点击按钮，修改父组件文本的方法</span><br><span class="line">  changeText &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      text: &quot;修改后的父组件文本&quot;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 点击按钮，隐藏（卸载）LifeCycle 组件的方法</span><br><span class="line">  hideChild &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      hideChild: true</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div className&#x3D;&quot;fatherContainer&quot;&gt;</span><br><span class="line">        &lt;button onClick&#x3D;&#123;this.changeText&#125; className&#x3D;&quot;changeText&quot;&gt;</span><br><span class="line">          修改父组件文本内容</span><br><span class="line">        &lt;&#x2F;button&gt;</span><br><span class="line">        &lt;button onClick&#x3D;&#123;this.hideChild&#125; className&#x3D;&quot;hideChild&quot;&gt;</span><br><span class="line">          隐藏子组件</span><br><span class="line">        &lt;&#x2F;button&gt;</span><br><span class="line">        &#123;this.state.hideChild ? null : &lt;LifeCycle text&#x3D;&#123;this.state.text&#125; &#x2F;&gt;&#125;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;LifeCycleContainer &#x2F;&gt;, document.getElementById(&quot;root&quot;))</span><br></pre></td></tr></table></figure>
+
+<h3 id="挂载阶段-1"><a href="#挂载阶段-1" class="headerlink" title="挂载阶段"></a>挂载阶段</h3><p><img src="https://upload-images.jianshu.io/upload_images/15531792-6c543cf535ed8878.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="LoadCompare"></p>
+<h4 id="componentWillMount-vs-getDerivedStateFromProps"><a href="#componentWillMount-vs-getDerivedStateFromProps" class="headerlink" title="componentWillMount vs getDerivedStateFromProps"></a>componentWillMount vs getDerivedStateFromProps</h4><p>对比于 React 15 废弃了 <code>componentWillMount</code> ，新增了 <code>getDerivedStateFromProps</code>。</p>
+<p><code>componentWillMount</code> 的存在不仅“鸡肋”而且危险，因此它不值得被“替代”，而应该直接废弃。</p>
+<p><code>getDerivedStateFromProps</code> 的设计初衷是替换 <code>componentWillReceiveProps </code>，它有且仅有一个作用：让组件在 <code>props</code> 变化时派生/更新 <code>state</code>。</p>
+<p><code>getDerivedStateFromProps</code> 的方法签名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static getDerivedStateFromProps(props, state)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>getDerivedStateFromProps</code> 是一个静态方法；不依赖组件实例；在这个方法里不能访问 <code>this</code>。</li>
+<li>两个参数：<code>props</code> 和 <code>state</code>，分别表示组件接收的来自父组件的 <code>props</code> 和自身的 <code>state</code>。</li>
+<li>需要一个对象作为返回值；如果没有指定返回值，React 会发出警告；**React 需要用这个返回值来更新/派生组件的 <code>stat</code>**；如果不需要，最好直接省略这个方法，否则需要返回 <code>null</code>。</li>
+<li><strong>对 <code>state</code> 的更新不是“覆盖”，而是针对属性的定向更新。</strong></li>
+</ul>
+<h3 id="更新阶段-1"><a href="#更新阶段-1" class="headerlink" title="更新阶段"></a>更新阶段</h3><p><img src="https://upload-images.jianshu.io/upload_images/15531792-42090d46eee62fec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="UpdateCompare"></p>
+<p>React 16.4 的挂载和卸载和 React 16.3 保持一致，更新阶段不同：</p>
+<p><strong><a href="https://link.zhihu.com/?target=https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">React 16.4</a></strong> 生命周期：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-6cc2b797e68472af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="React16.4"></p>
+<ul>
+<li>在 React 16.4 中，任何因素触发的组件更新都会触发 <code>getDerivedStateFromProps</code>。</li>
+<li>在 React 16.3 中，只有父组件的更新才会触发 <code>getDerivedStateFromProps</code>。</li>
+</ul>
+<h4 id="getDerivedStateFromProps"><a href="#getDerivedStateFromProps" class="headerlink" title="getDerivedStateFromProps"></a>getDerivedStateFromProps</h4><ul>
+<li><code>getDerivedStateFromProps</code> 是为了试图替换 <code>componentWillReceiveProp</code> 而出现的。</li>
+<li><code>getDerivedStateFromProps</code> 不能完全等同于 <code>componentWillReceiveProps</code>。<ul>
+<li>代替实现基于 props 派生 state。</li>
+<li>原则上，它能且只能做这一件事。</li>
+</ul>
+</li>
+</ul>
+<p><strong>为什么要用 <code>getDerivedStateFromProps </code>替换 <code>componentWillReceiveProps</code></strong></p>
+<p>做 <strong>“合理的减法”</strong><br><code>getDerivedStateFromProps</code> 直接被定义为 <code>static </code>方法，使得在其方法内部无法拿到组件实例的 <code>this</code>，也就不能在里面执行类似不合理的 <code>this.setState</code> （可能会导致死循环）这类会产生副作用的操作。</p>
+<p>确保生命周期函数的行为可控可预测，从源头上帮助开发者避免不合理的编码，同时也是为新的Fiber 架构铺路。</p>
+<h4 id="componentWillUpdate-vs-getSnapshotBeforeUpdate"><a href="#componentWillUpdate-vs-getSnapshotBeforeUpdate" class="headerlink" title="componentWillUpdate vs getSnapshotBeforeUpdate"></a>componentWillUpdate vs getSnapshotBeforeUpdate</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getSnapshotBeforeUpdate(prevProps, prevState) &#123;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行时机在 <code>render</code> 方法之后，真实 DOM 更新之前</li>
+<li>可以获得 DOM 更新前后的 <code>state</code> 和 <code>props</code> 信息</li>
+<li>返回值将作为<code> componentDidUpdate</code> 的第三个参数</li>
+</ul>
+<p>在实际编程中很少用到，但也有特殊场景需要。</p>
+<p>例如：实现一个内容会发生变化的滚动列表，要求根据滚动列表的内容是否发生变化，来决定是否要记录滚动条的当前位置。</p>
+<p>这个例子中要求我们对比更新前后的数据是否发生变化，还需要获取真实的 DOM 位置信息。</p>
+<p>与<code> componentDidUpdate</code> 配合编程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 组件更新时调用</span><br><span class="line">getSnapshotBeforeUpdate(prevProps, prevState) &#123;</span><br><span class="line">  console.log(&quot;getSnapshotBeforeUpdate方法执行&quot;)</span><br><span class="line">  return &quot;haha&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 组件更新后调用</span><br><span class="line">componentDidUpdate(prevProps, prevState, valueFromSnapshot) &#123;</span><br><span class="line">  console.log(&quot;componentDidUpdate方法执行&quot;)</span><br><span class="line">  console.log(&quot;从 getSnapshotBeforeUpdate 获取到的值是&quot;, valueFromSnapshot)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>getSnapshotBeforeUpdate</code> 的设计初衷是为了 “与 <code>componentDidUpdate</code> 一起，覆盖过时的<code> componentWillUpdate</code>”。</p>
+<p>**为什么废除 <code>componentWillUpdate</code>**，是因为它不适合 Fiber 架构。</p>
+<h3 id="卸载阶段-1"><a href="#卸载阶段-1" class="headerlink" title="卸载阶段"></a>卸载阶段</h3><p>与 React 15 完全一致</p>
+<h1 id="React-16-为何做出两次改变"><a href="#React-16-为何做出两次改变" class="headerlink" title="React 16 为何做出两次改变"></a>React 16 为何做出两次改变</h1><p><strong>Fiber 架构简析</strong></p>
+<blockquote>
+<p>使 Virtual DOM 可以进行增量式渲染</p>
+</blockquote>
+<p><strong>Fiber 会使原本同步的渲染过程变成异步的</strong></p>
+<p>在 React 16 之前，每次组件更新，React 都会构建虚拟 DOM，再与旧虚拟 DOM 对比 diff，最后对真实 DOM 定向更新。</p>
+<p><strong>同步调用的调用栈非常深</strong>，需要等到递归调用都返回后，整个渲染才算结束。</p>
+<p>这个“漫长”的同步渲染过程不可被打断，存在巨大风险；同步渲染一旦开始，会占据主线程，直到彻底完成；在这个过程中，浏览器无法处理其他任务包括用户交互，甚至可能出现卡顿至卡死的风险。</p>
+<p>React 16 引入的 Fiber 架构，可以解决这个风险：<strong>Fiber 会将一个大的更新任务拆解为多个小任务</strong>；每次执行完成一个小任务，渲染线程都会交还主线程给浏览器，然后处理优先级更高的工作，进而避免同步渲染导致的卡顿。</p>
+<blockquote>
+<p>React 渲染的过程可以被中断，可以将控制权交回浏览器，让位给高优先级的任务，浏览器空闲后再恢复渲染。</p>
+</blockquote>
+<h3 id="从-Fiber-架构角度看生命周期"><a href="#从-Fiber-架构角度看生命周期" class="headerlink" title="从 Fiber 架构角度看生命周期"></a>从 Fiber 架构角度看生命周期</h3><p>Fiber 架构的重要特征就是渲染过程<strong>可以被中断</strong>。根据这个特征，React 16 的生命周期被划分为 Render 和 Commit 两个阶段，而 Commit 阶段又被细分为 Pre-commit 和 Commit 阶段。<br><img src="https://upload-images.jianshu.io/upload_images/15531792-e4166579fdeb8f55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Fiber"></p>
+<ul>
+<li>Render 阶段：纯净且不包含副作用。可能会被 React 暂停，中止或重新启动。</li>
+<li>Pre-commit 阶段：可以读取 DOM。</li>
+<li>Commit 阶段：可以使用 DOM，运行副作用，安排更新。</li>
+</ul>
+<p>也就是说在 Render 阶段允许被中断，而 Commit 阶段不能。原因很简单，Render 阶段的操作对于用户不可感知，所以中断、重启对于用户而言是不可见的。而 Commit 阶段的操作是对真实 DOM 的渲染，不能随意中断、重渲染。</p>
+<h3 id="React-16-“废旧立新”背后的思考"><a href="#React-16-“废旧立新”背后的思考" class="headerlink" title="React 16 “废旧立新”背后的思考"></a>React 16 “废旧立新”背后的思考</h3><p>Fiber 架构下，<strong>Render 阶段允许被暂停、终止和重启</strong>。当一个任务执行一段后被中断，下一次抢回渲染线程时，这个任务会“重复执行一遍整个任务”而不是接着上一次执行的地方。这导致了 Render 阶段的生命周期方法有可能重复执行。</p>
+<p>React 16 废弃的生命周期方法：</p>
+<ul>
+<li>componentWillMount</li>
+<li>componentWillUpdate</li>
+<li>componentWillReceiveProps</li>
+</ul>
+<p>这些方法都处于 Render 阶段，而且这些方法常年被滥用，在重复执行的过程中存在很大的风险。</p>
+<p>我们的编码中的一些不好的习惯，在 “componentWill” 开头的生命周期里做一些事情：</p>
+<ul>
+<li>setState()</li>
+<li>fetch 异步请求</li>
+<li>操作真实 DOM</li>
+<li>…</li>
+</ul>
+<p>这些操作的问题：</p>
+<ol>
+<li>可以转移到其他生命周期（componentDid…）里去做</li>
+<li>Fiber 架构下，可能导致非常严重的 Bug</li>
+<li>在 React 15 中也有出现过问题（在 <code>componentWillReceiveProps </code>和 <code>componentWillUpdate </code>里滥用 setState 导致重渲染死循环）</li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>React 16 改造生命周期的主要原因是为了配合 Fiber 架构带来的异步渲染机制。</li>
+<li>针对生命周期中长期被滥用的部分推出了具有强制性的最佳实践。</li>
+<li>确保了 Fiber 架构下的数据和视图的安全，以及确保了生命周期方法的行为更加可控、可预测。</li>
+</ul>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="#"></a>
+            
+            
+                <a href="/2023/04/07/Android%E6%9E%B6%E6%9E%84%E4%B9%8BMVC%E3%80%81MVP%E3%80%81MVVM%E8%AF%A6%E8%A7%A3/" class="styled-border">
+                    
+                    Android架构之MVC、MVP、MVVM详解
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

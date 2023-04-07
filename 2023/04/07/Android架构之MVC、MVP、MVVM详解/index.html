@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android架构之MVC、MVP、MVVM详解 | Jenna233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[转]Android架构之MVC、MVP、MVVM详解 前言你好！我是一只修仙的猿，欢迎阅读我的文章，希望能让你有所收获。 MVC、MVP、MVVM均为架构模式，应用在Android上，称为Android架构模式。可能你会觉得我在讲废话，清楚他的定义非常重要。这样会有几个问题：  什么是架构模式？什么是android架构模式？MVC、MVP、MVVM的本质区别是什么？他们在android上的应用是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android架构之MVC、MVP、MVVM详解">
+<meta property="og:url" content="https://jenna233.github.io/2023/04/07/Android%E6%9E%B6%E6%9E%84%E4%B9%8BMVC%E3%80%81MVP%E3%80%81MVVM%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Jenna233">
+<meta property="og:description" content="[转]Android架构之MVC、MVP、MVVM详解 前言你好！我是一只修仙的猿，欢迎阅读我的文章，希望能让你有所收获。 MVC、MVP、MVVM均为架构模式，应用在Android上，称为Android架构模式。可能你会觉得我在讲废话，清楚他的定义非常重要。这样会有几个问题：  什么是架构模式？什么是android架构模式？MVC、MVP、MVVM的本质区别是什么？他们在android上的应用是">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-0275fc695899a7fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-81893c39a9b553d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-307983c80c12283f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-183973153fce5dc6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-5dcad5d347b8ea58.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15531792-56f7407722fca66b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2023-04-07T12:28:40.000Z">
+<meta property="article:modified_time" content="2023-04-07T12:30:01.297Z">
+<meta property="article:author" content="Jenna233">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15531792-0275fc695899a7fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Jenna233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/tocas.css">
+
+  
+<link rel="stylesheet" href="/css/animate.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  
+<script src="/js/tocas.js"></script>
+
+  
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/archives">Archives</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #f7f7f7;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #404040;" id="big-title">Jenna233</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #404040;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h1 class="ts header">
+                    <span style="color: #333;">Android架构之MVC、MVP、MVVM详解</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2023/4/7 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list" itemprop="keywords"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+                    
+                    </div>
+                </h1>
+
+                <p>[转]<a target="_blank" rel="noopener" href="https://qwerhuan.gitee.io/2020/08/16/android/android-jia-gou-zhi-mvc-mvp-mvvm-xiang-jie/">Android架构之MVC、MVP、MVVM详解</a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>你好！<br>我是一只修仙的猿，欢迎阅读我的文章，希望能让你有所收获。</p>
+<p>MVC、MVP、MVVM均为架构模式，应用在Android上，称为Android架构模式。可能你会觉得我在讲废话，清楚他的定义非常重要。这样会有几个问题：</p>
+<blockquote>
+<p>什么是架构模式？什么是android架构模式？<br>MVC、MVP、MVVM的本质区别是什么？<br>他们在android上的应用是怎么样的？<br>我们该如何选择？</p>
+</blockquote>
+<p>弄清楚这几个问题，可以帮助我们更好地理解这三种架构模式，继而更好地运用它们。</p>
+<p>这篇文章主要的内容是带你了解什么是架构以及android架构，以及详解三种架构模式的本质。</p>
+<p>笔者才疏学浅，有不同观点欢迎评论区或私信讨论。如需转载私信告知即可。<br>另外欢迎阅读笔者的个人博客一只修仙的猿的个人博客，更精美的UI，拥有更好的阅读体验。</p>
+<h3 id="本文目录"><a href="#本文目录" class="headerlink" title="本文目录"></a>本文目录</h3><p><img src="https://upload-images.jianshu.io/upload_images/15531792-0275fc695899a7fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h1 id="架构以及Android架构"><a href="#架构以及Android架构" class="headerlink" title="架构以及Android架构"></a>架构以及Android架构</h1><p>架构，即为骨架，是指导开发的关键。例如一个人，身体的骨骼即为身体的架构，有了基本骨架之后，才可以决定在头颅里开发大脑，在肋骨中开发肺部等。软件开发也是如此，也需要一个“骨架”，即架构。他可以指引我们什么地方该做什么事情，让整个软件的开发思路非常清晰。</p>
+<p>Android架构，即为开发android时使用的架构。Android的开发一般分为三部分：UI逻辑，业务逻辑和数据操作逻辑。这里可以举个例子</p>
+<blockquote>
+<p>获取天气详情并展示。首先要写布局xml，接着在Activity中获取到view实例。此为UI逻辑。然后需要通过网络请求获得数据，此为数据操作逻辑。接着获取到数据后，需要将数据进行缓存，解析，再set到view上进行展示，此为业务逻辑。</p>
+</blockquote>
+<p>Android架构，就是为了更好地协调这三者的关系。达到：</p>
+<blockquote>
+<p>1.各模块高内聚低耦合的状态，方便进行团队分工合作开发。<br>2.代码思路清晰，提高代码的可维护性与可测试性。<br>3.减少样板代码，提高开发效率，减少开发错误。</p>
+</blockquote>
+<p>为了达到这些目的，所以才有各种架构不断涌现，却没有一个统一的开发框架。不同于移动端，web端开发有成熟的SpringMVC框架，可以快速规范地开发一个项目。而移动端缺乏框架的支撑，各路大神各显神通，不断涌现了不同的架构模式来适应不同的开发情景，如MVC，MVP等等。但由于没有历史的沉淀，各种架构模式的弊端也渐渐浮出水面。在这种情境下，谷歌退出了架构组件，用成熟的框架来减少样板代码，提高开发效率，有如SpringMVC的风范，这就是MVVM的框架实现。下面我们就详细展开讲这些架构模式。</p>
+<h1 id="详解三种架构模式"><a href="#详解三种架构模式" class="headerlink" title="详解三种架构模式"></a>详解三种架构模式</h1><h3 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h3><p>Android上的MVC架构我认为是来源于web开发的SpringMVC，MVC全名为Model-View-Controller，图解如下<br><img src="https://upload-images.jianshu.io/upload_images/15531792-81893c39a9b553d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>View：负责与用户交汇，显示界面。</li>
+<li>Controller：负责接收来自view的请求，处理业务逻辑。</li>
+<li>Model：负责数据逻辑，网络请求数据以及本地数据库操作数据等。</li>
+</ul>
+<p>在MVC架构中，Controller是业务的主要承载者，几乎所有的业务逻辑都在Controller中进行编写。而View主要负责UI逻辑，而Model是数据逻辑，彼此分工。</p>
+<blockquote>
+<p>MVC的本质就是按照UI逻辑、业务逻辑、数据逻辑不同的职责分三大模块，彼此分工。</p>
+</blockquote>
+<p>在Android中，view一般使用xml进行编写，但xml的能力不全面，需要Activity进行一些UI逻辑的编写，因而MVC中的V即为xml+Activity。Model数据层，在Android中负责网络请求和数据库操作，并向外暴露接口。Controller是争议比较多的写法：一种是直接把Activity当成Controller；一种是独立出Controller类，进行逻辑分离。比较符合MVC思想的笔者认为是后者。因为前者直接在Activity中进行书写业务逻辑就会和UI逻辑混合在一起了，达不到模块分工的效果。MVC架构的处理流程一般是：</p>
+<ul>
+<li>view接收用户的点击</li>
+<li>view请求controller进行处理或直接去model获取数据</li>
+<li>controller请求model获取数据，进行其他的业务操作</li>
+<li>这一步可以有多种做法：</li>
+</ul>
+<p>1.利用callBack从controller进行回调<br>2.把view实例给controller，让controller进行处理<br>3.通知view去model获取数据</p>
+<blockquote>
+<p>举个栗子。<br>现在有一个获取天气详情的功能。我需要在xml中写ui，在Activity中给控件设置监听事件和写方法给控件set数据，如textView.setText()。当点击界面按钮时，会调用首先会调用onClickListener，然后再调用Controller的方法让model获取数据，获取完成后通知view，view去Model获取数据更新自己。或者Activity直接给Controller一个callBack，controller就可以在业务处理完成后进行回调；或者直接把view给controller让controller直接去更新ui。</p>
+</blockquote>
+<p>MVC可能是我们第一次开发安卓的时候就会使用的架构模式。直接在Activity中书写业务逻辑，只抽离出Model层。（笔者第一次开发时连Model层都没抽离，全部在Activity中写，一千多行的MainActivity）这样看起来很美好，但是有严重的问题。MVC的核心就是按照职责分离代码。但几乎所有的业务逻辑代码都在controller中，当项目越来越大时会导致controller极度臃肿，难以维护。view与model直接依赖，模块之间依赖不单一，view因直接通过model获取数据，不可避免的会耦合一些业务代码。</p>
+<blockquote>
+<ul>
+<li>几乎所有的业务逻辑代码都在controller中进行，会导致非常臃肿，降低项目的可测试性与可维护性。</li>
+<li>view直接持有controller和model实例，不同职责的代码进行耦合，导致代码耦合性高，模块分工不清晰。</li>
+</ul>
+</blockquote>
+<p>但MVC也有他的好处：简单。他不需要写很多的代码来让代码解耦，这在小型项目非常有用。小型项目总体的代码就不多，所以这样可以提高开发效率。但是最好不要尝试维护他，不是怕你崩溃，而是怕你砸了电脑对电脑不好。<br>因为可以发现MVC的改进方向就是：</p>
+<blockquote>
+<ul>
+<li>对模块进行更加彻底的分离，不要让view和model直接联系。</li>
+<li>对controller进行减压。</li>
+</ul>
+</blockquote>
+<h3 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h3><p>相比MVC，MVP的更加的完善。MVP全名是Model-View-Presenter。图解如下：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-307983c80c12283f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>View：UI模块，负责界面显示和与用户交汇。</li>
+<li>Presenter：负责业务逻辑，起着连接View和Model桥梁的作用。</li>
+<li>Model：专注于数据逻辑。</li>
+</ul>
+<p>MVP和MVC的区别很明显就在这个Presenter中。为了解决MVC中代码的耦合严重性，把业务逻辑都抽离到了Presenter中。这样View和Model完全被隔离，实现了单向依赖，大大减少了耦合度。view和prensenter之间通过接口来通信，只要定义好接口，那么团队可以合作同时开发不同的模块，同时不同的模块也可以进行独立测试。也因各模块独立了，所以要只要符合接口规范，即可做到动态更换模块而不需要修改其他的模块。</p>
+<p>在Android中，需要让Activity提供控件的更新接口，prensenter提供业务逻辑接口，Activity持有presenter的实例，prensenter持有Activity的弱引用（不用直接引用是为了避免内存泄露），Activity直接调用prensenter的方法更新界面，prensenter去model获取数据之后，通过view的接口更新view。如下图：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-183973153fce5dc6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>不同的view可以通过实现相同的接口来共享prensenter。presenter也可以通过实现接口来实现动态更换逻辑。Model是完全独立开发的，向外暴露的方法参数中含有callBack参数，可以直接调用callBack进行回调。<br>总结一下：</p>
+<blockquote>
+<ul>
+<li>MVP通过模块职责分工，抽离业务逻辑，降低代码的耦合性</li>
+<li>实现模块间的单向依赖，代码思路清晰，提高可维护性</li>
+<li>模块间通过接口进行通信，降低了模块间的耦合度，可以实现不同模块独立开发或动态更换</li>
+</ul>
+</blockquote>
+<p>MVP的最大特点就是接口通信，接口的作用是为了实现模块间的独立开发，模块代码复用以及模块的动态更换。但是我们会发现后两个特性，在Android开发中使用的机会非常少。presenter的作用就是接受view的请求，然后再model中获取数据后调用view的方法进行展示，但是每个界面都是不同的，很少可以共用模块的情景出现。这就导致了每个Activity/Fragment都必须写一个IView接口，然后还需要再写个IPresenter接口，从而产生了非常多的接口，需要编写大量的代码来进行解耦。如果在小型的项目，这样反而会大大降低了开发效率。<br>其次，prensenter并没有真正解耦，他还需要调用view的接口进行UI操作，解耦没有彻底。MVP也没有解决MVC中Controller代码臃肿的问题，甚至还把部分的UI操作带到了Presenter中。</p>
+<p>因此，由于MVP有：</p>
+<blockquote>
+<ul>
+<li>过度设计导致接口过多，编写大量的代码来实现模块解耦，降低了开发效率</li>
+<li>并没有彻底进行解耦，prensenter需要同时处理UI逻辑和业务逻辑，presenter臃肿</li>
+</ul>
+</blockquote>
+<p>这样的缺点，android开发者都在寻找一个更加完善的架构模式。当然读者知道下面我要讲MVVM了，但我想要说的是其实还有如AAC等结构模式的存在，但因他们的局限性以及上手难度，并没有被广泛使用。而到了MVVM，谷歌通过一系列的架构组件来让开发者可以简单地实现MVVM架构。</p>
+<p>MVVM<br>终于到了MVVM，可能很多人都感觉“卧槽这么牛逼的架构我肯定学不会”然后被劝退了继续使用MVC或者MVP。在我看来，MVVM和上面两种架构模式一样都是一种架构思想，只是谷歌推出了jetpack架构组件来让我们更好的使用这种架构模式。</p>
+<h3 id="MVVM，全名为Model-View-ViewModel。图解："><a href="#MVVM，全名为Model-View-ViewModel。图解：" class="headerlink" title="MVVM，全名为Model-View-ViewModel。图解："></a>MVVM，全名为Model-View-ViewModel。图解：</h3><p><img src="https://upload-images.jianshu.io/upload_images/15531792-5dcad5d347b8ea58.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>View：和前面的MVP、MVC中的View一样，负责UI界面的显示以及与用户的交汇。</li>
+<li>Model：同样是负责网络数据获取或者本地数据库数据获取。</li>
+<li>ViewModel：负责存储view的数据映像以及业务逻辑。</li>
+</ul>
+<p>MVVM的view和model和前面的两种架构模式是差不多的，重点在ViewModel。viewModel通过将数据和view进行绑定，修改数据会直接反映到view上，通过数据驱动型思想，彻底把MVP中的Presenter的UI操作逻辑给去掉了。而viewModel是绑定于单独的view的，也就不需要进行编写接口了。但viewModel中依旧有很多的业务逻辑，但是因为把view和数据进行绑定，这样可以让view和业务彻底的解耦了。view可以专注于UI操作，而viewModel可以专注于业务操作。因而：</p>
+<blockquote>
+<ul>
+<li>MVVM通过数据驱动型思想，彻底把业务和UI逻辑进行解耦，各模块分工职责明确。</li>
+</ul>
+</blockquote>
+<p>View只需要关注Viewmodel的数据部分，而无需知道数据是怎么来的；而ViewModel只需要关注数据逻辑，而不需要知道UI是如何实现的。View可以随意更换UI实现，但ViewModel却完全不需要改变。</p>
+<p>但依旧存在的问题是：viewModel会依旧很臃肿；需要一个绑定框架来对view和数据对象进行绑定。这是MVVM的两大弊端。上面的两种架构模式都是不需要框架的，但MVVM必须要有一个view-data绑定框架，来实现对data的更改可以实时反映到view上，这就造成了需要有一定的上手难度：学习框架。</p>
+<blockquote>
+<ul>
+<li>MVVM的viewModel依旧很臃肿。</li>
+<li>MVVM需要学习数据绑定框架，具有一定的上手难度。</li>
+</ul>
+</blockquote>
+<p>为了解决上面两个问题，需要：1.简单易用的框架；2.为viewModel减少压力。所以谷歌推出了适合android开发的MVVM架构模式：<br><img src="https://upload-images.jianshu.io/upload_images/15531792-56f7407722fca66b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>做个简单的解析：</p>
+<ul>
+<li>View对应的就是Activity和Fragment，在这里进行UI操作。</li>
+<li>ViewModel中包含了LiveData，这是一种可观察数据类型框架。View通过向LIveData注册观察者，当LiveData发生改变时，就会直接调用观察者的逻辑把数据更新到view上。</li>
+<li>ViewModel完全不需要关心UI操作，只需要专注于数据与业务操作。</li>
+<li>Repository代表了Model层，Repository对ViewModel进行了减压，把业务操作般到了Repository中，避免了viewModel臃肿。</li>
+<li>Repository对请求进行判断是要到本地数据库获取还是网络请求获取分别调用不同的模块。</li>
+</ul>
+<p>这样，谷歌通过推出简单易用的架构框架，解决了我们上面讲的MVVM的两大问题，让MVVM架构达到了一种非常“完美”的境界。也是谷歌推荐的架构模式。</p>
+<p>但为什么好像，MVVM使用的人还是那么少呢？因为jetpack的架构组件库，可不止是一个LiveData这么简单，他是一整套完整的架构组件库，包括了：DataBinding，LiveData，ViewModel，Navigation，Lifecycle。下面我们简单了解一下每个组件的功能：</p>
+<blockquote>
+<p><strong>DataBinding：</strong></p>
+<ul>
+<li>解基于数据驱动思想，决视图调用一致性问题，实现双向绑定</li>
+<li>避免编写样板式代码，提高效率</li>
+</ul>
+<p><strong>LiveData：</strong></p>
+<ul>
+<li>通过唯一可信源获取数据，正确分发数据</li>
+<li>与Lifecycle结合，拥有生命周期感知能力，配合viewModel实现作用域可控</li>
+<li>实现模块的单向依赖，抛弃接口回调</li>
+</ul>
+<p><strong>ViewModel：</strong></p>
+<ul>
+<li>托管界面状态，解决状态管理问题</li>
+<li>实现跨页面数据分享，并为数据设置作用域，做到作用域可控</li>
+<li>实现单向依赖，避免内存泄露</li>
+</ul>
+<p><strong>Lifecycle：</strong></p>
+<ul>
+<li>以简便地方式解决生命周期管理的一致性问题</li>
+<li>避免内存泄露的情况下让第三方组件随时获取生命周期状态，追踪事故所在的生命周期源，对错过时机的异步操作及时停止</li>
+</ul>
+<p><strong>Navigation</strong></p>
+<ul>
+<li>通过遵循导航定则实现对Fragment的管理</li>
+</ul>
+<p>感觉对上面的作用没看懂，没关系，这不是本文的重点。通过列举这些组件的作用，我想表达的是：此时的MVVM已经不只是架构意义上的MVVM，而是框架层次上的。谷歌针对android开发的各种问题，定制各种各样的架构组件，结合MVVM思想，让我们的开发更加的简便和代码更加的健壮。</p>
+</blockquote>
+<p>我们只需要遵循他的开发规范，使用他的架构框架，就可以开发出非常健壮的项目，有如Spring全家桶的风范。而众多的库，则足以劝退很多的开发者，而在公司的项目，对于框架的不熟悉与不可预期，不知道框架中会不会有什么坑，所以导致了公司项目使用的MVVM的人非常少，至少在我目前了解到的公司，均没有使用此架构。</p>
+<blockquote>
+<ul>
+<li>框架众多，学习成本高。</li>
+<li>框架使用少，对框架不熟悉，容易产生不可预期的异常且无法处理。</li>
+</ul>
+</blockquote>
+<p>到这里我们会发现我们平常讲的MVVM并不只是简单的MVVM架构思想，更多的是指谷歌推出的一系列架构组件。MVVM的本质是什么？</p>
+<blockquote>
+<p>一种基于数据驱动型，将UI逻辑和业务逻辑彻底分离的架构模式。</p>
+</blockquote>
+<p>而我们平常说的“MVVM”是什么？</p>
+<blockquote>
+<p>基于软件工程背景下，谷歌官方推出的一整套结合MVVM使用的架构组件。让开发者可以更简便，更高效率开发出非常健壮的代码。</p>
+</blockquote>
+<p>关于如何实现谷歌意义上的MVVM架构模式，这涉及到框架组件的使用，这里不深入讲解。本文的目的是讲解架构思想，框架的使用，读者可前往官网自行学习。</p>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><blockquote>
+<p>从应用范围来说，MVC和MVP属于广义上的架构模式，MVVM属于专用于页面开发的架构模式。</p>
+</blockquote>
+<p>MVC是不同职责代码的解耦，MVP在MVC的基础上实现了模块间的进一步解耦。在生活中很多地方可以看到他们的影子</p>
+<blockquote>
+<p>MVC举个洗衣机的例子。我们看到的操作面板就是View；里面的智能预定流程漂洗等属于Controller；洗衣机里的洗衣功能是model。这样我们通过view来请求controller设置洗衣流程，然后点击启动直接让model开始运作。这就可以看成一个MVC的例子。</p>
+<p>MVP举个充电线的例子。我们的手机可以看成是View；充电线是Presenter；插座是Model。手机向充电线暴露Type-c接口，而充电线向手机暴露对应的type-c插口。只要两者都符合这个接口规范即可，而不管具体是如何实现的。我们可以随意更换充电线，只要是type-c类型的就可以。我们也可以让一根充电线给不同的手机充电， 只要都是type-c接口就行。而插座和充电线之间的关系也是如此，但是插座会更加独立，因为全世界的插座都是这样，就像我们使用callBack一样。这些就体现了MVP的特点：不同职责模块分离，接口通信。</p>
+</blockquote>
+<p>是吧，可以看到这两套思想是广义上的架构思想，但MVVM则不是。MVVM是专注于页面开发的。为什么这么说？MVVM的本质是把View和view要显示的数据对象进行分离绑定，通过数据驱动型思想彻底解耦UI和业务逻辑。前提要有view也就是页面，还有数据。所以他的应用场景就被限制到页面开发中来了。我们不可能在洗衣机充电线上运用MVVM。因为没有页面和数据对象可言。所以：</p>
+<blockquote>
+<p>MVC是不同职责代码分离，MVP是在MVC的基础上通过接口通信降低模块间的耦合性，MVC，MVP都是广义上的架构模式，Android只是他们的一个应用场景。MVVM是专注于页面开发的架构模式，更加契合页面开发模式。</p>
+</blockquote>
+<p>相信读者们都有一个问题：哪个架构模式是最好的？我应该选择哪个架构模式？是不是MVVM更加契合页面开发所以MVVM一定是最优解？</p>
+<blockquote>
+<p>没有一定是最好的架构模式，只有特定情景下最适合的架构模式。</p>
+</blockquote>
+<p>架构模式都是对于特定情景应运而生的，他是为了解决某个情景下的开发架构问题。例如android的问题是UI与业务逻辑的解耦，但充电线却是需要模块间的解耦。</p>
+<p>那对于Android这个情景来说MVVM一定是最优解吗？当然不是。Android开发也是有很多的情景的，项目的大小，是否要进行维护，对时间有没有要求，项目紧急程度等等。首先要了解得是各大架构模式的优缺点。MVVM由于架构的加持，导致入手成本高，前期投入架构设计代码量多。如果只是一个微型项目，需要在一天内完成（别问我一天怎么完成）那么此时采用mvvm就有点不太适合了，可能搭完架构就已经过去半天了。这个时候因为项目代码很少，且要快速开发，使用MVC就是最合适的了。如果是中型项目，且涉及到团队开发，但是团队对于MVVM的框架并不熟悉，这个时候去学习MVVM再进行开发也是不太实际的，因为框架越多，可能出错的地方就越多，更何况是刚学的。这个时候模块间分离的MVP架构模式就似乎更加的适合了。所以，要根据不同的情景选择最适合的架构模式。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这篇文章我们讲了是什么是架构和三种架构模式MVC、MVP、MVVM的架构思想，最后再讲了三种架构的区别与选择。相信通过这篇文章读者可能对这三种架构有了一定的认识。一个完美的架构模式是一个架构师一生的追求，在使用的时候我们可以多多思考这些架构模式的本质以及背景，想想架构师为什么这么设计，可以帮我们更好地理解架构。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul>
+<li>《第一行代码》第三版</li>
+<li>完全解析Android项目架构(1) - MVC</li>
+<li>完全解析Android项目架构(2) - MVP</li>
+<li>完全解析Android项目架构(3) - MVVM</li>
+<li>是让人耳目一新的 Jetpack MVVM 精讲啊！</li>
+<li>是让人提神醒脑的 MVP、MVVM 关系精讲！</li>
+</ul>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2023/04/07/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA-React-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="styled-border">
+                    ←
+                    深入浅出 React -- 生命周期
+                    
+                </a>
+            
+            
+                <a href="/2023/04/07/%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%8A%EF%BC%9A%E6%88%91%E4%BB%AC%E8%90%BD%E5%9C%B0-GraphQL-%E8%83%8C%E5%90%8E%E7%9A%84%E6%95%85%E4%BA%8B/" class="styled-border">
+                    
+                    代码之上：我们落地 GraphQL 背后的故事
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            Powered by Hexo, Theme designs by @hpcslag.
+            <div class="smaller sub header">
+                Style-Framework Tocas-UI designs by @yamioldmel 
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["Hallo, dit is mijn blog","嗨，這是我的博客!","안녕하세요, 제 블로그입니다.","Hi, This is my blog!","こんにちは、私のブログへようこそ!","مرحبا، مرحبا بك في مدونتي"];
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
